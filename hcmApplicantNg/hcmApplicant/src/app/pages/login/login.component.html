@@ -1,0 +1,42 @@
+<section id="wrapper" class="login-register">
+    <div class="login-box login-sidebar" [ngClass]="[whiteBoxSwingOut]">
+        <div class="white-box">
+            <h1>HCM</h1>
+            <h3>Prijava za aplikante</h3>
+            <form class="form-horizontal form-material mt-5" role="form" (ngSubmit)="login()">
+                <div class="form-group">
+                    <label for="username">Korisnicko ime</label>
+                    <input type="text" class="form-control" name="username" id="username"
+                           [(ngModel)]="username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Lozinka</label>
+                    <input type="password" class="form-control" name="password" id="password"
+                           [(ngModel)]="password">
+                </div>
+                <div class="form-group" *ngIf="authenticationError">
+                    <div class="alert alert-danger">Netačno korisničko ime ili lozinka<a class="pull-right"
+                                                                                      (click)="onCloseError();"> <span
+                        class="fa fa-close small"></span></a></div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <a (click)="requestResetPassword()" type="button" id="to-recover" class="text-dark pull-right"
+                           disabled=""><i class="fa fa-lock m-r-5"></i>
+                            <span>Zaboravljena lozinka?</span></a></div>
+                </div>
+                <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light m-b-10 m-t-10"
+                        type="submit">Prijavi se
+                </button>
+            </form>
+            <p></p>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <a (click)="register()" class="text-primary m-l-5">
+                        <b>Registruj novi račun</b>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
