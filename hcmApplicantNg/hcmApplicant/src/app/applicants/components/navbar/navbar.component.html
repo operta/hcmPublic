@@ -8,9 +8,9 @@
       <div class="top-left-part" [@slideIn]>
         <a class="logo">
           <b>
-            <img src="../../../assets/images/is-logo.png" alt="home" class="dark-logo"/>
+            <img src="../../../../assets/images/is-logo.png" alt="home" class="dark-logo"/>
           </b>
-          <img src="../../../assets/images/is-logo-text.png" alt="home"
+          <img src="../../../../assets/images/is-logo-text.png" alt="home"
                class="dark-logo d-none d-lg-inline-block"/>
         </a>
       </div>
@@ -58,7 +58,7 @@
     </div>
     <ul class="list-unstyled components">
       <li routerLinkActive="active" (click)="collapseMenuIfOnPhone()">
-        <a [routerLink]="['applicants/applicant-overview/' + userId]"
+        <a [routerLink]="['applicant-profile/' + userId]"
            routerLinkActive="active"
            [routerLinkActiveOptions]="{exact: true}">
           <span>Aplikant profil</span>

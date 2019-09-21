@@ -1,0 +1,29 @@
+<router-outlet name="popup"></router-outlet>
+<ng-container *ngIf="applicant$ | async as applicant">
+  <div class="row bg-title" style="margin: 0 !important;">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+      <h4 class="page-title">{{applicant?.name}} {{applicant?.surname}}</h4>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 col-xs-12">
+      <ul class="nav customtab nav-tabs" role="tablist">
+        <li role="presentation" class="nav-item">
+          <a href="#applicant" class="nav-link active" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">
+                <span class="visible-xs">
+                  <i class="fa fa-user"></i>
+                </span>
+            <span class="hidden-xs">Profil</span>
+          </a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="applicant">
+          <app-applicant-profile-detail [applicant]="applicant"></app-applicant-profile-detail>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ng-container>

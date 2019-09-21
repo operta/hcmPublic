@@ -1,0 +1,121 @@
+<div class="row">
+  <div class="col-md-6 col-xs-6">
+    <div class="form-group">
+      <h3>
+        <div class="col-md-9">
+          <p class="form-control-static"> {{accomplishment?.title}}</p>
+        </div>
+      </h3>
+    </div>
+  </div>
+  <div class="col-md-6 col-xs-6 pull-right-applicant m-t-10">
+    <div class="box-title p-b-10 p-t-10 p-r-10">
+      <div class="pull-right">
+
+        <button (click)="deleteItem()"
+                class="btn btn-danger btn-sm" style="float:  right;">
+          <span class="fa fa-fw fa-remove"></span>
+          <span class="d-none d-md-inline">Izbriši</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group" *ngIf="accomplishment.description">
+      <label class="control-label col-md-6">Opis: </label>
+      <div class="col-md-9">
+        <p class="form-control-static"> {{accomplishment?.description}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6" *ngIf="accomplishment.organization">
+    <div class="form-group">
+      <label class="control-label col-md-6">Organizacija: </label>
+      <div class="col-md-9">
+        <p class="form-control-static"> {{accomplishment?.organization}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6" *ngIf="accomplishment.location">
+    <div class="form-group">
+      <label class="control-label col-md-6">Lokacija: </label>
+      <div class="col-md-9">
+        <p class="form-control-static"> {{accomplishment?.locatioName}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6" *ngIf="accomplishment.licenceNumber">
+    <div class="form-group">
+      <label class="control-label col-md-12 ">Broj licence:</label>
+      <div class="col-md-9">
+        <p class="form-control-static"> {{accomplishment?.licenceNumber}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6" *ngIf="accomplishment.association">
+    <div class="form-group">
+      <label class="control-label col-md-6 leftpull">Asocijacija:</label>
+      <div class="col-md-9">
+        <p class="form-control-static"> {{accomplishment?.association}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6" *ngIf="accomplishment.link">
+    <div class="form-group">
+      <label class="control-label col-md-6 ">Link: </label>
+      <div class="col-md-9">
+        <p class="form-control-static"> {{accomplishment?.link}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="accomplishment.dateFrom">
+  <div class="col-md-6">
+    <div class="form-group">
+      <label class="control-label col-md-6">Od: </label>
+      <div class="col-md-9">
+        <p class="form-control-static"> {{accomplishment?.dateFrom | date:'dd/MM/yyyy'}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6" *ngIf="accomplishment.ongoing !== 'Y'">
+    <div class="form-group">
+      <label class="control-label col-md-6 ">Do:</label>
+      <div class="col-md-9">
+        <p class="form-control-static"> {{accomplishment?.dateTo | date:'dd/MM/yyyy'}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6" *ngIf="accomplishment.ongoing === 'Y'">
+    <div class="form-group">
+                <span class="label-success label label-table">
+                    Traje <i class="fa fa-check"></i>
+                </span>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6" *ngIf="accomplishment.occupation">
+    <div class="form-group">
+      <label class="control-label col-md-6 ">Zanimanje:</label>
+      <div class="col-md-9">
+        <p class="form-control-static"> {{accomplishment?.occupation}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6" *ngIf="accomplishment.proficiency">
+    <div class="form-group">
+      <label class="control-label col-md-6">Vještina: </label>
+      <div class="col-md-9">
+        <p class="form-control-static"> {{accomplishment?.proficiency}}</p>
+      </div>
+    </div>
+  </div>
+</div>

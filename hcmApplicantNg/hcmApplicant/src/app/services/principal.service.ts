@@ -1,7 +1,7 @@
 import {AccountService} from './account.service';
 import {Observable, Subject} from 'rxjs';
 import {Injectable} from '@angular/core';
-import {User} from '../models/user.model';
+import {User} from '../public/models/user.model';
 
 @Injectable({providedIn: 'root'})
 export class Principal {

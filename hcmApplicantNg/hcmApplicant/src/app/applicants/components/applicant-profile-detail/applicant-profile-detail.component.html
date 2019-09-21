@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-md-12">
+    <!--        PROFILE IMAGE -->
+    <div class="col-md-2">
+      <div class="at-img-align m-b-30 image-holder">
+        <app-image-present *ngIf="applicant.imageBlob; else defaultImage" [blob]="applicant.imageBlob"
+                           [blobContentType]="applicant.imageBlobContentType"></app-image-present>
+        <ng-template #defaultImage>
+          <img src="../../../../assets/images/users/user-male-icon.png" alt="user-img"
+               class="img-fluid image-circle"/>
+        </ng-template>
+        <a style="position: absolute; top:0; right: 0;" (click)="file.click()"><i
+          class="fa fa-pencil action-button-at"></i></a>
+        <input type="file" #file name="file" (change)="setFileData($event, applicant, 'imageBlob', true)"
+               ngModel
+               style="display: none" accept="image/*"/>
+      </div>
+    </div>
+    <div class="col">
+      <div class="row">
+        <div class="col-md-12">
+          <app-applicant-personal-info [applicant]="applicant"></app-applicant-personal-info>
+          <hr/>
+          <app-applicant-experience [applicantId]="applicant.id"></app-applicant-experience>
+          <hr/>
+          <app-applicant-education [applicantId]="applicant.id"></app-applicant-education>
+          <hr/>
+          <app-applicant-accomplishments [applicantId]="applicant.id"></app-applicant-accomplishments>
+          <hr/>
+          <app-applicant-documents [applicantId]="applicant.id"></app-applicant-documents>
+          <hr/>
+          <app-applicant-contacts [applicantId]="applicant.id"></app-applicant-contacts>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

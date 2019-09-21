@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-md-12">
+
+    <div class="panel-footer p-b-20 p-t-20">
+      <i class="ti-check-box m-r-5 heading-icon-at"></i>
+      <span class="heading-at">Postignuća</span>
+      <div class="pull-right">
+        <!--TODO add vutotn-->
+        <!--<jhi-add-button class="float-right button-position-fix"-->
+        <!--[routerLink]="[{ outlets: { popup: ['at-applicant-acc-new', applicant.id] } }]"></jhi-add-button>-->
+      </div>
+    </div>
+
+    <ng-container *ngIf="items$ | async as accomplishments">
+      <app-applicant-accomplishments-by-type [accomplishments]="accomplishments"
+                                             [type]="'Certifications'"></app-applicant-accomplishments-by-type>
+      <app-applicant-accomplishments-by-type [accomplishments]="accomplishments"
+                                             [type]="'Courses'"></app-applicant-accomplishments-by-type>
+      <app-applicant-accomplishments-by-type [accomplishments]="accomplishments"
+                                             [type]="'HonorsandAwards'"></app-applicant-accomplishments-by-type>
+      <app-applicant-accomplishments-by-type [accomplishments]="accomplishments"
+                                             [type]="'CertificatProjectsions'"></app-applicant-accomplishments-by-type>
+      <app-applicant-accomplishments-by-type [accomplishments]="accomplishments"
+                                             [type]="'Publications'"></app-applicant-accomplishments-by-type>
+      <app-applicant-accomplishments-by-type [accomplishments]="accomplishments"
+                                             [type]="'Languages'"></app-applicant-accomplishments-by-type>
+
+    </ng-container>
+
+
+  </div>
+</div>

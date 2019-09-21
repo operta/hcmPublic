@@ -1,0 +1,35 @@
+<ng-container *ngIf="gender && gender === 'M'">
+
+  <label class="control-label">Bračni status</label>&nbsp;:&nbsp;
+  <ng-container [ngSwitch]="maritalStatus">
+    <span class="form-control-static " *ngSwitchCase="'M'">Oženjen</span>
+    <span class="form-control-static " *ngSwitchCase="'W'">Udovac</span>
+    <span class="form-control-static " *ngSwitchCase="'SE'">Razdvojen</span>
+    <span class="form-control-static " *ngSwitchCase="'D'">Razveden</span>
+    <span class="form-control-static " *ngSwitchCase="'SI'">Neoženjen</span>
+  </ng-container>
+
+</ng-container>
+<ng-container *ngIf="gender && gender === 'F'">
+
+  <label class="control-label">Bračni status</label>&nbsp;:&nbsp;
+  <ng-container [ngSwitch]="maritalStatus">
+    <span class="form-control-static " *ngSwitchCase="'M'">Oženjena</span>
+    <span class="form-control-static " *ngSwitchCase="'W'">Udovica</span>
+    <span class="form-control-static " *ngSwitchCase="'SE'">Razdvojena</span>
+    <span class="form-control-static " *ngSwitchCase="'D'">Razvedena</span>
+    <span class="form-control-static " *ngSwitchCase="'SI'">Neoženjena</span>
+  </ng-container>
+
+</ng-container>
+<ng-container *ngIf="gender !== 'M' && gender !== 'F'">
+
+  <label class="control-label">Bračni status</label>&nbsp;:&nbsp;
+  <ng-container [ngSwitch]="maritalStatus">
+    <span class="form-control-static " *ngSwitchCase="'M'">U braku</span>
+    <span class="form-control-static " *ngSwitchDefault>Nije u braku</span>
+  </ng-container>
+
+</ng-container>
+
+

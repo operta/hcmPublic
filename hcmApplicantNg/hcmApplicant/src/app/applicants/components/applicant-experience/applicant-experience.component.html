@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel-footer p-b-20 p-t-20">
+      <i class="icon-book-open m-r-5 heading-icon-at"></i>
+      <span class="heading-at">Iskustvo</span>
+      <span class="pull-right">
+        <!--TODO add-->
+        <!--<jhi-add-button class="float-right button-position-fix" [routerLink]="[{ outlets: { popup: ['at-applicants-experience-new', applicant.id] } }]"></jhi-add-button>-->
+    </span>
+    </div>
+    <app-applicant-experience-item *ngFor="let experience of experiences$ | async"
+                                   [experience]="experience"></app-applicant-experience-item>
+
+  </div>
+</div>

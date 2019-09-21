@@ -2,7 +2,7 @@ import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core
 import {animate, style, transition, trigger} from '@angular/animations';
 import {Subject} from 'rxjs';
 import {Router} from '@angular/router';
-import {LoginService} from '../../services/login.service';
+import {LoginService} from '../../../services/login.service';
 import {LocalStorageService} from 'ngx-webstorage';
 
 @Component({

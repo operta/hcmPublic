@@ -1,0 +1,99 @@
+<div class="row">
+
+  <div class="col-lg-12">
+    <div class="panel-footer p-b-20 p-t-20 m-b-10 no-background">
+
+      <span class="heading-at"> {{education.idSchoolName}}</span>
+
+      <div class="m-t-5 pull-right-applicant">
+        <div class="box-title">
+          <div class="pull-right d-inline">
+            <button (click)="deleteItem()"
+                    class="btn btn-danger btn-sm" style="float:  right;">
+              <span class="fa fa-fw fa-remove"></span>
+              <span class="d-none d-md-inline">Izbriši</span>
+            </button>
+            <button type="submit"
+                    (click)="isCollapsed = !isCollapsed"
+                    [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"
+                    class="btn btn-default btn-sm" style="float:  right;">
+              <span class="d-none d-md-inline" *ngIf="isCollapsed">Detaljno</span>&nbsp;
+              <span class="d-none d-md-inline" *ngIf="!isCollapsed">Vrati</span>&nbsp;
+              <span [ngClass]="isCollapsed ? 'fa fa-chevron-right' : 'fa fa-chevron-up'"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div id="collapseEducation" [ngbCollapse]="isCollapsed" class="container col-md-12">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-6">Glavno polje: </label>
+          <div class="col-md-9">
+            <p class="form-control-static"> {{education?.major}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-6 leftpull">Kvalifikacija: </label>
+          <div class="col-md-9">
+            <p class="form-control-static">{{education.idQualificationName}}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-6 leftpull">Diploma: </label>
+          <div class="col-md-9">
+            <p class="form-control-static"> {{education?.degree}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-6 leftpull">Od: </label>
+          <div class="col-md-9">
+            <p class="form-control-static"> {{education?.dateFrom | date:'dd/MM/yyyy'}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-6 leftpull">Do: </label>
+          <div class="col-md-9">
+            <p class="form-control-static"> {{education?.dateTo | date:'dd/MM/yyyy'}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-6 leftpull">Ocjena: </label>
+          <div class="col-md-9">
+            <p class="form-control-static"> {{education?.grade}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-6 leftpull">Link: </label>
+          <div class="col-md-9">
+            <p class="form-control-static"> {{education?.link}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label class="control-label col-md-6 leftpull">Komentar: </label>
+          <div class="col-md-9">
+            <p class="form-control-static"> {{education?.description}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel-footer p-b-20 p-t-20">
+      <i class="glyphicon glyphicon-education m-r-5 heading-icon-at"></i>
+      <span class="heading-at">Edukacija</span>
+      <div  class="pull-right">
+        TODO add
+        <!--<jhi-add-button class="float-right button-position-fix"  [routerLink]="[{ outlets: { popup: ['at-applicants-schools-new', applicant.id] } }]"></jhi-add-button>-->
+      </div>
+    </div>
+    <app-applicant-education-item [education]="education"  *ngFor="let education of schools$ | async"></app-applicant-education-item>
+  </div>
+</div>
