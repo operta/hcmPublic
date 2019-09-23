@@ -21,6 +21,9 @@
           </a>
         </li>
       </ul>
+      <ul class="nav navbar-top-links navbar-right pull-right">
+        <li  class="dropdown" jhiNotifications></li>
+      </ul>
 
     </div>
   </nav>
@@ -65,14 +68,14 @@
         </a>
       </li>
       <li routerLinkActive="active" (click)="collapseMenuIfOnPhone()">
-        <a [routerLink]="['applicants/vacancy-list-personal/' + userId]"
+        <a [routerLink]="['job-applications']"
            routerLinkActive="active"
            [routerLinkActiveOptions]="{exact: true}">
           <span>Prijave na oglase</span>
         </a>
       </li>
       <li routerLinkActive="active" (click)="collapseMenuIfOnPhone()">
-        <a [routerLink]="['applicants/vacancy-applicant-page']"
+        <a [routerLink]="['vacancies']"
            routerLinkActive="active"
            [routerLinkActiveOptions]="{exact: true}">
           <span>Oglasi za posao</span>

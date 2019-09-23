@@ -1,0 +1,40 @@
+<h2>Obavijesti</h2>
+<ng-container *ngIf="userNotifications$ | async as userNotifications">
+    <br>
+    <br/>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th><span>Naslov</span></th>
+                <th><span>Poruka</span></th>
+                <th><span>Pročitano</span></th>
+                <th><span>Datum/vrijeme</span></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of userNotifications;">
+                <td>{{item.notificationSubject}}</td>
+                <td [innerHTML]="item.notificationTemplate"></td>
+                <td>
+                    <span *ngIf="item.is_read === 'T'">
+                        <span class="badge badge-pill badge-success p-2">Pročitano</span>
+                    </span>
+                    <span *ngIf="item.is_read !== 'T'">
+                        <a (click)="onRead(item);"><span class="p-2 badge badge-pill badge-info">Označi kao pročitano</span></a>
+                    </span>
+                </td>
+                <td>{{item.createdAt | date:'medium' }}</td>
+                <td>
+                    <button class="btn btn-outline-info"  *ngIf="item.notificationActionName" (click)="navigate(item.notificationAction)">
+                        {{item.notificationActionName}}
+                    </button>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</ng-container>

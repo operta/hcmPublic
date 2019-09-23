@@ -1,0 +1,17 @@
+<h3>Moje prijave</h3>
+<hr>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-lg-12 col-md-12">
+            <div class="comment-center" *ngIf="appliedVacancies && appliedVacancies.length > 0; else noJobApp;">
+                <app-vacancy-overview *ngFor="let vacancy of appliedVacancies"
+                                      [vacancy]="vacancy">
+                </app-vacancy-overview>
+            </div>
+            <ng-template #noJobApp>
+                <h3>Nemate prijavljenih oglasa</h3>
+            </ng-template>
+        </div>
+    </div>
+</div>

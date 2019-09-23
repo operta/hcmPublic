@@ -1,0 +1,31 @@
+<app-generic-modal #modal [title]="'Dodaj kontakt'">
+    <modal-content>
+        <form>
+            <div class="form-group">
+                <label class="form-control-label" for="field_idContactType">Tip kontakta</label>
+                <select class="form-control" required id="field_idContactType" name="idContact" [(ngModel)]="contact.idContactType">
+                    <option [ngValue]="null"></option>
+                    <option [ngValue]="item.id" *ngFor="let item of contactTypes$ | async; ">{{item.name}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" for="field_contact">Kontakt*</label>
+                <input type="text" class="form-control" name="contact" id="field_contact"
+                       [(ngModel)]="contact.contact" required/>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" for="field_description">Opis</label>
+                <input type="text" class="form-control" name="description" id="field_description"
+                       [(ngModel)]="contact.description" />
+            </div>
+        </form>
+    </modal-content>
+    <modal-buttons>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" [disabled]="!contact.contact" (click)="save()">
+                <span class="fa fa-fw fa-check"></span>&nbsp;
+                <span>Spremi</span>
+            </button>
+        </div>
+    </modal-buttons>
+</app-generic-modal>

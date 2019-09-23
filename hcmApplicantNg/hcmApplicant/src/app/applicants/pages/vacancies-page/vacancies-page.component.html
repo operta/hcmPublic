@@ -1,0 +1,25 @@
+
+<h3>Lista oglasa</h3>
+<hr>
+<ng-container *ngIf="(vacancies$ | async) as vacancies">
+  <ng-container *ngIf="vacancies.length > 0; else noVacancies">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-12 col-lg-12 col-md-12">
+          <div class="comment-center">
+            <app-vacancy-overview *ngFor="let vacancy of vacancies"
+                                         [vacancy]="vacancy">
+            </app-vacancy-overview>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #noVacancies>
+  <h4 class="page-title">Trenutno nema aktivnih oglasa za posal.</h4>
+</ng-template>
+
+
+

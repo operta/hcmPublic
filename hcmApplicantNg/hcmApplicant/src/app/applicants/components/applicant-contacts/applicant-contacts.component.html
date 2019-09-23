@@ -4,9 +4,9 @@
       <i class="fa fa-phone-square m-r-5 heading-icon-at"></i>
       <span class="heading-at">Kontakti</span>
       <div class="pull-right">
-        <!--TODO add butotn-->
-        <!--<jhi-add-button class="float-right button-position-fix"-->
-        <!--[routerLink]="[{ outlets: { popup: ['at-applicants-contacts-new', applicant.id] } }]"></jhi-add-button>-->
+        <button class="btn btn-success" [routerLink]="[{ outlets: { popup: ['add-contact'] } }]">
+          Dodaj <span class="fa fa-plus"></span>
+        </button>
       </div>
     </div>
     <app-applicant-contacts-item *ngFor="let contact of items$ | async" [contact]="contact"></app-applicant-contacts-item>

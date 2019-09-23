@@ -4,8 +4,9 @@
       <i class="glyphicon glyphicon-education m-r-5 heading-icon-at"></i>
       <span class="heading-at">Edukacija</span>
       <div  class="pull-right">
-        TODO add
-        <!--<jhi-add-button class="float-right button-position-fix"  [routerLink]="[{ outlets: { popup: ['at-applicants-schools-new', applicant.id] } }]"></jhi-add-button>-->
+        <button class="btn btn-success button-position-fix" [routerLink]="[{ outlets: { popup: ['add-education'] } }]">
+          Dodaj <span class="fa fa-plus"></span>
+        </button>
       </div>
     </div>
     <app-applicant-education-item [education]="education"  *ngFor="let education of schools$ | async"></app-applicant-education-item>

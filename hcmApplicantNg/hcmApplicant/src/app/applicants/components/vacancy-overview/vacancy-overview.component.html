@@ -1,0 +1,36 @@
+<div class="row" style="border-bottom: 1px solid rgba(120,130,140,.13);">
+  <div class="comment-body col-sm-12 col-md-12 col-lg-12" style="border-bottom: none !important;">
+    <div class="user-img text-center horizontal-center icon-box">
+      <div data-icon="&#xe019;" class="linea-icon linea-basic icon-font"></div>
+    </div>
+    <div class="mail-content">
+      <a (click)="navigateToDetail()" class="font-weight-normal">
+        <div class="row">
+          <div class="col">
+            <h4 style="color: #686868"><i class="fa fa-fw fa-briefcase mr-1"></i><b>{{vacancy?.name}}</b></h4>
+          </div>
+        </div>
+        <span class="mail-desc" style="height:100px;">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-lg-4 align-self-center" style="padding-left: 15px;">
+                  <i class="fa fa-clock-o"></i> {{vacancy.dateFrom | date: 'dd/MM/yyyy'}} - <i
+                  class="fa fa-clock-o"></i> {{vacancy.dateTo | date: 'dd/MM/yyyy'}}
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-lg-4 align-self-center">
+                    Lokacija: {{vacancy.idLocationName}}
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-lg-4 text-right">
+                    <button class="btn btn-info btn-rounded">{{vacancy.statusName}}</button>
+                </div>
+
+                <div class="col-12" style="padding-left: 16px; margin-top: 10px">
+                  <p>{{vacancy.description}}</p>
+                </div>
+            </div>
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
