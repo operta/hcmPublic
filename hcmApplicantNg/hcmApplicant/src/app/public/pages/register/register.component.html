@@ -1,0 +1,147 @@
+<section id="wrapper" class="login-register" style="position: absolute; height: auto; overflow-y:auto">
+    <div class="registerBox login-shadow add-transparency">
+        <div class="white-box">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <h1>Registracija</h1>
+
+                    <div class="alert alert-success" *ngIf="success">
+                        <strong>Registracija uspješna!</strong> Molimo provjerite mail za aktivaciju.
+                    </div>
+
+                    <div class="alert alert-danger" *ngIf="error">
+                        <strong>Registracija neuspješna!</strong> Molimo pokušajte ponovo
+                    </div>
+
+                    <div class="alert alert-danger" *ngIf="errorUserExists">
+                        <strong>Korisničko ime već postoji!</strong>
+                    </div>
+
+                    <div class="alert alert-danger" *ngIf="errorEmailExists">
+                        <strong>Email već postoji!</strong>
+                    </div>
+
+                    <div class="alert alert-danger" *ngIf="doNotMatch">
+                        Lozinka i potvrda lozinke se ne podudaraju!
+                    </div>
+
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <form name="form" role="form" (ngSubmit)="register()" #registerForm="ngForm" *ngIf="!success">
+                        <div class="form-group">
+                            <label class="form-control-label" for="login">Korisničko ime</label>
+                            <input type="text" class="form-control" [(ngModel)]="registerAccount.login" id="login"
+                                   name="login" #login="ngModel"
+                                   required minlength="5" maxlength="50" pattern="^[_'.@A-Za-z0-9-]*$">
+                            <div *ngIf="login.dirty && login.invalid">
+                                <small class="form-text text-danger" *ngIf="login.errors.required">
+                                    Korisničko ime je potrebno.
+                                </small>
+                                <small class="form-text text-danger" *ngIf="login.errors.minlength">
+                                    Korisničko ime mora sadržati bar 5 karaktera.
+                                </small>
+                                <small class="form-text text-danger" *ngIf="login.errors.maxlength">
+                                    Korisničko ime ne može sadržati više od 50 karaktera.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label">Ime</label>
+                            <input type="text" class="form-control" name="firstName" #firstNameInput="ngModel"
+                                   [(ngModel)]="registerAccount.firstName" maxlength="50" required>
+
+                            <div *ngIf="firstNameInput.dirty && firstNameInput.invalid">
+                                <small class="form-text text-danger"
+                                       *ngIf="firstNameInput.errors.maxlength">
+                                    Ime ne može sadržati više od 50 karaktera.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Prezime</label>
+                            <input type="text" class="form-control" name="lastName" #lastNameInput="ngModel"
+                                   [(ngModel)]="registerAccount.lastName" maxlength="50" required>
+
+                            <div *ngIf="lastNameInput.dirty && lastNameInput.invalid">
+                                <small class="form-text text-danger"
+                                       *ngIf="lastNameInput.errors.maxlength">
+                                    Prezime ne može sadržati više od 50 karaktera.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" #email="ngModel"
+                                   [(ngModel)]="registerAccount.email" minlength=5 maxlength=100 email required>
+                            <div *ngIf="email.dirty && email.invalid">
+                                <small class="form-text text-danger" *ngIf="email.errors.required">
+                                    Email je potreban.
+                                </small>
+                                <small class="form-text text-danger" *ngIf="email.errors.invalid">
+                                    Email je nevalidan.
+                                </small>
+                                <small class="form-text text-danger" *ngIf="email.errors.minlength">
+                                    Email mora sadržati bar 5 karaktera.
+                                </small>
+                                <small class="form-text text-danger" *ngIf="email.errors.maxlength">
+                                    Email ne može sadržati više od 50 karaktera.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="password">Lozinka</label>
+                            <input type="password" class="form-control" id="password" name="password"
+                                   #password="ngModel"
+                                   [(ngModel)]="registerAccount.password" minlength=8 maxlength=50
+                                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                            <div *ngIf="password.dirty && password.invalid">
+                                <small class="form-text text-danger" *ngIf="password.errors.required">
+                                    Lozinka je potrebna.
+                                </small>
+                                <small class="form-text text-danger" *ngIf="password.errors.minlength"
+                                       jhiTranslate="global.messages.validate.newpassword.minlength">
+                                    Lozinka mora sadržati bar 8 karaktera.
+                                </small>
+                                <small class="form-text text-danger" *ngIf="password.errors.maxlength"
+                                       jhiTranslate="global.messages.validate.newpassword.maxlength">
+                                    Lozinka ne može sadržati više od 50 karaktera.
+                                </small>
+                                <small class="form-text text-danger" *ngIf="password.errors.pattern">
+                                    Lozinka treba sadržati bar 1 veliko slovo, 1 malo slovo, 1 specijalni karakter, 1
+                                    broj
+                                </small>
+                            </div>
+                            <app-password-strength-bar
+                                    [passwordToCheck]="registerAccount.password"></app-password-strength-bar>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="confirmPassword">Potvrda lozinke</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                                   #confirmPasswordInput="ngModel"
+                                   [(ngModel)]="confirmPassword" minlength=8 maxlength=50 required>
+                            <div *ngIf="confirmPasswordInput.dirty && confirmPasswordInput.invalid">
+                                <small class="form-text text-danger" *ngIf="confirmPasswordInput.errors.required">
+                                    Potvrda lozinke je potrebna.
+                                </small>
+                                <small class="form-text text-danger" *ngIf="confirmPasswordInput.errors.minlength">
+                                    Potvrda lozinke mora sadržati bar 8 karaktera.
+                                </small>
+                                <small class="form-text text-danger" *ngIf="confirmPasswordInput.errors.maxlength">
+                                    Potvrda lozinke ne može sadržati više od 50 karaktera.
+                                </small>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light m-b-10 m-t-10"
+                                [disabled]="registerForm.form.invalid"
+                                type="submit">Registruj se
+                        </button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

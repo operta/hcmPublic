@@ -1,14 +1,120 @@
-<app-generic-modal #modal [title]="'Dodaj iskustvo'">
+<app-generic-modal #modal [title]="'Dodaj postignuće'">
     <modal-content>
+        <form>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_idAccomplishmentType">Tip postignuća</label>
+                        <select class="form-control" id="field_idAccomplishmentType" name="idAccomplishmentType" required [(ngModel)]="accomplishment.idAccomplishmentTypeId">
+                            <option [ngValue]="null"></option>
+                            <option [ngValue]="item.id" *ngFor="let item of accomplishmentTypes$ | async" required>{{item.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_title">Ime*</label>
+                        <input type="text" class="form-control" name="title" id="field_title"
+                               [(ngModel)]="accomplishment.title" required/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_organization">Organizacija</label>
+                        <input type="text" class="form-control" name="organization" id="field_organization"
+                               [(ngModel)]="accomplishment.organization" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_description">Opis</label>
+                        <input type="text" class="form-control" name="description" id="field_description"
+                               [(ngModel)]="accomplishment.description" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_association">Asocijacija</label>
+                        <input type="text" class="form-control" name="association" id="field_association"
+                               [(ngModel)]="accomplishment.association" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_link">Link</label>
+                        <input type="text" class="form-control" name="link" id="field_link"
+                               [(ngModel)]="accomplishment.link" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_dateFrom">Datum</label>
+                        <div class="input-group">
+                            <input id="field_dateFrom" type="date" class="form-control" name="dateFrom" [(ngModel)]="accomplishment.dateFrom"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="form-group col-md-4">
+                            <label class="form-control-label" for="field_ongoing1">Traje</label>
+                            <select id="field_ongoing1" name="ongoing" class="form-control" [(ngModel)]="accomplishment.ongoing" >
+                                <option value="Y">Da</option>
+                                <option value="N">Ne</option>
+                            </select>
 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" *ngIf="accomplishment.ongoing != 'Y'">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_dateTo">Do</label>
+                        <div class="input-group">
+                            <input id="field_dateTo" type="date" class="form-control" name="dateTo" [(ngModel)]="accomplishment.dateTo"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_occupation">Zanimanje</label>
+                        <input type="text" class="form-control" name="occupation" id="field_occupation"
+                               [(ngModel)]="accomplishment.occupation" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_proficiency">Vještina</label>
+                        <input type="text" class="form-control" name="proficiency" id="field_proficiency"
+                               [(ngModel)]="accomplishment.proficiency" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_licenceNumber">Broj licence</label>
+                        <input type="text" class="form-control" name="licenceNumber" id="field_licenceNumber"
+                               [(ngModel)]="accomplishment.licenceNumber" />
+                    </div>
+                </div>
+            </div>
+        </form>
     </modal-content>
     <modal-buttons>
-        <!--<div class="modal-footer">-->
-        <!--<button type="submit" class="btn btn-success" [disabled]="!vacancyForm.valid || isSaving" (click)="save()">-->
-        <!--<span class="fa fa-fw fa-check"></span>&nbsp;-->
-        <!--&lt;!&ndash;TODO translate&ndash;&gt;-->
-        <!--<span>Spremi</span>-->
-        <!--</button>-->
-        <!--</div>-->
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" [disabled]="!accomplishment.idAccomplishmentTypeId || !accomplishment.title"
+                    (click)="save()">
+                <span class="fa fa-fw fa-check"></span>&nbsp;
+                <span>Spremi</span>
+            </button>
+        </div>
     </modal-buttons>
 </app-generic-modal>

@@ -1,14 +1,119 @@
-<app-generic-modal #modal [title]="'Uredi informacije'">
+<app-generic-modal #modal [title]="'Uredi profil'">
     <modal-content>
-
+        <form>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="form-control-label"
+                           for="field_middleName">Srednje ime</label>
+                    <input type="text" class="form-control" name="middleName" id="field_middleName"
+                           [(ngModel)]="applicant.middleName"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="form-control-label"
+                           for="field_phoneNumber">Broj telefona*</label>
+                    <input type="text" class="form-control" name="phoneNumber" id="field_phoneNumber" required
+                           [(ngModel)]="applicant.phoneNumber"/>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="form-control-label"
+                           for="field_idQualifcation">Kvalifikacija</label>
+                    <select class="form-control" name="idQualifcation" id="field_idQualifcation"
+                            [(ngModel)]="applicant.idQualifcation" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="qualification.id"
+                                *ngFor="let qualification of qualifications$ | async">
+                            {{qualification.name}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="form-control-label" for="field_gender">Spol</label>
+                    <select [(ngModel)]="applicant.gender" id="field_gender" name="gender"
+                            class="form-control">
+                        <option [ngValue]="''">/</option>
+                        <option [ngValue]="'M'">Muško</option>
+                        <option [ngValue]="'F'">Žensko</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="form-control-label"
+                           for="field_birthdate">Datum rođenja</label>
+                    <div class="input-group">
+                        <input id="field_birthdate" type="date" class="form-control" name="birthdate" [(ngModel)]="applicant.birthdate"
+                        />
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="form-control-label"
+                           for="field_idEmployed">Trenutno zaposlen</label>
+                    <select class="form-control" name="idEmployed" id="field_idEmployed"
+                            [(ngModel)]="applicant.employed">
+                        <option value="null"></option>
+                        <option value="Y">Da</option>
+                        <option value="N">Ne</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_maritalStatus">Bračni status</label>
+                    <select [(ngModel)]="applicant.materialStatus"
+                            class="form-control col-md-12" id="field_maritalStatus" name="maritalStatus">
+                        <option [ngValue]="'M'">Oženjen/Udata</option>
+                        <option [ngValue]="'W'">Udovac/Udovica</option>
+                        <option [ngValue]="'SE'">Razdvojen/Razdvojena</option>
+                        <option [ngValue]="'D'">Razveden/Razvedena</option>
+                        <option [ngValue]="'SI'">Slobodan/Slobodna</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label"
+                           for="field_industry">Industrija</label>
+                    <input type="text" class="form-control" name="industry" id="field_industry"
+                           [(ngModel)]="applicant.industry"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="form-control-label"
+                           for="field_employementPosition">Pozicija zaposlenja</label>
+                    <input type="text" class="form-control" name="employementPosition" id="field_employementPosition"
+                           [(ngModel)]="applicant.employementPosition"/>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-control-label" for="selectDriversLicence">Vozačka dozvola</label>
+                    <select class="form-control" [(ngModel)]="applicant.driverLicence" id="selectDriversLicence" name="driverLicence">
+                        <option [ngValue]="null"><div>Nema</div></option>
+                        <option [ngValue]="'A'"><div>A</div></option>
+                        <option [ngValue]="'B'"><div>B</div></option>
+                        <option [ngValue]="'C'"><div>C</div></option>
+                        <option [ngValue]="'D'"><div>D</div></option>
+                        <option [ngValue]="'E'"><div>E</div></option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="form-control-label"  for="field_address">Adresa</label>
+                    <input type="text" class="form-control" name="address" id="field_address"
+                           [(ngModel)]="applicant.address"/>
+                </div>
+                <div class="form-group col-md-12">
+                    <app-region-select [lowestLevelId]="applicant.idCity" (citySelected)="onCitySelected($event)" [showOnlyCities]="true"></app-region-select>
+                </div>
+            </div>
+        </form>
     </modal-content>
     <modal-buttons>
-        <!--<div class="modal-footer">-->
-        <!--<button type="submit" class="btn btn-success" [disabled]="!vacancyForm.valid || isSaving" (click)="save()">-->
-        <!--<span class="fa fa-fw fa-check"></span>&nbsp;-->
-        <!--&lt;!&ndash;TODO translate&ndash;&gt;-->
-        <!--<span>Spremi</span>-->
-        <!--</button>-->
-        <!--</div>-->
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" [disabled]="!applicant.name || !applicant.surname || !applicant.phoneNumber" (click)="save()">
+                <span class="fa fa-fw fa-check"></span>&nbsp;
+                <span>Spremi</span>
+            </button>
+        </div>
     </modal-buttons>
 </app-generic-modal>

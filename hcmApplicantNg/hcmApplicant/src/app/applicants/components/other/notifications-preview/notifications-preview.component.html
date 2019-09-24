@@ -1,0 +1,49 @@
+<ng-container *ngIf="userNotifications$ | async as userNotifications">
+    <a class="waves-effect waves-light" data-toggle="dropdown">
+        <div *ngIf="userNotifications.length < 1" class="mt-1">
+            <i class="icon-bell mr-3"></i>
+            <span class="d-none d-lg-inline-block">Obavijesti</span>
+        </div>
+        <div *ngIf="userNotifications.length > 0">
+            <span class="badge zvonce">{{userNotifications.length}}</span>
+            <span class="glyphicon glyphicon-bell"></span>
+            <span class="d-none d-lg-inline-block">Obavijesti</span>
+        </div>
+        <div class="notify"></div>
+    </a>
+    <ul class="dropdown-menu mailbox animated bounceInDown notificationDropdownOverflow">
+        <li>
+            <div class="drop-title">
+                <span>Imate </span>
+                {{userNotifications.length}}
+                <span> novih obavijesti</span>
+            </div>
+        </li>
+        <li>
+            <div class="message-center">
+                <a *ngFor="let notification of userNotifications" (click)="didRead(notification)">
+                    <div class="user-img">
+                        <img src="../../../../../assets/images/notification_icon.png" class="img-circle">
+                        <span class="profile-status online pull-right"></span>
+                    </div>
+                    <div class="mail-contnet">
+                        <h5>
+                            {{notification?.notificationSubject}}</h5>
+                        <span
+                                class="mail-desc">{{notification?.notificationTemplate}}</span>
+                        <span class="time" style="font-weight: normal">{{notification?.createdAt | date:'medium'}}</span>
+                    </div>
+                </a>
+            </div>
+        </li>
+        <li>
+            <a class="text-center"
+               [routerLink]="['/dashboard/user-notifications', { userId: userId}]">
+                <strong>
+                    <span>Vidi sve</span>
+                </strong>
+                <i class="fa fa-angle-right"></i>
+            </a>
+        </li>
+    </ul>
+</ng-container>

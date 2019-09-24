@@ -16,6 +16,11 @@ export class ApplicantsService {
     ) {
     }
 
+    create(applicant: AtApplicants): Observable<AtApplicants> {
+        const copy: AtApplicants = Object.assign({}, applicant);
+        return this.http.post<AtApplicants>(this.resourceUrl, copy);
+    }
+
     update(applicant: AtApplicants): Observable<AtApplicants> {
         const copy: AtApplicants = Object.assign({}, applicant);
         return this.http.put<AtApplicants>(this.resourceUrl, copy);

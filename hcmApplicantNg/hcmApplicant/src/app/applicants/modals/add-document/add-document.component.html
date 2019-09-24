@@ -1,14 +1,33 @@
 <app-generic-modal #modal [title]="'Dodaj dokument'">
     <modal-content>
-
+        <form>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-control-label"
+                               for="field_name">Ime dokumenta</label>
+                        <input type="text" class="form-control" name="name" id="field_name"
+                               [(ngModel)]="document.name" required/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-control-label"
+                               for="field_description">Opis</label>
+                        <input type="text" class="form-control" name="description" id="field_description"
+                               [(ngModel)]="document.description"/>
+                    </div>
+                </div>
+                <app-document-blob-input (documentLinksChanged)="documentChangeEventHandler($event);"></app-document-blob-input>
+            </div>
+        </form>
     </modal-content>
     <modal-buttons>
-        <!--<div class="modal-footer">-->
-        <!--<button type="submit" class="btn btn-success" [disabled]="!vacancyForm.valid || isSaving" (click)="save()">-->
-        <!--<span class="fa fa-fw fa-check"></span>&nbsp;-->
-        <!--&lt;!&ndash;TODO translate&ndash;&gt;-->
-        <!--<span>Spremi</span>-->
-        <!--</button>-->
-        <!--</div>-->
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" [disabled]="!document.name || !dmDocumentLinks.documentBlob" (click)="save()">
+                <span class="fa fa-fw fa-check"></span>&nbsp;
+                <span>Spremi</span>
+            </button>
+        </div>
     </modal-buttons>
 </app-generic-modal>

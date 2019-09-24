@@ -11,7 +11,6 @@ import {AtVacancies} from './models/vacancy.model';
 import {VacancyService} from './services/vacancy.service';
 import {VacancyDetailPageComponent} from './pages/vacancy-detail-page/vacancy-detail-page.component';
 import {AtJobApplicationsService} from './services/job-application.service';
-import {AtJobApplications} from './models/job-applications.model';
 import {JobApplicationsPageComponent} from './pages/job-applications-page/job-applications-page.component';
 import {UserNotificationsPageComponent} from './pages/user-notifications-page/user-notifications-page.component';
 import {AddContactPopupComponent} from './modals/add-contact/add-contact.component';
@@ -19,6 +18,9 @@ import {AddEducationPopupComponent} from './modals/add-education/add-education.c
 import {AddExperiencePopupComponent} from './modals/add-experience/add-experience.component';
 import {AddAccomplishmentPopupComponent} from './modals/add-accomplishment/add-accomplishment.component';
 import {EditApplicantPopupComponent} from './modals/edit-applicant/edit-applicant.component';
+import {AddDocumentPopupComponent} from './modals/add-document/add-document.component';
+import {SettingsComponent} from './components/account/settings/settings.component';
+import {PasswordComponent} from './components/account/password/password.component';
 
 
 @Injectable()
@@ -32,17 +34,13 @@ export class ApplicantResolver implements Resolve<AtApplicants> {
             .pipe(
                 tap((value) => {
                     if (!value) {
-                        // this.router.navigate([{ outlets: { popup: ['at-applicants-new',id]}}], {relativeTo: this.activatedRoute});
                         this.router.navigate(['/404']);
-                        // TODO go to new profile
                         return of(null);
                     }
                 }),
                 catchError(
                     (error) => {
-                        // this.router.navigate([{ outlets: { popup: ['at-applicants-new',id]}}], {relativeTo: this.activatedRoute});
                         this.router.navigate(['/404']);
-                        // TODO go to new profile
                         return of(null);
                     }
                 ));
@@ -127,7 +125,7 @@ export class CanApplicantApplyResolver implements Resolve<boolean> {
         const vacancyId = route.params.id;
         if (vacancyId) {
             return of(true);
-            // TODO change
+            // TODO change when backend created
             // return this.jApplicationsService.checkIfApplicantApplied(vacancyId);
         } else {
             this.router.navigate(['/404']);
@@ -163,6 +161,11 @@ const applicantRoutes: Routes = [{
                     outlet: 'popup'
                 },
                 {
+                    path: 'add-document',
+                    component: AddDocumentPopupComponent,
+                    outlet: 'popup'
+                },
+                {
                     path: 'add-accomplishment',
                     component: AddAccomplishmentPopupComponent,
                     outlet: 'popup'
@@ -170,7 +173,10 @@ const applicantRoutes: Routes = [{
                 {
                     path: 'edit-applicant',
                     component: EditApplicantPopupComponent,
-                    outlet: 'popup'
+                    outlet: 'popup',
+                    resolve: {
+                        applicant: ApplicantResolver
+                    }
                 },
             ]
         }, {
@@ -193,9 +199,18 @@ const applicantRoutes: Routes = [{
             resolve: {
                 appliedVacancies: AppliedVacanciesResolver
             }
-        }, {
+        },
+        {
             path: 'user-notifications',
             component: UserNotificationsPageComponent,
+        },
+        {
+            path: 'settings',
+            component: SettingsComponent
+        },
+        {
+            path: 'password',
+            component: PasswordComponent
         }
     ]
 }];

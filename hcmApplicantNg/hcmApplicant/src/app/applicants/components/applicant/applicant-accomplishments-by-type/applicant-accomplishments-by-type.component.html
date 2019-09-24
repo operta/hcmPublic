@@ -1,0 +1,71 @@
+<div class="panel-footer p-b-20 p-t-20 m-b-10 no-background">
+  <div class="d-inline">
+    <div class="row">
+      <div class="col-md-12 p-0" *ngIf="type == 'Certifications'">
+        <button type="button" class="btn-profile btn-transparent" (click)="isCollapsed = !isCollapsed"
+                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseAccomplishments">
+          <i class="glyphicon glyphicon-certificate m-r-5 heading-icon-at"></i>
+          <span class="m-t-10 m-l-10">Certifikati</span>
+          &nbsp;<i *ngIf="!isCollapsed" class="fa fa-chevron-down fa-lg m-r-5"></i>
+          &nbsp;<i *ngIf="isCollapsed" class="fa fa-chevron-right fa-lg m-r-5"></i>
+        </button>
+      </div>
+      <div class="col-md-12 p-0" *ngIf="type == 'Courses'">
+        <button type="button" class="btn-profile btn-transparent" (click)="isCollapsed = !isCollapsed"
+                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseAccomplishments">
+          <i class="glyphicon glyphicon-book m-r-5 heading-icon-at"></i>
+          <span class="m-t-10 m-l-10 ">Kursevi</span>
+          &nbsp;<i *ngIf="!isCollapsed" class="fa fa-chevron-down fa-lg m-r-5"></i>
+          &nbsp;<i *ngIf="isCollapsed" class="fa fa-chevron-right fa-lg m-r-5"></i>
+        </button>
+      </div>
+      <div class="col-md-12 p-0" *ngIf="type == 'HonorsandAwards'">
+        <button type="button" class="btn-profile btn-transparent" (click)="isCollapsed = !isCollapsed"
+                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseAccomplishments">
+          <i class="fa fa-trophy m-r-5 heading-icon-at"></i>
+          <span class="m-t-10 m-l-10">Pohvale i nagrade</span>
+          &nbsp;<i *ngIf="!isCollapsed" class="fa fa-chevron-down fa-lg m-r-5"></i>
+          &nbsp;<i *ngIf="isCollapsed" class="fa fa-chevron-right fa-lg m-r-5"></i>
+        </button>
+      </div>
+      <div class="col-md-12 p-0" *ngIf="type == 'Projects'">
+        <button type="button" class="btn-profile btn-transparent" (click)="isCollapsed = !isCollapsed"
+                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseAccomplishments">
+          <i class="fa fa-file-powerpoint-o m-r-5 heading-icon-at"></i>
+          <span class="m-t-10 m-l-10">Projekti</span>
+          &nbsp;<i *ngIf="!isCollapsed" class="fa fa-chevron-down fa-lg m-r-5"></i>
+          &nbsp;<i *ngIf="isCollapsed" class="fa fa-chevron-right fa-lg m-r-5"></i>
+        </button>
+      </div>
+      <div class="col-md-12 p-0" *ngIf="type == 'Publications'">
+        <button type="button" class="btn-profile btn-transparent" (click)="isCollapsed = !isCollapsed"
+                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseAccomplishments">
+          <i class="fa fa-file-text m-r-5 heading-icon-at"></i>
+          <span class="m-t-10 m-l-10">Publikacije</span>
+          &nbsp;<i *ngIf="!isCollapsed" class="fa fa-chevron-down fa-lg m-r-5"></i>
+          &nbsp;<i *ngIf="isCollapsed" class="fa fa-chevron-right fa-lg m-r-5"></i>
+        </button>
+      </div>
+      <div class="col-md-12 p-0" *ngIf="type == 'Languages'">
+        <button type="button" class="btn-profile btn-transparent" (click)="isCollapsed = !isCollapsed"
+                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseAccomplishments">
+          <i class="fa fa-language m-r-5 heading-icon-at"></i>
+          <span class="m-t-10 m-l-10">Jezici</span>
+          &nbsp;<i *ngIf="!isCollapsed" class="fa fa-chevron-down fa-lg m-r-5"></i>
+          &nbsp;<i *ngIf="isCollapsed" class="fa fa-chevron-right fa-lg m-r-5"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12" id="collapseAccomplishments" [ngbCollapse]="isCollapsed">
+    <div *ngIf="filteredAccomplishments && filteredAccomplishments.length > 0; else noItems">
+      <app-applicant-accomplishments-item *ngFor="let item of filteredAccomplishments"
+                                               [accomplishment]="item"></app-applicant-accomplishments-item>
+    </div>
+    <ng-template #noItems>
+      <p>Nema unosa.</p>
+    </ng-template>
+  </div>
+</div>

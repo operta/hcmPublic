@@ -9,6 +9,8 @@ export class AtApplicantsDocuments {
     public validTo?: any,
     public idDocumentLink?: number,
     public idDocumentLinkFilePath?: string,
+    public idDocumentBlobContentType?: string,
+    public idDocumentBlob?: any,
     public idDocumentType?: number,
     public idApplicantId?: number,
     public createdBy?: string,

@@ -28,7 +28,6 @@ export class LoginService implements OnDestroy {
       this.authServerProvider.login(credentials).subscribe((data) => {
         this.principal.identity(true).then((account) => {
           this.localStorage.store('userId', account.id);
-          console.log(account);
           this.localStorage.store('username', account.login);
           resolve(data);
         });

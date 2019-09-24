@@ -55,7 +55,6 @@ export class LoginComponent {
   }
 
   requestResetPassword() {
-    // TODO
     this.router.navigate(['/reset', 'request']);
   }
 

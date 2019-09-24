@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ModalService} from '../../services/modal.service';
-import {GenericModalComponent} from '../../components/generic-modal/generic-modal.component';
+import {GenericModalComponent} from '../../components/other/generic-modal/generic-modal.component';
 import {Observable} from 'rxjs';
 import {RegistersService} from '../../services/registers.service';
 import {ToastrService} from 'ngx-toastr';

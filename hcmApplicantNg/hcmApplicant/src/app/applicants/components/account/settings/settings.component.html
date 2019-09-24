@@ -1,0 +1,82 @@
+<div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 *ngIf="settingsAccount">Korisničke postavke za [<b>{{settingsAccount.login}}</b>]</h2>
+
+            <div class="alert alert-success" *ngIf="success">
+                <strong>Postavke spašene!</strong>
+            </div>
+
+
+            <form name="form" role="form" (ngSubmit)="save()" #settingsForm="ngForm" *ngIf="settingsAccount" novalidate>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="firstName">Ime</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName"
+                           [(ngModel)]="settingsAccount.firstName" minlength=1 maxlength=50 #firstNameInput="ngModel"
+                           required>
+                    <div *ngIf="firstNameInput.dirty && firstNameInput.invalid">
+                        <small class="form-text text-danger"
+                               *ngIf="firstNameInput.errors.required">
+                            Ime je potrebno.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="firstNameInput.errors.minlength">
+                            Ime mora sadržati bar 1 karakter.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="firstNameInput.errors.maxlength">
+                            Ime ne može sadržati više od 50 karaktera.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="lastName">Prezime</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName"
+                           [(ngModel)]="settingsAccount.lastName" minlength=1 maxlength=50 #lastNameInput="ngModel"
+                           required>
+                    <div *ngIf="lastNameInput.dirty && lastNameInput.invalid">
+                        <small class="form-text text-danger"
+                               *ngIf="lastNameInput.errors.required">
+                            Prezime je potrebno.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="lastNameInput.errors.minlength">
+                            Prezime mora sadržati bar 1 karakter.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="lastNameInput.errors.maxlength">
+                            Prezime ne može sadržati više od 50 karaktera.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="email" jhiTranslate="global.form.email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email"
+                           [(ngModel)]="settingsAccount.email" minlength="5" maxlength="100" #emailInput="ngModel" email
+                           required>
+                    <div *ngIf="emailInput.dirty && emailInput.invalid">
+                        <small class="form-text text-danger"
+                               *ngIf="emailInput.errors.required">
+                            Email je potreban.
+                        </small>
+                        <small class="form-text text-danger">
+                            Email je nevalidan.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="emailInput.errors.minlength">
+                            Email mora sadržati bar 1 karakter.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="emailInput.errors.maxlength">
+                            Email ne može sadržati više od 50 karaktera.
+                        </small>
+                    </div>
+                </div>
+
+                <button type="submit" [disabled]="settingsForm.form.invalid" class="btn btn-primary">Spasi</button>
+            </form>
+        </div>
+    </div>
+
+</div>

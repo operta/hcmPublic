@@ -51,13 +51,6 @@ export class JhiDataUtils {
     }
   }
 
-  /**
-   * Method to open file by URL
-   */
-  openFileByURL(url: string) {
-    // TODO change
-    window.open(`${SERVER_API_URL}/hcmcoremicroservice/${url}`);
-  }
 
   /**
    * Method to convert the file to base64

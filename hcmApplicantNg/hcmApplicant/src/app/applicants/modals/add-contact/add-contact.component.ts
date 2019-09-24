@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ModalService} from '../../services/modal.service';
-import {GenericModalComponent} from '../../components/generic-modal/generic-modal.component';
+import {GenericModalComponent} from '../../components/other/generic-modal/generic-modal.component';
 import {AtApplicantsContacts} from '../../models/applicant-contact.model';
 import {RegistersService} from '../../services/registers.service';
 import {Observable} from 'rxjs';

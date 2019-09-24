@@ -16,47 +16,14 @@ export class AtApplicantAccService {
     return this.http.get<AtApplicantAcc[]>(`${this.resourceUrl}/applicant/${id}`);
   }
 
-  // create(atApplicantAcc: AtApplicantAcc): Observable<AtApplicantAcc> {
-  //   const copy = this.convert(atApplicantAcc);
-  //   return this.http.post<AtApplicantAcc>(this.resourceUrl, copy)
-  //     .map((item) => this.convertItemFromServer(item));
-  // }
+  create(atApplicantAcc: AtApplicantAcc): Observable<AtApplicantAcc> {
+    const copy = Object.assign({}, atApplicantAcc);
+    return this.http.post<AtApplicantAcc>(this.resourceUrl, copy);
+  }
 
 
   delete(id: number): Observable<any> {
     return this.http.delete(`${this.resourceUrl}/${id}`, {observe: 'response'});
   }
 
-  // private convertResponse(res: HttpResponse<AtApplicantAcc[]>): ResponseWrapper {
-  //   const jsonResponse: AtApplicantAcc[] = res.body;
-  //   const body: AtApplicantAcc[] = [];
-  //   for (let i = 0; i < jsonResponse.length; i++) {
-  //     body.push(this.convertItemFromServer(jsonResponse[i]));
-  //   }
-  //   return new ResponseWrapper(res.headers, body, res.status);
-  // }
-  //
-  // /**
-  //  * Convert a returned JSON object to AtApplicantAcc.
-  //  */
-  // private convertItemFromServer(json: any): AtApplicantAcc {
-  //   const entity: AtApplicantAcc = Object.assign(new AtApplicantAcc(), json);
-  //   entity.dateFrom = this.dateUtils
-  //     .convertLocalDateFromServer(json.dateFrom);
-  //   entity.dateTo = this.dateUtils
-  //     .convertLocalDateFromServer(json.dateTo);
-  //   return entity;
-  // }
-  //
-  // /**
-  //  * Convert a AtApplicantAcc to a JSON which can be sent to the server.
-  //  */
-  // private convert(atApplicantAcc: AtApplicantAcc): AtApplicantAcc {
-  //   const copy: AtApplicantAcc = Object.assign({}, atApplicantAcc);
-  //   copy.dateFrom = this.dateUtils
-  //     .convertLocalDateToServer(atApplicantAcc.dateFrom);
-  //   copy.dateTo = this.dateUtils
-  //     .convertLocalDateToServer(atApplicantAcc.dateTo);
-  //   return copy;
-  // }
 }
