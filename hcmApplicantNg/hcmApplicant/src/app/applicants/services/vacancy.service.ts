@@ -10,7 +10,7 @@ import {LocalStorageService} from 'ngx-webstorage';
 export class VacancyService {
   private _loadedVacancies: AtVacancies[];
   private userId: number;
-  private resourceUrl = SERVER_API_URL + 'hcmcoremicroservice/api/at-vacancies';
+  private resourceUrl = SERVER_API_URL + 'api/at-vacancies';
 
   constructor(private http: HttpClient, private localStorage: LocalStorageService) {
     this.userId = +this.localStorage.retrieve('userId');
@@ -21,16 +21,12 @@ export class VacancyService {
   }
 
   getVacanciesVisibleToApplicant(): Observable<AtVacancies[]> {
-    // TODO change when endpoint added
-    // return this.http.get<AtVacancies[]>(`${this.resourceUrl}/applicants`);
-    return this.http.get<AtVacancies[]>(`${this.resourceUrl}`)
+    return this.http.get<AtVacancies[]>(`${this.resourceUrl}/applicants`)
       .pipe(tap(items => this._loadedVacancies = items));
   }
 
   getVacanciesWhereApplicantApplied(): Observable<AtVacancies[]> {
-    // TODO change when endpoint added
-    // return this.http.get<AtVacancies[]>(`${this.resourceUrl}/job-applications/user/${this.userId}`)
-    return this.http.get<AtVacancies[]>(`${this.resourceUrl}`)
+    return this.http.get<AtVacancies[]>(`${this.resourceUrl}/job-applications/user/${this.userId}`)
         .pipe(tap(items => this._loadedVacancies = items));
   }
 }

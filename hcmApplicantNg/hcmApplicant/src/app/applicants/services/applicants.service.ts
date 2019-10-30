@@ -9,7 +9,7 @@ import {tap} from 'rxjs/operators';
 @Injectable()
 export class ApplicantsService {
 
-    private resourceUrl = SERVER_API_URL + 'hcmcoremicroservice/api/at-applicants';
+    private resourceUrl = SERVER_API_URL + 'api/at-applicants';
 
     constructor(private http: HttpClient,
                 private localStorage: LocalStorageService

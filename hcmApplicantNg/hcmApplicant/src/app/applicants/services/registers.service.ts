@@ -6,7 +6,7 @@ import {createRequestOption} from '../../services/request-util';
 
 @Injectable()
 export class RegistersService {
-    private resourceUrl = SERVER_API_URL + 'hcmcoremicroservice/api';
+    private resourceUrl = SERVER_API_URL + 'api';
 
     constructor(private http: HttpClient) {
     }

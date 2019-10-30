@@ -10,7 +10,7 @@ export class AtJobApplicationsService {
 
   private userId: number;
 
-  private resourceUrl =  SERVER_API_URL + 'hcmcoremicroservice/api/at-job-applications';
+  private resourceUrl =  SERVER_API_URL + 'api/at-job-applications';
 
   constructor(private http: HttpClient, private localStorage: LocalStorageService) {
     this.userId = +this.localStorage.retrieve('userId');
@@ -24,8 +24,8 @@ export class AtJobApplicationsService {
     return this.http.get<AtJobApplications[]>(`${this.resourceUrl}/user/${this.userId}`);
   }
 
-  checkIfApplicantApplied(vacancyId?: number): Observable<boolean> {
-    return this.http.get<boolean>(`${this.resourceUrl}/vacancy/${vacancyId}/user/${this.userId}`);
+  checkIfApplicantApplied(vacancyId?: number): Observable<any> {
+    return this.http.get<any>(`${this.resourceUrl}/vacancy/${vacancyId}/user/${this.userId}`);
   }
 
 

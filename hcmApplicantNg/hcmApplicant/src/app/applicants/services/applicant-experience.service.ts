@@ -7,7 +7,7 @@ import {AtApplicantsExperience} from '../models/applicant-experience.model';
 @Injectable()
 export class AtApplicantsExperienceService {
 
-  private resourceUrl =  SERVER_API_URL + 'hcmcoremicroservice/api/at-applicants-experiences';
+  private resourceUrl =  SERVER_API_URL + 'api/at-applicants-experiences';
 
   constructor(private http: HttpClient) { }
 

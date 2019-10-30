@@ -21,7 +21,10 @@ export class VacancyDetailComponent {
   apply() {
     this.service.addJobApplication(this.vacancy.id)
       .subscribe(
-        () => this.toastr.success(`Prijava na oglas ${this.vacancy.name} uspješna!`),
+        () => {
+          this.toastr.success(`Prijava na oglas ${this.vacancy.name} uspješna!`);
+          this.canApply = false;
+        },
         (error) => this.logger.onError(error)
       );
   }

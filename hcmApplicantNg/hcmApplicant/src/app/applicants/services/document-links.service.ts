@@ -7,7 +7,7 @@ import {HttpClient} from '@angular/common/http';
 @Injectable()
 export class DmDocumentLinksService {
 
-    private resourceUrl = SERVER_API_URL + 'hcmcoremicroservice/api/dm-document-links';
+    private resourceUrl = SERVER_API_URL + 'api/dm-document-links';
 
     constructor(private http: HttpClient) {
     }

@@ -5,7 +5,7 @@ import {ApplicantProfilePageComponent} from './pages/applicant-profile-page/appl
 import {AtApplicants} from './models/applicant.model';
 import {Observable, of} from 'rxjs';
 import {ApplicantsService} from './services/applicants.service';
-import {catchError, tap} from 'rxjs/operators';
+import {catchError, map, tap} from 'rxjs/operators';
 import {VacanciesPageComponent} from './pages/vacancies-page/vacancies-page.component';
 import {AtVacancies} from './models/vacancy.model';
 import {VacancyService} from './services/vacancy.service';
@@ -59,7 +59,7 @@ export class VacanciesResolver implements Resolve<AtVacancies[]> {
             .pipe(
                 catchError(
                     (error) => {
-                        this.router.navigate(['/404']);
+                        // this.router.navigate(['/404']);
                         return of(null);
                     }
                 )
@@ -80,7 +80,7 @@ export class AppliedVacanciesResolver implements Resolve<AtVacancies[]> {
             .pipe(
                 catchError(
                     (error) => {
-                        this.router.navigate(['/404']);
+                        // this.router.navigate(['/404']);
                         return of(null);
                     }
                 )
@@ -99,14 +99,14 @@ export class VacancyResolver implements Resolve<AtVacancies> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): AtVacancies {
         if (this.vacancyService.loadedVacancies && this.vacancyService.loadedVacancies.length > 0) {
             if (this.vacancyService.loadedVacancies.some(item => item.id === +route.params.id)) {
-                console.log(this.vacancyService.loadedVacancies.find(item => item.id === +route.params.id));
+                // console.log(this.vacancyService.loadedVacancies.find(item => item.id === +route.params.id));
                 return this.vacancyService.loadedVacancies.find(item => item.id === +route.params.id);
             } else {
-                this.router.navigate(['/404']);
+                // this.router.navigate(['/404']);
                 return null;
             }
         } else {
-            this.router.navigate(['/404']);
+            // this.router.navigate(['/404']);
             return null;
         }
     }
@@ -124,11 +124,9 @@ export class CanApplicantApplyResolver implements Resolve<boolean> {
     resolve(route: ActivatedRouteSnapshot): Observable<boolean> {
         const vacancyId = route.params.id;
         if (vacancyId) {
-            return of(true);
-            // TODO change when backend created
-            // return this.jApplicationsService.checkIfApplicantApplied(vacancyId);
+            return this.jApplicationsService.checkIfApplicantApplied(vacancyId).pipe(map(value => !value.applied));
         } else {
-            this.router.navigate(['/404']);
+            // this.router.navigate(['/404']);
             return of(false);
         }
     }
@@ -211,6 +209,10 @@ const applicantRoutes: Routes = [{
         {
             path: 'password',
             component: PasswordComponent
+        },
+        {
+            path: '**',
+            redirectTo: 'vacancies'
         }
     ]
 }];

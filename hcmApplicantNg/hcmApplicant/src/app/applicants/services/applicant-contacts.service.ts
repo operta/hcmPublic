@@ -7,7 +7,7 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class AtApplicantsContactsService {
 
-  private resourceUrl =  SERVER_API_URL + 'hcmcoremicroservice/api/at-applicants-contacts';
+  private resourceUrl =  SERVER_API_URL + 'api/at-applicants-contacts';
 
   constructor(private http: HttpClient) { }
 

@@ -8,7 +8,7 @@ import {LocalStorageService} from 'ngx-webstorage';
 
 @Injectable()
 export class UserNotificationsService {
-    private resourceUrl = SERVER_API_URL + 'hcmcoremicroservice/api/user-notifications';
+    private resourceUrl = SERVER_API_URL + 'api/user-notifications';
     private userId: number;
 
     constructor(private http: HttpClient, private localStorage: LocalStorageService) {

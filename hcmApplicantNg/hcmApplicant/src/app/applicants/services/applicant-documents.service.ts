@@ -7,7 +7,7 @@ import {HttpClient} from '@angular/common/http';
 @Injectable()
 export class AtApplicantsDocumentsService {
 
-  private resourceUrl = SERVER_API_URL + 'hcmcoremicroservice/api/at-applicants-documents';
+  private resourceUrl = SERVER_API_URL + 'api/at-applicants-documents';
 
   constructor(private http: HttpClient) {
   }
