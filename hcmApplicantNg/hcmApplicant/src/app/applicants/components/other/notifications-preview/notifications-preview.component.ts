@@ -15,11 +15,12 @@ import {LoggerService} from '../../../../services/logger.service';
 export class NotificationsPreviewComponent implements OnInit {
 
     userNotifications$: Observable<UserNotifications[]>;
-
+    userId: number;
 
     constructor(private localStorage: LocalStorageService,
                 private logger: LoggerService,
                 private service: UserNotificationsService) {
+        this.userId = +this.localStorage.retrieve('userId');
     }
 
     ngOnInit(): void {
