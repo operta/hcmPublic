@@ -53,6 +53,7 @@ import {ApplicantsService} from './services/applicants.service';
 import { SettingsComponent } from './components/account/settings/settings.component';
 import { PasswordComponent } from './components/account/password/password.component';
 import {PasswordService} from './services/password.service';
+import {ApplicantConstantsService} from './services/applicant-constants.service';
 
 @NgModule({
     imports: [
@@ -129,7 +130,8 @@ import {PasswordService} from './services/password.service';
         ModalService,
         DmDocumentLinksService,
         RegistersService,
-        PasswordService
+        PasswordService,
+        ApplicantConstantsService
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

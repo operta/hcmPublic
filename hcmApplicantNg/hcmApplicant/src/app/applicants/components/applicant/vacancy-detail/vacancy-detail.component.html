@@ -1,71 +1,44 @@
 <div class="row" *ngIf="vacancy">
-  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mail_listing"
-       style="border-left: none !important">
-    <div class="media m-b-30 p-t-20">
-      <h4 class="font-bold m-t-0">{{vacancy.name}}</h4>
-    </div>
-    <div class="col-xs-12 col-md-12">
-      <div class="col-md-6" *ngIf="vacancy.idLocation">
-        <div class="form-group">
-          <label class="control-label col-md-3">Lokacija:</label> {{vacancy.idLocationName}}
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label class="control-label col-md-3">Od:</label> {{vacancy.dateFrom | date}}
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label class="control-label col-md-3">Do:</label> {{vacancy.dateTo | date}}
-        </div>
-      </div>
-      <div *ngIf="vacancy.jobRole" class="col-md-6">
-        <div class="form-group">
-          <label class="control-label col-md-3">Uloga na poslu:</label> {{vacancy.jobRole}}
-        </div>
-      </div>
-      <div *ngIf="vacancy.jobWorkingTime" class="col-md-6">
-        <div class="form-group">
-          <label class="control-label col-md-3">Radno vrijeme:</label> {{vacancy.jobWorkingTime}}
-        </div>
-      </div>
-      <div *ngIf="vacancy.languageRequirement" class="col-md-6">
-        <div class="form-group">
-          <label class="control-label col-md-3">Potrebni jezici:</label> {{vacancy.languageRequirement}}
-        </div>
-      </div>
-      <div *ngIf="vacancy.educationRequirement" class="col-md-6">
-        <div class="form-group">
-          <label class="control-label col-md-3">Potrebna edukacija</label> {{vacancy.educationRequirement}}
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-12 col-md-12">
-      <hr>
-      <h4>Opis:</h4>
-      {{vacancy.description}}
-    </div>
-
-    <div *ngIf="vacancy.skillsRequirement" class="col-xs-12 col-md-12">
-      <hr>
-      <h4>Potrebne vještine:</h4>
-      {{vacancy.skillsRequirement}}
-    </div>
-
-    <div *ngIf="vacancy.experienceRequirement" class="col-xs-12 col-md-12">
-      <hr>
-      <h4>Potrebno iskustvo:</h4>
-      {{vacancy.experienceRequirement}}
-    </div>
-  </div>
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mail_listing"
+			 style="border-left: none !important">
+		<h2>{{vacancy.idOrganizationName}}</h2>
+		<div class="mt-5"><h2>{{vacancy.name}}</h2></div>
+		<hr />
+		<div class="mt-5">
+			{{oglasParagraf1}}
+		</div>
+		<div class="mt-5">
+			{{oglasParagraf2}}
+		</div>
+		<div class="mt-5">
+			{{oglasParagraf3}}
+		</div>
+		<div class="mt-5">
+			Lokacija
+		</div>
+		<div class="mt-5">
+			{{vacancy.workPlaceName | uppercase}}
+		</div>
+		<div class="mt-5">
+			{{vacancy.description}}
+		</div>
+		<div class="mt-5">
+			<b>Lokacija</b>&nbsp;:&nbsp;<span>Lokacija</span>
+		</div>
+		<div class="mt-3">
+			<b>Datum objave</b>&nbsp;:&nbsp;<span>{{vacancy.dateFrom | date:'dd.MM.yyyy'}}</span>
+		</div>
+		<div class="mt-3">
+			<b>Datum isteka</b>&nbsp;:&nbsp;<span>{{vacancy.dateTo | date:'dd.MM.yyyy'}}</span>
+		</div>
+	</div>
 </div>
-  <div class="row">
-    <div class="col-md-12">
-      <button *ngIf="!canApply" class="btn btn-success btn-rounded pull-right">Prijavljen
-      </button>
-      <button *ngIf="canApply" (click)="apply()"
-              class="btn btn-default btn-rounded pull-right">Prijavi se
-      </button>
-    </div>
-  </div>
+<div class="row">
+	<div class="col-md-12">
+		<button *ngIf="!canApply" class="btn btn-success btn-rounded pull-right">Prijavljen
+		</button>
+		<button *ngIf="canApply" (click)="apply()"
+						class="btn btn-default btn-rounded pull-right">Prijavi se
+		</button>
+	</div>
+</div>
