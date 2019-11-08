@@ -14,7 +14,7 @@
                            [(ngModel)]="school.major" />
                 </div>
                 <div class="form-group col-md-4">
-                    <label class="form-control-label" for="field_qualification">Kvalifikacija*</label>
+                    <label class="form-control-label" for="field_qualification">Stručna sprema*</label>
                     <select name="idqualification" required id="field_qualification" class="form-control" [(ngModel)]="school.idQualifcation">
                         <option [ngValue]="item.id" *ngFor="let item of qualifications$ | async">{{item.name}}</option>
                     </select>
@@ -49,11 +49,18 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-6">
                     <label class="form-control-label"  for="field_description">Opis</label>
                     <input type="text" class="form-control" name="description" id="field_description"
                            [(ngModel)]="school.description" />
                 </div>
+							<div class="form-group col-md-6">
+								<label class="form-control-label"  for="field_description">ECTS Poeni</label>
+								<select name="ects-points" required id="ects-points" class="form-control" [(ngModel)]="school.ectsPoints">
+									<option value="180">180</option>
+									<option value="180">240</option>
+								</select>
+							</div>
             </div>
         </form>
     </modal-content>

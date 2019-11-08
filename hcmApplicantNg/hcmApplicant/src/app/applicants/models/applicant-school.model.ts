@@ -18,6 +18,7 @@ export class AtApplicantsSchools {
     public createdAt?: any,
     public updatedBy?: string,
     public updatedAt?: any,
+    public ectsPoints?: number
   ) {
   }
 }

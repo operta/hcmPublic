@@ -22,12 +22,13 @@
               <span class="form-control-static">{{applicant.name}}</span>
             </div>
           </div>
-          <div *ngIf="applicant.middleName" class="col-md-6">
-            <div class="form-group">
-              <label class="control-label">Srednje ime</label>&nbsp;:&nbsp;
-              <span class="form-control-static">{{applicant.middleName}}</span>
-            </div>
-          </div>
+					<!-- Hidden because in BiH there are no middle names -->
+          <!--<div *ngIf="applicant.middleName" class="col-md-6">-->
+            <!--<div class="form-group">-->
+              <!--<label class="control-label">Srednje ime</label>&nbsp;:&nbsp;-->
+              <!--<span class="form-control-static">{{applicant.middleName}}</span>-->
+            <!--</div>-->
+          <!--</div>-->
           <div *ngIf="applicant.surname" class="col-md-6">
             <div class="form-group">
               <label class="control-label">Prezime</label>&nbsp;:&nbsp;
@@ -40,48 +41,50 @@
               <span class="form-control-static">{{applicant.maidenName}}</span>
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label class="control-label">Spol</label>&nbsp;:&nbsp;
-                <span *ngIf="applicant.gender === 'Male'
-                || applicant.gender === 'M'
-                ||  applicant.gender === 'm'
-                ||  applicant.gender === 'male'"
-                   class="form-control-static">
-                  <span>Muško</span>&nbsp;<i class="fa fa-mars"></i>
-                </span>
-                <span *ngIf="applicant.gender === 'Female'
-                || applicant.gender === 'F'
-                || applicant.gender==='f'
-                || applicant.gender === 'female'"
-                   class="form-control-static">
-                  <span>Žensko</span>&nbsp;<i class="fa fa-venus"></i>
-                </span>
-                <span
-                  *ngIf="applicant.gender !== 'Male'
-                  && applicant.gender !== 'M'
-                  && applicant.gender !== 'm'
-                  && applicant.gender !== 'male'
-                  && applicant.gender !== 'Female'
-                  && applicant.gender !== 'F'
-                  && applicant.gender !== 'f'
-                  && applicant.gender !== 'female'"
-                  class="form-control-static">
-                  <span>Nepoznat</span>
-                </span>
-            </div>
+					<!-- Hidden because of gender equality -->
+          <!--<div class="col-md-6">-->
+            <!--<div class="form-group">-->
+              <!--<label class="control-label">Spol</label>&nbsp;:&nbsp;-->
+                <!--<span *ngIf="applicant.gender === 'Male'-->
+                <!--|| applicant.gender === 'M'-->
+                <!--||  applicant.gender === 'm'-->
+                <!--||  applicant.gender === 'male'"-->
+                   <!--class="form-control-static">-->
+                  <!--<span>Muško</span>&nbsp;<i class="fa fa-mars"></i>-->
+                <!--</span>-->
+                <!--<span *ngIf="applicant.gender === 'Female'-->
+                <!--|| applicant.gender === 'F'-->
+                <!--|| applicant.gender==='f'-->
+                <!--|| applicant.gender === 'female'"-->
+                   <!--class="form-control-static">-->
+                  <!--<span>Žensko</span>&nbsp;<i class="fa fa-venus"></i>-->
+                <!--</span>-->
+                <!--<span-->
+                  <!--*ngIf="applicant.gender !== 'Male'-->
+                  <!--&& applicant.gender !== 'M'-->
+                  <!--&& applicant.gender !== 'm'-->
+                  <!--&& applicant.gender !== 'male'-->
+                  <!--&& applicant.gender !== 'Female'-->
+                  <!--&& applicant.gender !== 'F'-->
+                  <!--&& applicant.gender !== 'f'-->
+                  <!--&& applicant.gender !== 'female'"-->
+                  <!--class="form-control-static">-->
+                  <!--<span>Nepoznat</span>-->
+                <!--</span>-->
+            <!--</div>-->
 
-          </div>
+          <!--</div>-->
           <div *ngIf="applicant.birthdate" class="col-md-6">
             <div class="form-group">
               <label class="control-label">Rođendan</label>&nbsp;:&nbsp;
               <span class="form-control-static">{{applicant.birthdate | date}}</span>
             </div>
           </div>
-          <div *ngIf="applicant.materialStatus" class="col-md-6">
-            <app-marital-status-display [maritalStatus]="applicant.materialStatus"
-                                        [gender]="applicant.gender"></app-marital-status-display>
-          </div>
+					<!-- Hidden due to privacy -->
+          <!--<div *ngIf="applicant.materialStatus" class="col-md-6">-->
+            <!--<app-marital-status-display [maritalStatus]="applicant.materialStatus"-->
+                                        <!--[gender]="applicant.gender"></app-marital-status-display>-->
+          <!--</div>-->
         </div>
       </div>
       <hr>
@@ -105,11 +108,11 @@
       <hr>
       <div class="row mt-5">
         <div class="col-md-12">
-          <span class="pl-2 heading-at font-weight-bold">Kvalifikacija i status zaposlenja</span>
+          <span class="pl-2 heading-at font-weight-bold">Stručna sprema i status zaposlenja</span>
           <div class="col-md-12 mt-4">
             <div *ngIf="applicant.idQualifcation" class="col-md-6">
               <div class="form-group">
-                <label class="control-label">Kvalifikacija&nbsp;:&nbsp;</label>
+                <label class="control-label">Stručna sprema&nbsp;:&nbsp;</label>
                 <span
                   class="form-control-static">{{applicant.idQualificationName}}</span>
               </div>
