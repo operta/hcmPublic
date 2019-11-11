@@ -48,6 +48,7 @@ export class JhiDateUtils {
       } else {
         return date;
       }
+      }
     } else {
       return null;
     }

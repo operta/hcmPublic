@@ -1,16 +1,21 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {RgRegions} from '../../../models/regions.model';
 import {LoggerService} from '../../../../services/logger.service';
 import {RegistersService} from '../../../services/registers.service';
+import {ApplicantConstantsService} from '../../../services/applicant-constants.service';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'app-region-select',
     templateUrl: './region-select.component.html',
 })
-export class RegionSelectComponent implements OnInit {
+export class RegionSelectComponent implements OnInit, OnDestroy {
     @Output('citySelected') lowestLevelSelected: EventEmitter<number> = new EventEmitter<number>();
     @Input() lowestLevelId: number;
     @Input() showOnlyCities = true;
+    private unsubscribe: Subject<void> = new Subject<void>();
+
     allRegions: RgRegions[];
     regionLevels:
         {
@@ -21,11 +26,17 @@ export class RegionSelectComponent implements OnInit {
         }[] = [];
 
     constructor(private registersService: RegistersService,
-                private logger: LoggerService) {
+                private logger: LoggerService,
+                private constantsService: ApplicantConstantsService) {
     }
 
     ngOnInit() {
         this.getRegions();
+    }
+
+    ngOnDestroy(): void {
+        this.unsubscribe.next();
+        this.unsubscribe.complete();
     }
 
     getRegions() {
@@ -36,23 +47,26 @@ export class RegionSelectComponent implements OnInit {
                     this.allRegions = regions;
                     this.regionLevels = [];
                     this.setCityOnHighestLevel();
-                                 }
+                }
             }, (error: any) => this.logger.onError(error)
         );
     }
 
 
     setCityOnHighestLevel() {
-        // TODO unstable
-        const regions: RgRegions[] = this.allRegions.filter((item: RgRegions) => item.idTypeId === 4);
-        if (regions && regions.length > 0) {
-            this.regionLevels.push({
-                regionTypeName: regions[0].idTypeName,
-                regions: regions,
-                position: 1,
-                selectedRegionId: null
+        this.constantsService.findByKey('regionTypeCityId')
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe(res => {
+                const regions: RgRegions[] = this.allRegions.filter((item: RgRegions) => item.idTypeId === +res.value);
+                if (regions && regions.length > 0) {
+                    this.regionLevels.push({
+                        regionTypeName: regions[0].idTypeName,
+                        regions,
+                        position: 1,
+                        selectedRegionId: null
+                    });
+                }
             });
-        }
     }
 
     onItemSelected(selectedRegion: RgRegions, position: number) {

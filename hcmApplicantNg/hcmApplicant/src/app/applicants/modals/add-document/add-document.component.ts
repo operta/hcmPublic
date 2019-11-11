@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ModalService} from '../../services/modal.service';
 import {GenericModalComponent} from '../../components/other/generic-modal/generic-modal.component';
 import {AtApplicantsDocuments} from '../../models/applicant-document.model';
@@ -10,14 +10,18 @@ import {JhiEventManager} from '../../../services/event-manager.service';
 import {JhiDataUtils} from '../../../services/data-utils.service';
 import {DmDocumentLinks} from '../../models/document-link.model';
 import {DmDocumentLinksService} from '../../services/document-links.service';
-import {switchMap} from 'rxjs/operators';
+import {switchMap, takeUntil} from 'rxjs/operators';
+import {ApplicantConstantsService} from '../../services/applicant-constants.service';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'app-add-document',
     templateUrl: './add-document.component.html',
 })
-export class AddDocumentComponent implements OnInit {
+export class AddDocumentComponent implements OnDestroy {
     @ViewChild('modal', {static: true}) modal: GenericModalComponent;
+    private unsubscribe: Subject<void> = new Subject<void>();
+
     document = new AtApplicantsDocuments();
     dmDocumentLinks = new DmDocumentLinks();
 
@@ -27,32 +31,37 @@ export class AddDocumentComponent implements OnInit {
                 private logger: LoggerService,
                 private eventManager: JhiEventManager,
                 private documentLinksService: DmDocumentLinksService,
-                private documentsService: AtApplicantsDocumentsService) {
+                private documentsService: AtApplicantsDocumentsService,
+                private constantsService: ApplicantConstantsService) {
     }
 
-    ngOnInit() {
+    ngOnDestroy(): void {
+        this.unsubscribe.next();
+        this.unsubscribe.complete();
     }
 
     save() {
         this.dmDocumentLinks.documentName = this.document.name;
-        this.documentLinksService.createBlob(this.dmDocumentLinks)
-            .pipe(
-                switchMap((savedLink) => {
-                    this.document.idApplicantId = +this.localStorage.retrieve('applicantId');
-                    this.document.idDocumentLink = savedLink.id;
-                    // TODO unstable
-                    this.document.idDocumentType = 26051;
-                    return this.documentsService.create(this.document);
-                })
-            ).subscribe(
-            () => {
-                this.toastr.success('Dokument uspješno dodan.');
-                this.eventManager.broadcast({name: 'atApplicantsDocumentsListModification'});
-            },
-            (error) => this.logger.onError(error),
-            () => this.modal.onClose()
-        );
-
+        this.constantsService.findByKey('DmDocumentTypeDokumentiZaZaposljavanje')
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe(res => {
+                this.documentLinksService.createBlob(this.dmDocumentLinks)
+                    .pipe(
+                        switchMap((savedLink) => {
+                            this.document.idApplicantId = +this.localStorage.retrieve('applicantId');
+                            this.document.idDocumentLink = savedLink.id;
+                            this.document.idDocumentType = +res.value;
+                            return this.documentsService.create(this.document);
+                        })
+                    ).subscribe(
+                    () => {
+                        this.toastr.success('Dokument uspješno dodan.');
+                        this.eventManager.broadcast({name: 'atApplicantsDocumentsListModification'});
+                    },
+                    (error) => this.logger.onError(error),
+                    () => this.modal.onClose()
+                );
+            });
     }
 
     documentChangeEventHandler(documentObject) {

@@ -1,51 +1,80 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, SimpleChanges} from '@angular/core';
 import {AtApplicantAcc} from '../../../models/applicant-accomplishment.model';
+import {ApplicantConstantsService} from '../../../services/applicant-constants.service';
+import {LoggerService} from '../../../../services/logger.service';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'app-applicant-accomplishments-by-type',
     templateUrl: './applicant-accomplishments-by-type.component.html',
 })
-export class ApplicantAccomplishmentsByTypeComponent implements OnChanges {
+export class ApplicantAccomplishmentsByTypeComponent implements OnChanges, OnDestroy {
     @Input() accomplishments: AtApplicantAcc[];
     @Input() type: string;
+    private unsubscribe: Subject<void> = new Subject<void>();
 
     filteredAccomplishments: AtApplicantAcc[] = [];
     isCollapsed = true;
 
-    constructor() {
+    constructor(
+        private apConstants: ApplicantConstantsService,
+        private logger: LoggerService
+    ) {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        this.filterAccomplishmentsByType(this.type);
+        this.loadFilter(this.type);
     }
 
-    private filterAccomplishmentsByType(type: string) {
-        // TODO unstable
-        if (type == 'Certifications') {
-            if (this.accomplishments) {
-                this.filteredAccomplishments = this.accomplishments.filter((item) => item.idAccomplishmentTypeId == 1);
-            }
-        } else if (type == 'Courses') {
-            if (this.accomplishments) {
-                this.filteredAccomplishments = this.accomplishments.filter((item) => item.idAccomplishmentTypeId == 2);
-            }
-        } else if (type == 'HonorsandAwards') {
-            if (this.accomplishments) {
-                this.filteredAccomplishments = this.accomplishments.filter((item) => item.idAccomplishmentTypeId == 3);
-            }
-        } else if (type == 'Languages') {
-            if (this.accomplishments) {
-                this.filteredAccomplishments = this.accomplishments.filter((item) => item.idAccomplishmentTypeId == 4);
-            }
-        } else if (type == 'Projects') {
-            if (this.accomplishments) {
-                this.filteredAccomplishments = this.accomplishments.filter((item) => item.idAccomplishmentTypeId == 5);
-            }
-        } else if (type == 'Publications') {
-            if (this.accomplishments) {
-                this.filteredAccomplishments = this.accomplishments.filter((item) => item.idAccomplishmentTypeId == 6);
-            }
+    ngOnDestroy(): void {
+        this.unsubscribe.next();
+        this.unsubscribe.complete();
+    }
+
+    loadFilter(type: string) {
+        if (type === 'Certifications') {
+            this.apConstants.findByKey('applicantAccomplishmentsByTypeCertifications')
+                .pipe(takeUntil(this.unsubscribe))
+                .subscribe(res => {
+                    this.filterAccomplishmentsByType(+res.value);
+                }, err => this.logger.onError(err));
+        } else if (type === 'Courses') {
+            this.apConstants.findByKey('applicantAccomplishmentsByTypeCourses')
+                .pipe(takeUntil(this.unsubscribe))
+                .subscribe(res => {
+                    this.filterAccomplishmentsByType(+res.value);
+                }, err => this.logger.onError(err));
+        } else if (type === 'HonorsandAwards') {
+            this.apConstants.findByKey('applicantAccomplishmentsByTypeHonorsandAwards')
+                .pipe(takeUntil(this.unsubscribe))
+                .subscribe(res => {
+                    this.filterAccomplishmentsByType(+res.value);
+                }, err => this.logger.onError(err));
+        } else if (type === 'Languages') {
+            this.apConstants.findByKey('applicantAccomplishmentsByTypeLanguages')
+                .pipe(takeUntil(this.unsubscribe))
+                .subscribe(res => {
+                    this.filterAccomplishmentsByType(+res.value);
+                }, err => this.logger.onError(err));
+        } else if (type === 'Projects') {
+            this.apConstants.findByKey('applicantAccomplishmentsByTypeProjects')
+                .pipe(takeUntil(this.unsubscribe))
+                .subscribe(res => {
+                    this.filterAccomplishmentsByType(+res.value);
+                }, err => this.logger.onError(err));
+        } else if (type === 'Publications') {
+            this.apConstants.findByKey('applicantAccomplishmentsByTypePublications')
+                .pipe(takeUntil(this.unsubscribe))
+                .subscribe(res => {
+                    this.filterAccomplishmentsByType(+res.value);
+                }, err => this.logger.onError(err));
         }
     }
 
+    private filterAccomplishmentsByType(typeId: number) {
+        if (this.accomplishments) {
+            this.filteredAccomplishments = this.accomplishments.filter((item) => item.idAccomplishmentTypeId === typeId);
+        }
+    }
 }
