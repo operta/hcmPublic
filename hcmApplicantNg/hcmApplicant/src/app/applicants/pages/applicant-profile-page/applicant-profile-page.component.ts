@@ -16,10 +16,12 @@ export class ApplicantProfilePageComponent implements OnInit, OnDestroy {
 
   constructor(private activatedRoute: ActivatedRoute, private eventManager: JhiEventManager,
               private applicantsService: ApplicantsService) {
+    console.log('in applicant')
     this.applicant$ = of(this.activatedRoute.snapshot.data.applicant);
   }
 
   ngOnInit() {
+    console.log('in applicants')
     this.registerChangeInAtApplicants();
   }
 

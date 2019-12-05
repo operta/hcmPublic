@@ -6,6 +6,7 @@ import {ToastrService} from 'ngx-toastr';
 import {ApplicantConstantsService} from '../../../services/applicant-constants.service';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-vacancy-detail',
@@ -14,6 +15,7 @@ import {Subject} from 'rxjs';
 export class VacancyDetailComponent implements OnInit {
     @Input() vacancy: AtVacancies;
     @Input() canApply: boolean;
+    @Input() noAuth: boolean;
     private unsubscribe: Subject<void> = new Subject<void>();
 
     oglasParagraf1: string;
@@ -23,12 +25,14 @@ export class VacancyDetailComponent implements OnInit {
     constructor(private service: AtJobApplicationsService,
                 private logger: LoggerService,
                 private toastr: ToastrService,
-                private constantsService: ApplicantConstantsService
+                private constantsService: ApplicantConstantsService,
+                private router: Router
     ) {
     }
 
     ngOnInit(): void {
-        this.loadParagraphs();
+        // disabled because no auth access could compromise security
+        // this.loadParagraphs();
     }
 
     loadParagraphs() {
@@ -62,6 +66,11 @@ export class VacancyDetailComponent implements OnInit {
                 },
                 (error) => this.logger.onError(error)
             );
+    }
+
+    applyNoAuth() {
+        // this.router.navigate(['/no-auth-apply/' + this.vacancy.id]);
+        this.router.navigate(['/register']);
     }
 
 }

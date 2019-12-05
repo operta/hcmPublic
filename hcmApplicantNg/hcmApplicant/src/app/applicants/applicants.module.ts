@@ -50,8 +50,8 @@ import {RegionSelectComponent} from './components/other/region-select/region-sel
 import {NgSelectModule} from '@ng-select/ng-select';
 import {RegistersService} from './services/registers.service';
 import {ApplicantsService} from './services/applicants.service';
-import { SettingsComponent } from './components/account/settings/settings.component';
-import { PasswordComponent } from './components/account/password/password.component';
+import {SettingsComponent} from './components/account/settings/settings.component';
+import {PasswordComponent} from './components/account/password/password.component';
 import {PasswordService} from './services/password.service';
 import {ApplicantConstantsService} from './services/applicant-constants.service';
 
@@ -106,7 +106,7 @@ import {ApplicantConstantsService} from './services/applicant-constants.service'
         DocumentBlobInputComponent,
         RegionSelectComponent,
         SettingsComponent,
-        PasswordComponent,
+        PasswordComponent
     ],
     entryComponents: [
         GenericModalComponent,

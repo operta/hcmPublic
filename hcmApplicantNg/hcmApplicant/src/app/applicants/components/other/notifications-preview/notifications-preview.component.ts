@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit} from '@angular/core';
 import {LocalStorageService} from 'ngx-webstorage';
 import {UserNotifications} from '../../../models/user-notifications.model';
 import {map} from 'rxjs/operators';
@@ -12,7 +12,7 @@ import {LoggerService} from '../../../../services/logger.service';
     templateUrl: './notifications-preview.component.html',
     styleUrls: ['./notifications-preview.component.css']
 })
-export class NotificationsPreviewComponent implements OnInit {
+export class NotificationsPreviewComponent implements OnChanges {
 
     userNotifications$: Observable<UserNotifications[]>;
     userId: number;
@@ -20,11 +20,15 @@ export class NotificationsPreviewComponent implements OnInit {
     constructor(private localStorage: LocalStorageService,
                 private logger: LoggerService,
                 private service: UserNotificationsService) {
-        this.userId = +this.localStorage.retrieve('userId');
+
     }
 
-    ngOnInit(): void {
-        this.loadNotifications();
+    ngOnChanges(): void {
+        this.userId = +this.localStorage.retrieve('userId');
+        if (this.userId) {
+            this.loadNotifications();
+        }
+
     }
 
 

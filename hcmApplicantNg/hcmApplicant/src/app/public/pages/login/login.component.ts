@@ -25,6 +25,7 @@ export class LoginComponent {
   ) {
 
     this.credentials = {};
+    this.loginService.logout();
   }
 
   login() {

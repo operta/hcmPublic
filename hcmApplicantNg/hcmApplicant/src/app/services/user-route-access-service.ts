@@ -35,8 +35,8 @@ export class UserRouteAccessService implements CanActivate {
         });
       }
 
-      this.router.navigate(['/']);
+      this.router.navigateByUrl('/login');
       return false;
-    }));
+    }).catch(() =>   this.router.navigateByUrl('/login')));
   }
 }

@@ -9,10 +9,12 @@ import {AtVacancies} from '../../models/vacancy.model';
 export class VacancyDetailPageComponent {
   vacancy: AtVacancies;
   canApply: boolean;
+  noAuth: boolean;
 
   constructor(private activatedRoute: ActivatedRoute) {
     this.vacancy = this.activatedRoute.snapshot.data.vacancy;
     this.canApply = this.activatedRoute.snapshot.data.canApply;
+    this.noAuth = this.activatedRoute.snapshot.data.noAuth;
   }
 
 }

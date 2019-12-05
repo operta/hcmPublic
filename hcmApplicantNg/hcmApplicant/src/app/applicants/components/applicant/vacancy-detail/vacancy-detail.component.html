@@ -5,13 +5,13 @@
 		<div class="mt-5"><h2>{{vacancy.name}}</h2></div>
 		<hr />
 		<div class="mt-5">
-			{{oglasParagraf1}}
+			Mikrokreditno društvo Eki zajedno sa Mikrokreditnom fondacijom Eki kao lideri u mikrokreditiranju znaju da pravi pristup poslu znači donijeti posao tamo gdje je najpotrebniji - do samog klijenta. Poslovanjem na ovaj način smo postali dio zajednice u kojoj radimo i taj status čuvamo i vrijednujemo.
 		</div>
 		<div class="mt-5">
-			{{oglasParagraf2}}
+			Odgovornost u radu je najbolji način da pokažemo da smo socijalno osviješćena organizacija, a nadogradnja poslovanja u Mikrokreditno društvo Eki, uz preko 20 godina predanog rada i preko 42 000 aktivnih klijenata Mikrokreditne fondacije Eki potvrđuju da smo na pravom putu.
 		</div>
 		<div class="mt-5">
-			{{oglasParagraf3}}
+			Građenje partnerskih odnosa među zaposlenima u Ekiju i sa našim klijentima je naše opredjeljenje i svaki naš korak vodi u tom pravcu.
 		</div>
 		<div class="mt-5">
 			Lokacija
@@ -35,10 +35,18 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<button *ngIf="!canApply" class="btn btn-success btn-rounded pull-right">Prijavljen
-		</button>
-		<button *ngIf="canApply" (click)="apply()"
-						class="btn btn-default btn-rounded pull-right">Prijavi se
-		</button>
+		<ng-container *ngIf="!noAuth; else noAuthApply">
+			<button *ngIf="!canApply" class="btn btn-success btn-rounded pull-right">Prijavljen
+			</button>
+			<button *ngIf="canApply" (click)="apply()"
+					class="btn btn-default btn-rounded pull-right">Prijavi se
+			</button>
+		</ng-container>
+		<ng-template #noAuthApply>
+			<button (click)="applyNoAuth()"
+					class="btn btn-default btn-rounded pull-right">Prijavi se
+			</button>
+		</ng-template>
+
 	</div>
 </div>

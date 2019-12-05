@@ -18,6 +18,8 @@ import { NotFoundComponent } from './public/pages/not-found/not-found.component'
 import { ActivateComponent } from './public/pages/activate/activate.component';
 import {PasswordResetFinishComponent} from './public/pages/password-reset-finish/password-reset-finish.component';
 import {PasswordResetInitComponent} from './public/pages/password-reset-init/password-reset-init.component';
+import {NoAuthApplyPageComponent} from './public/pages/no-auth-apply-page/no-auth-apply-page.component';
+import {ApplicantsService} from './applicants/services/applicants.service';
 
 @NgModule({
     declarations: [
@@ -28,7 +30,8 @@ import {PasswordResetInitComponent} from './public/pages/password-reset-init/pas
         NotFoundComponent,
         ActivateComponent,
         PasswordResetFinishComponent,
-        PasswordResetInitComponent
+        PasswordResetInitComponent,
+        NoAuthApplyPageComponent
     ],
     imports: [
         BrowserModule,
@@ -44,7 +47,7 @@ import {PasswordResetInitComponent} from './public/pages/password-reset-init/pas
         LoadingBarHttpClientModule,
         LoadingBarRouterModule
     ],
-    providers: [],
+    providers: [ApplicantsService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -21,6 +21,11 @@ export class ApplicantsService {
         return this.http.post<AtApplicants>(this.resourceUrl, copy);
     }
 
+    createNoAuth(applicant: AtApplicants, vacancyId: number): Observable<AtApplicants> {
+        const copy: AtApplicants = Object.assign({}, applicant);
+        return this.http.post<AtApplicants>(`${this.resourceUrl}/${vacancyId}`, copy);
+    }
+
     update(applicant: AtApplicants): Observable<AtApplicants> {
         const copy: AtApplicants = Object.assign({}, applicant);
         return this.http.put<AtApplicants>(this.resourceUrl, copy);
@@ -28,6 +33,7 @@ export class ApplicantsService {
 
     findByUserId(): Observable<AtApplicants> {
         const userId = +this.localStorage.retrieve('userId');
+        console.log('userId' + userId);
         if (userId) {
             return this.http.get<AtApplicants>(this.resourceUrl + '/user/' + userId)
                 .pipe(tap(item => this.localStorage.store('applicantId', item.id)));

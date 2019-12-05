@@ -21,6 +21,8 @@ import {EditApplicantPopupComponent} from './modals/edit-applicant/edit-applican
 import {AddDocumentPopupComponent} from './modals/add-document/add-document.component';
 import {SettingsComponent} from './components/account/settings/settings.component';
 import {PasswordComponent} from './components/account/password/password.component';
+import {UserRouteAccessService} from '../services/user-route-access-service';
+import {NoAuthApplyPageComponent} from '../public/pages/no-auth-apply-page/no-auth-apply-page.component';
 
 
 @Injectable()
@@ -34,13 +36,13 @@ export class ApplicantResolver implements Resolve<AtApplicants> {
             .pipe(
                 tap((value) => {
                     if (!value) {
-                        this.router.navigate(['/404']);
+                        this.router.navigate(['/login']);
                         return of(null);
                     }
                 }),
                 catchError(
                     (error) => {
-                        this.router.navigate(['/404']);
+                        this.router.navigate(['/login']);
                         return of(null);
                     }
                 ));
@@ -80,7 +82,7 @@ export class AppliedVacanciesResolver implements Resolve<AtVacancies[]> {
             .pipe(
                 catchError(
                     (error) => {
-                        // this.router.navigate(['/404']);
+                        // this.router.navigate(['']);
                         return of(null);
                     }
                 )
@@ -126,7 +128,7 @@ export class CanApplicantApplyResolver implements Resolve<boolean> {
         if (vacancyId) {
             return this.jApplicationsService.checkIfApplicantApplied(vacancyId).pipe(map(value => !value.applied));
         } else {
-            // this.router.navigate(['/404']);
+            // this.router.navigate(['/login']);
             return of(false);
         }
     }
@@ -138,7 +140,7 @@ const applicantRoutes: Routes = [{
     component: DashboardComponent,
     children: [
         {
-            path: 'applicant-profile/:userId',
+            path: 'applicant-profile',
             component: ApplicantProfilePageComponent,
             resolve: {
                 applicant: ApplicantResolver
@@ -176,7 +178,8 @@ const applicantRoutes: Routes = [{
                         applicant: ApplicantResolver
                     }
                 },
-            ]
+            ],
+            canActivate: [UserRouteAccessService]
         }, {
             path: 'vacancies',
             component: VacanciesPageComponent,
@@ -192,23 +195,37 @@ const applicantRoutes: Routes = [{
             }
         },
         {
+            path: 'vacancy-detail-no-auth/:id',
+            component: VacancyDetailPageComponent,
+            data: {
+                noAuth: true
+            },
+            resolve: {
+                vacancy: VacancyResolver
+            }
+        },
+        {
             path: 'job-applications',
             component: JobApplicationsPageComponent,
             resolve: {
                 appliedVacancies: AppliedVacanciesResolver
-            }
+            },
+            canActivate: [UserRouteAccessService]
         },
         {
             path: 'user-notifications',
             component: UserNotificationsPageComponent,
+            canActivate: [UserRouteAccessService]
         },
         {
             path: 'settings',
-            component: SettingsComponent
+            component: SettingsComponent,
+            canActivate: [UserRouteAccessService]
         },
         {
             path: 'password',
-            component: PasswordComponent
+            component: PasswordComponent,
+            canActivate: [UserRouteAccessService]
         },
         {
             path: '**',

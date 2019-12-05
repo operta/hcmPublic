@@ -1,0 +1,72 @@
+<section id="wrapper" class="login-register" style="position: absolute; height: auto; overflow-y:auto">
+    <div class="registerBox login-shadow add-transparency">
+        <div class="white-box">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <h1>Prijava na oglas {{vacancyId}}</h1>
+
+                    <div class="alert alert-danger" *ngIf="errorEmailExists">
+                        <strong>Email već postoji!</strong>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <form name="form" role="form" (ngSubmit)="apply()" #registerForm="ngForm" *ngIf="!success">
+                        <div class="form-group">
+                            <label class="form-control-label">Ime</label>
+                            <input type="text" class="form-control" name="firstName" #firstNameInput="ngModel"
+                                   [(ngModel)]="applicant.name" maxlength="50" required>
+
+                            <div *ngIf="firstNameInput.dirty && firstNameInput.invalid">
+                                <small class="form-text text-danger"
+                                       *ngIf="firstNameInput.errors.maxlength">
+                                    Ime ne može sadržati više od 50 karaktera.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Prezime</label>
+                            <input type="text" class="form-control" name="lastName" #lastNameInput="ngModel"
+                                   [(ngModel)]="applicant.surname" maxlength="50" required>
+
+                            <div *ngIf="lastNameInput.dirty && lastNameInput.invalid">
+                                <small class="form-text text-danger"
+                                       *ngIf="lastNameInput.errors.maxlength">
+                                    Prezime ne može sadržati više od 50 karaktera.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" #email="ngModel"
+                                   [(ngModel)]="applicant.email" minlength=5 maxlength=100 email required>
+                            <div *ngIf="email.dirty && email.invalid">
+                                <small class="form-text text-danger" *ngIf="email.errors.required">
+                                    Email je potreban.
+                                </small>
+                                <small class="form-text text-danger" *ngIf="email.errors.invalid">
+                                    Email je nevalidan.
+                                </small>
+                                <small class="form-text text-danger" *ngIf="email.errors.minlength">
+                                    Email mora sadržati bar 5 karaktera.
+                                </small>
+                                <small class="form-text text-danger" *ngIf="email.errors.maxlength">
+                                    Email ne može sadržati više od 50 karaktera.
+                                </small>
+                            </div>
+                        </div>
+
+
+                        <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light m-b-10 m-t-10"
+                                [disabled]="registerForm.form.invalid"
+                                type="submit">Prijavi se
+                        </button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

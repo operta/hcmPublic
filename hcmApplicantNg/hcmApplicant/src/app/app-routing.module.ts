@@ -1,17 +1,21 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {LoginComponent} from './public/pages/login/login.component';
-import {UserRouteAccessService} from './services/user-route-access-service';
 import {RegisterComponent} from './public/pages/register/register.component';
 import {NotFoundComponent} from './public/pages/not-found/not-found.component';
 import {ActivateComponent} from './public/pages/activate/activate.component';
 import {PasswordResetFinishComponent} from './public/pages/password-reset-finish/password-reset-finish.component';
 import {PasswordResetInitComponent} from './public/pages/password-reset-init/password-reset-init.component';
-
+import {NoAuthApplyPageComponent} from './public/pages/no-auth-apply-page/no-auth-apply-page.component';
 
 const routes: Routes = [
   {
     path: '',
+    redirectTo: '/dashboard',
+    pathMatch: 'full'
+  },
+  {
+    path: 'login',
     component: LoginComponent
   },
   {
@@ -33,7 +37,10 @@ const routes: Routes = [
   {
     path: 'dashboard',
     loadChildren: './applicants/applicants.module#ApplicantsModule',
-    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'no-auth-apply/:vacancyId',
+    component: NoAuthApplyPageComponent,
   },
   {
     path: '404',
@@ -42,7 +49,7 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: '404'
-  }
+  },
 
 ];
 
