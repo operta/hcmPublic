@@ -1,1 +1,21 @@
-<p>activate works!</p>
+<section id="wrapper" class="login-register" style="position: absolute; height: 100%; overflow-y:auto">
+    <div class="registerBox login-shadow add-transparency">
+        <div class="white-box">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <h1>Aktivacija</h1>
+
+                    <div class="alert alert-success" *ngIf="success">
+                        <span><strong>Vaš račun je aktiviran. </strong></span>
+                        <a class="alert-link" (click)="login()" >&nbsp;Prijavi se</a>
+                    </div>
+
+                    <div class="alert alert-danger" *ngIf="error">
+                        <strong>Vaš račun nije mogao biti aktiviran</strong> Registrujte se ponovo
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
