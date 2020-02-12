@@ -21,7 +21,6 @@
                            for="field_idQualifcation">Stručna sprema</label>
                     <select class="form-control" name="idQualifcation" id="field_idQualifcation"
                             [(ngModel)]="applicant.idQualifcation" required>
-                        <option [ngValue]="null"></option>
                         <option [ngValue]="qualification.id"
                                 *ngFor="let qualification of qualifications$ | async">
                             {{qualification.name}}

@@ -33,7 +33,6 @@ export class ApplicantsService {
 
     findByUserId(): Observable<AtApplicants> {
         const userId = +this.localStorage.retrieve('userId');
-        console.log('userId' + userId);
         if (userId) {
             return this.http.get<AtApplicants>(this.resourceUrl + '/user/' + userId)
                 .pipe(tap(item => this.localStorage.store('applicantId', item.id)));

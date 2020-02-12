@@ -14,12 +14,18 @@ import {LoadingBarHttpClientModule} from '@ngx-loading-bar/http-client';
 import {LoadingBarRouterModule} from '@ngx-loading-bar/router';
 import {RegisterComponent} from './public/pages/register/register.component';
 import {PasswordStrengthBarComponent} from './public/components/password-strength-bar/password-strenght-bar';
-import { NotFoundComponent } from './public/pages/not-found/not-found.component';
-import { ActivateComponent } from './public/pages/activate/activate.component';
+import {NotFoundComponent} from './public/pages/not-found/not-found.component';
+import {ActivateComponent} from './public/pages/activate/activate.component';
 import {PasswordResetFinishComponent} from './public/pages/password-reset-finish/password-reset-finish.component';
 import {PasswordResetInitComponent} from './public/pages/password-reset-init/password-reset-init.component';
 import {NoAuthApplyPageComponent} from './public/pages/no-auth-apply-page/no-auth-apply-page.component';
 import {ApplicantsService} from './applicants/services/applicants.service';
+import {RegistersService} from './applicants/services/registers.service';
+import {RegionSelectComponent} from './applicants/components/other/region-select/region-select.component';
+import {NgSelectModule} from '@ng-select/ng-select';
+import {ApplicantConstantsService} from './applicants/services/applicant-constants.service';
+import {AtApplicantsExperienceService} from './applicants/services/applicant-experience.service';
+import {AtApplicantsSchoolsService} from './applicants/services/applicant-schools.service';
 
 @NgModule({
     declarations: [
@@ -31,7 +37,8 @@ import {ApplicantsService} from './applicants/services/applicants.service';
         ActivateComponent,
         PasswordResetFinishComponent,
         PasswordResetInitComponent,
-        NoAuthApplyPageComponent
+        NoAuthApplyPageComponent,
+        RegionSelectComponent,
     ],
     imports: [
         BrowserModule,
@@ -45,9 +52,16 @@ import {ApplicantsService} from './applicants/services/applicants.service';
         AppRoutingModule,
         InterceptorsModule.forRoot(),
         LoadingBarHttpClientModule,
-        LoadingBarRouterModule
+        LoadingBarRouterModule,
+        NgSelectModule
     ],
-    providers: [ApplicantsService],
+    providers: [
+        ApplicantsService,
+        RegistersService,
+        ApplicantConstantsService,
+        AtApplicantsExperienceService,
+        AtApplicantsSchoolsService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -69,8 +69,7 @@ export class VacancyDetailComponent implements OnInit {
     }
 
     applyNoAuth() {
-        // this.router.navigate(['/no-auth-apply/' + this.vacancy.id]);
-        this.router.navigate(['/register']);
+        this.router.navigate(['/no-auth-apply/' + this.vacancy.id]);
     }
 
 }

@@ -20,7 +20,17 @@ const routes: Routes = [
   },
   {
     path: 'register',
-    component: RegisterComponent
+    component: RegisterComponent,
+    data: {
+      email: false
+    }
+  },
+  {
+    path: 'register-with-email',
+    component: RegisterComponent,
+    data: {
+      email: true
+    }
   },
   {
     path: 'activate',
