@@ -17,6 +17,7 @@ export class AtJobApplicationsService {
   }
 
   addJobApplication(vacancyId: number): Observable<AtJobApplications> {
+    this.userId = +this.localStorage.retrieve('userId');
     return this.http.post<AtJobApplications>(`${this.resourceUrl}/vacancy/${vacancyId}/user/${this.userId}`, null);
   }
 
