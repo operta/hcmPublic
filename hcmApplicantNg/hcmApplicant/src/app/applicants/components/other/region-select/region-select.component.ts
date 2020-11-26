@@ -66,7 +66,23 @@ export class RegionSelectComponent implements OnInit, OnDestroy {
                         selectedRegionId: null
                     });
                 }
+                this.prepopulateSelectedCity();
             });
+    }
+
+    private prepopulateSelectedCity() {
+        if (this.lowestLevelId) {
+            const city = this.allRegions.find((r) => r.id === this.lowestLevelId);
+            const regionTypeName = this.regionLevels.find((rl) => rl.regionTypeName === city.idTypeName);
+            this.regionLevels.forEach((rl) => {
+                if (rl.regionTypeName === regionTypeName.regionTypeName) {
+                    const region = rl.regions.find((region) => region.id === city.id);
+                    if (region) {
+                        rl.selectedRegionId = this.lowestLevelId;
+                    }
+                }
+            })
+        }
     }
 
     onItemSelected(selectedRegion: RgRegions, position: number) {

@@ -3,6 +3,10 @@
 @import "assets/css/bootstrap-extension.css";
 @import "assets/css/style.css";
 @import "assets/css/custom.css";
-@import '~ngx-toastr/toastr.css';
-@import 'assets/css/colors.css';
+@import "~ngx-toastr/toastr.css";
+@import "assets/css/colors.css";
 @import "~@ng-select/ng-select/themes/default.theme.css";
+
+.swal2-popup {
+	font-size: 14px !important;
+}

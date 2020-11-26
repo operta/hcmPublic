@@ -11,6 +11,7 @@ export class VacancyService {
   private _loadedVacancies: AtVacancies[];
   private userId: number;
   private resourceUrl = SERVER_API_URL + 'api/at-vacancies';
+  private _vacancyOnWhichUserIsApplying: string;
 
   constructor(private http: HttpClient, private localStorage: LocalStorageService) {
     this.userId = +this.localStorage.retrieve('userId');
@@ -18,6 +19,14 @@ export class VacancyService {
 
   get loadedVacancies(): AtVacancies[] {
     return this._loadedVacancies;
+  }
+
+  get vacancyOnWhichUserIsApplying(): string {
+    return this._vacancyOnWhichUserIsApplying;
+  }
+
+  set vacancyOnWhichUserIsApplying(name: string) {
+    this._vacancyOnWhichUserIsApplying = name;
   }
 
   getVacanciesVisibleToApplicant(): Observable<AtVacancies[]> {

@@ -27,7 +27,6 @@ import {ApplicantAccomplishmentsByTypeComponent} from './components/applicant/ap
 import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 import {VacanciesPageComponent} from './pages/vacancies-page/vacancies-page.component';
 import {JobApplicationsPageComponent} from './pages/job-applications-page/job-applications-page.component';
-import {VacancyService} from './services/vacancy.service';
 import {VacancyDetailComponent} from './components/applicant/vacancy-detail/vacancy-detail.component';
 import {VacancyOverviewComponent} from './components/applicant/vacancy-overview/vacancy-overview.component';
 import {VacancyDetailPageComponent} from './pages/vacancy-detail-page/vacancy-detail-page.component';
@@ -123,7 +122,6 @@ import {ApplicantConstantsService} from './services/applicant-constants.service'
         AtApplicantsDocumentsService,
         AtApplicantsContactsService,
         AtApplicantAccService,
-        VacancyService,
         AtJobApplicationsService,
         UserNotificationsService,
         ModalService,

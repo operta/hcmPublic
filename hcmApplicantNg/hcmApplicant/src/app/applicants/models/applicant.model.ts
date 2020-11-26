@@ -28,7 +28,8 @@ export class AtApplicants {
     public updatedAt?: any,
     public imageBlob?: any,
     public imageBlobContentType?: string,
-    public driverLicence?: string
+    public driverLicence?: string,
+    public isBlacklisted?: string
   ) {
   }
 }

@@ -26,6 +26,8 @@ import {NgSelectModule} from '@ng-select/ng-select';
 import {ApplicantConstantsService} from './applicants/services/applicant-constants.service';
 import {AtApplicantsExperienceService} from './applicants/services/applicant-experience.service';
 import {AtApplicantsSchoolsService} from './applicants/services/applicant-schools.service';
+import { VacancyService } from './applicants/services/vacancy.service';
+import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     declarations: [
@@ -53,14 +55,16 @@ import {AtApplicantsSchoolsService} from './applicants/services/applicant-school
         InterceptorsModule.forRoot(),
         LoadingBarHttpClientModule,
         LoadingBarRouterModule,
-        NgSelectModule
+        NgSelectModule,
+        NgbProgressbarModule
     ],
     providers: [
         ApplicantsService,
         RegistersService,
         ApplicantConstantsService,
         AtApplicantsExperienceService,
-        AtApplicantsSchoolsService
+        AtApplicantsSchoolsService,
+        VacancyService
     ],
     bootstrap: [AppComponent]
 })
