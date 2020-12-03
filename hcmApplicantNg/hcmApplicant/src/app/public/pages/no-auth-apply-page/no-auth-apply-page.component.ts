@@ -80,6 +80,13 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
 		this.qualifications$ = this.registersService.getQualifications();
 	}
 
+	toggleWorkExperience() {
+		this.hasWorkExperience = !this.hasWorkExperience;
+		if (this.hasWorkExperience) {
+			this.resetWorkExperiences();
+		}
+	}
+
 	apply() {
 		this.applicant.phoneNumber = this.applicant.phoneNumber.toString();
 		this.applicantsService
@@ -103,16 +110,19 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
 					return this.schoolsService.create(this.school);
 				})
 			)
-			.subscribe(() => {
-				this.showSwalert(
-					"Email za aktivaciju profila je poslan na Vašu email adresu.",
-					"success",
-					"Prijava uspjela"
-				);
-				this.router.navigate(['/']);
-			}, (error) => {
-				console.log(error);
-			});
+			.subscribe(
+				() => {
+					this.showSwalert(
+						"Email za aktivaciju profila je poslan na Vašu email adresu.",
+						"success",
+						"Prijava uspjela"
+					);
+					this.router.navigate(["/"]);
+				},
+				(error) => {
+					console.log(error);
+				}
+			);
 	}
 
 	onCitySelected(regionId: number) {
@@ -147,7 +157,7 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
 				confirmButtonText: "Dodaj",
 				showLoaderOnConfirm: true,
 				preConfirm: (name) => {
-					return this.schoolCreated({name: name})
+					return this.schoolCreated({ name: name });
 				},
 				allowOutsideClick: () => !Swal.isLoading(),
 			}).then((result) => {
@@ -171,8 +181,11 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
 		const novaSkolaOption = document.createElement("option");
 
 		// Stvori random id
-		const c = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-		novaSkolaOption.value = [...Array(5)].map(_ => c[~~(Math.random()*c.length)]).join('');
+		const c =
+			"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		novaSkolaOption.value = [...Array(5)]
+			.map((_) => c[~~(Math.random() * c.length)])
+			.join("");
 		novaSkolaOption.text = school.name;
 		skolaSelectElement.appendChild(novaSkolaOption);
 		skolaSelectElement.value = novaSkolaOption.value;

@@ -354,12 +354,7 @@
 										id="iskustvo"
 										type="checkbox"
 										[checked]="hasWorkExperience"
-										(change)="
-											hasWorkExperience = !hasWorkExperience;
-											hasWorkExperience
-												? resetWorkExperiences()
-												: return
-										"
+										(change)="toggleWorkExperience()"
 									/>
 									<label for="iskustvo"
 										>Imam radno iskustvo</label
@@ -541,7 +536,7 @@
 									/>
 								</div>
 							</div>
-							<hr>
+							<hr />
 							<div class="col-3 pl-0">
 								<button
 									type="button"
@@ -557,11 +552,10 @@
 							<div class="col-9 pr-0">
 								<button
 									type="submit"
-									class="btn btn-primary text-uppercase btn-block waves-effect waves-light"								>
+									class="btn btn-primary text-uppercase btn-block waves-effect waves-light"
+								>
 									PRIJAVI SE
-									<span
-										class="ml-1 fa fa-fw fa-check"
-									></span>
+									<span class="ml-1 fa fa-fw fa-check"></span>
 								</button>
 							</div>
 						</div>
