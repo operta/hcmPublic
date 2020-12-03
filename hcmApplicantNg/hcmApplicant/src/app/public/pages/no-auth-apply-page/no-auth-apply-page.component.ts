@@ -1,16 +1,16 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {AtApplicants} from "../../../applicants/models/applicant.model";
-import {ApplicantsService} from "../../../applicants/services/applicants.service";
-import {RegistersService} from "../../../applicants/services/registers.service";
-import {forkJoin, Observable, of} from "rxjs";
-import {AtApplicantsSchools} from "../../../applicants/models/applicant-school.model";
-import {AtApplicantsExperience} from "../../../applicants/models/applicant-experience.model";
-import {switchMap} from "rxjs/operators";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { AtApplicants } from "../../../applicants/models/applicant.model";
+import { ApplicantsService } from "../../../applicants/services/applicants.service";
+import { RegistersService } from "../../../applicants/services/registers.service";
+import { forkJoin, Observable, of } from "rxjs";
+import { AtApplicantsSchools } from "../../../applicants/models/applicant-school.model";
+import { AtApplicantsExperience } from "../../../applicants/models/applicant-experience.model";
+import { switchMap } from "rxjs/operators";
 import Swal from "sweetalert2";
-import {AtApplicantsExperienceService} from "../../../applicants/services/applicant-experience.service";
-import {AtApplicantsSchoolsService} from "../../../applicants/services/applicant-schools.service";
-import {VacancyService} from "src/app/applicants/services/vacancy.service";
+import { AtApplicantsExperienceService } from "../../../applicants/services/applicant-experience.service";
+import { AtApplicantsSchoolsService } from "../../../applicants/services/applicant-schools.service";
+import { VacancyService } from "src/app/applicants/services/vacancy.service";
 
 @Component({
 	selector: "app-no-auth-apply",
@@ -104,8 +104,7 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
 			return this.schoolsService.create(this.school);
 		})
 	)
-	.
-		subscribe(() => {
+	.subscribe(() => {
 			this.showSwalert(
 				"Email za aktivaciju profila je poslan na Vašu email adresu.",
 				"success",
@@ -177,14 +176,7 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
 	private schoolCreated(school: { id: number; name: string }) {
 		this.school.idSchool = school.id;
 		this.school.idSchoolName = school.name;
-	private
-		schoolCreated(school
-	:
-		{
-			name: string
-		}
-	)
-		{
+	private schoolCreated(school: { name: string }) {
 			this.school.school = school.name;
 			const skolaSelectElement = <HTMLSelectElement>(
 				document.getElementById("field_idschool")
@@ -194,7 +186,7 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
 
 			// Stvori random id
 			const c = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-			novaSkolaOption.value = [...Array(5)].map(_ => c[~~(Math.random() * c.length)]).join('');
+			novaSkolaOption.value = [...Array(5)].map(_ => c[~~(Math.random()*c.length)]).join('');
 			novaSkolaOption.text = school.name;
 			skolaSelectElement.appendChild(novaSkolaOption);
 			skolaSelectElement.value = novaSkolaOption.value;
@@ -204,15 +196,13 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
 		}
 
 		// Funkcije za korake
-		goToOsnovniPodaci()
-		{
+		goToOsnovniPodaci() {
 			this.osnovniPodaciKorak = true;
 			this.kvalifikacijeKorak = false;
 			this.value = 25;
 		}
 
-		goToKvalifikacije()
-		{
+		goToKvalifikacije() {
 			if (this.osnovniPodaciIspravni()) {
 				this.osnovniPodaciKorak = false;
 				this.kvalifikacijeKorak = true;
@@ -221,8 +211,7 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
 			}
 		}
 
-		goToRadnoIskustvo()
-		{
+		goToRadnoIskustvo() {
 			if (this.kvalifikacijeIspravne()) {
 				this.kvalifikacijeKorak = false;
 				this.radnoIskustvoKorak = true;
@@ -231,8 +220,7 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
 			}
 		}
 
-		goToNapomena()
-		{
+		goToNapomena() {
 			// Provjeri zadnji red prije spremanja
 			if (this.hasWorkExperience) {
 				if (!this.isLastAddedWorkExperienceValid()) {
@@ -253,11 +241,7 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
 			this.value = 100;
 		}
 
-		deleteWorkExperience(index
-	:
-		number
-	)
-		{
+		deleteWorkExperience(index: number) {
 			if (this.workExperiences.length === 1) {
 				this.workExperiences = [];
 				this.hasWorkExperience = false;
@@ -266,11 +250,7 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
 			}
 		}
 
-	private
-		osnovniPodaciIspravni()
-	:
-		boolean
-		{
+	private osnovniPodaciIspravni(): boolean {
 			if (!this.applicant.name || !this.applicant.surname) {
 				this.showSwalert("Ime i prezime su obavezni", "error");
 				return false;
@@ -294,11 +274,7 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
 			return true;
 		}
 
-	private
-		kvalifikacijeIspravne()
-	:
-		boolean
-		{
+	private kvalifikacijeIspravne(): boolean {
 			if (!this.applicant.idQualifcation || !this.school.idQualifcation) {
 				this.showSwalert(
 					"Stručna i postignuta stručna sprema su obavezni",
@@ -319,14 +295,7 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
 			}
 
 			// Radna iskustva niz
-			trackByIndex(index
-		:
-			number, obj
-		:
-			any
-		):
-			any
-			{
+			trackByIndex(index: number, obj: any): any {
 				return index;
 			}
 		}
