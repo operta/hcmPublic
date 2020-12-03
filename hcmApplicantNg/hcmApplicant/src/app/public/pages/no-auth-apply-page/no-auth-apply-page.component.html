@@ -1,577 +1,785 @@
-<section
-	id="wrapper"
-	class="login-register"
-	style="position: absolute; height: 100%; overflow-y: auto"
->
+<section id="wrapper" class="login-register" style="position: absolute; height: 100%; overflow-y:auto">
 	<div class="registerBox login-shadow add-transparency">
 		<div class="white-box">
 			<div class="row justify-content-center">
-				<div class="col-md-9">
-					<h1>
+				<div class="col-md-8">
+					<h1>Prijava na oglas {{vacancyId}}</h1>
+
+					<div class="alert alert-danger" *ngIf="errorEmailExists">
+						<strong>Email već postoji!</strong>
+					</div>
+
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-md-8">
+					<form name="form" role="form" (ngSubmit)="apply()" #registerForm="ngForm" *ngIf="!success">
+						<div class="form-group">
+							<label class="form-control-label">Ime:</label>
+							<input type="text" class="form-control" name="firstName" #firstNameInput="ngModel"
+								   [(ngModel)]="applicant.name" maxlength="50" required>
+
+							<div *ngIf="firstNameInput.dirty && firstNameInput.invalid">
+								<small class="form-text text-danger"
+									   *ngIf="firstNameInput.errors.maxlength">
+									Ime ne može sadržati više od 50 karaktera.
+								</small>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>Prezime:</label>
+							<input type="text" class="form-control" name="lastName" #lastNameInput="ngModel"
+								   [(ngModel)]="applicant.surname" maxlength="50" required>
+
+							<div *ngIf="lastNameInput.dirty && lastNameInput.invalid">
+								<small class="form-text text-danger"
+									   *ngIf="lastNameInput.errors.maxlength">
+									Prezime ne može sadržati više od 50 karaktera.
+								</small>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="form-control-label"
+								   for="field_birthdate">Datum rođenja:</label>
+							<div class="input-group">
+								<input id="field_birthdate" type="date" class="form-control" name="birthdate"
+									   [(ngModel)]="applicant.birthdate"
+								/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="form-control-label" for="email">Email:</label>
+							<input type="email" class="form-control" id="email" name="email" #email="ngModel"
+								   [(ngModel)]="applicant.email" minlength=5 maxlength=100 email required>
+							<div *ngIf="email.dirty && email.invalid">
+								<small class="form-text text-danger" *ngIf="email.errors.required">
+									Email je potreban.
+								</small>
+								<small class="form-text text-danger" *ngIf="email.errors.invalid">
+									Email je nevalidan.
+								</small>
+								<small class="form-text text-danger" *ngIf="email.errors.minlength">
+									Email mora sadržati bar 5 karaktera.
+								</small>
+								<small class="form-text text-danger" *ngIf="email.errors.maxlength">
+									Email ne može sadržati više od 50 karaktera.
+								</small>
+							</div>
+						</div>
+						<div class="form-group">
+							<app-region-select [lowestLevelId]="applicant.idCity"
+											   (citySelected)="onCitySelected($event)"
+											   [showOnlyCities]="true"></app-region-select>
+						</div>
+						<div class="form-group">
+							<label class="form-control-label" for="field_address">Adresa:</label>
+							<input type="text" class="form-control" name="address" id="field_address"
+								   [(ngModel)]="applicant.address"/>
+						</div>
+						<div class="form-group">
+							<label class="form-control-label"
+								   for="field_phoneNumber">Broj telefona:*</label>
+							<input type="text" class="form-control" name="phoneNumber" id="field_phoneNumber" required
+								   [(ngModel)]="applicant.phoneNumber"/>
+						</div>
+						<section
+							id="wrapper"
+							class="login-register"
+							style="position: absolute; height: 100%; overflow-y: auto"
+						>
+							<div class="registerBox login-shadow add-transparency">
+								<div class="white-box">
+									<div class="row justify-content-center">
+										<div class="col-md-9">
+											<h1>
 						<span
 							style="color: #b8c7ce"
 							class="fa fa-fw fa-chevron-right mr-2"
 						></span>
-						<ng-container *ngIf="vacancyName">
-							Prijava na {{ vacancyName }}
-						</ng-container>
-						<ng-container *ngIf="!vacancyName">
-							Prijava na oglas {{ vacancyId }}
-						</ng-container>
-					</h1>
-				</div>
-			</div>
-			<hr />
-			<div class="row justify-content-center">
-				<div class="col-md-9 px-0">
-					<p>
-						<ngb-progressbar
-							[striped]="true"
-							height="15px"
-							[showValue]="false"
-							[type]="value !== 100 ? 'info' : 'success'"
-							[value]="value"
-						></ngb-progressbar>
-					</p>
-				</div>
-			</div>
-			<div class="row justify-content-center">
-				<div class="col-md-9">
-					<form
-						name="form"
-						role="form"
-						(ngSubmit)="apply()"
-						#registerForm="ngForm"
-						*ngIf="!success"
-					>
-						<!-- Osnovni podaci -->
-						<div class="row" *ngIf="osnovniPodaciKorak">
-							<div class="col-12 pl-0">
-								<div class="form-group">
-									<h2>Osnovni podaci</h2>
-								</div>
-							</div>
-							<div class="col-12 col-lg-4">
-								<div class="form-group">
-									<label class="form-control-label"
-										>Ime*:</label
-									>
-									<input
-										type="text"
-										class="form-control"
-										name="firstName"
-										#firstNameInput="ngModel"
-										[(ngModel)]="applicant.name"
-										maxlength="50"
-										required
-									/>
-								</div>
-							</div>
-							<div class="col-12 col-lg-4">
-								<div class="form-group">
-									<label>Prezime*:</label>
-									<input
-										type="text"
-										class="form-control"
-										name="lastName"
-										#lastNameInput="ngModel"
-										[(ngModel)]="applicant.surname"
-										maxlength="50"
-										required
-									/>
-								</div>
-							</div>
-							<div class="col-12 col-lg-4">
-								<div class="form-group">
-									<label
-										class="form-control-label"
-										for="field_birthdate"
-										>Datum rođenja*:</label
-									>
-									<div class="input-group">
-										<input
-											id="field_birthdate"
-											type="date"
-											class="form-control"
-											required
-											name="birthdate"
-											[(ngModel)]="applicant.birthdate"
-										/>
+												<ng-container *ngIf="vacancyName">
+													Prijava na {{ vacancyName }}
+												</ng-container>
+												<ng-container *ngIf="!vacancyName">
+													Prijava na oglas {{ vacancyId }}
+												</ng-container>
+											</h1>
+										</div>
+									</div>
+									<hr />
+									<div class="row justify-content-center">
+										<div class="col-md-9 px-0">
+											<p>
+												<ngb-progressbar
+													[striped]="true"
+													height="15px"
+													[showValue]="false"
+													[type]="value !== 100 ? 'info' : 'success'"
+													[value]="value"
+												></ngb-progressbar>
+											</p>
+										</div>
+									</div>
+									<div class="row justify-content-center">
+										<div class="col-md-9">
+											<form
+												name="form"
+												role="form"
+												(ngSubmit)="apply()"
+												#registerForm="ngForm"
+												*ngIf="!success"
+											>
+												<!-- Osnovni podaci -->
+												<div class="row" *ngIf="osnovniPodaciKorak">
+													<div class="col-12 pl-0">
+														<div class="form-group">
+															<h2>Osnovni podaci</h2>
+														</div>
+													</div>
+													<div class="col-12 col-lg-4">
+														<div class="form-group">
+															<label class="form-control-label"
+															>Ime*:</label
+															>
+															<input
+																type="text"
+																class="form-control"
+																name="firstName"
+																#firstNameInput="ngModel"
+																[(ngModel)]="applicant.name"
+																maxlength="50"
+																required
+															/>
+														</div>
+													</div>
+													<div class="col-12 col-lg-4">
+														<div class="form-group">
+															<label>Prezime*:</label>
+															<input
+																type="text"
+																class="form-control"
+																name="lastName"
+																#lastNameInput="ngModel"
+																[(ngModel)]="applicant.surname"
+																maxlength="50"
+																required
+															/>
+														</div>
+													</div>
+													<div class="col-12 col-lg-4">
+														<div class="form-group">
+															<label
+																class="form-control-label"
+																for="field_birthdate"
+															>Datum rođenja*:</label
+															>
+															<div class="input-group">
+																<input
+																	id="field_birthdate"
+																	type="date"
+																	class="form-control"
+																	required
+																	name="birthdate"
+																	[(ngModel)]="applicant.birthdate"
+																/>
+															</div>
+														</div>
+													</div>
+													<div class="col-12 col-lg-4">
+														<div class="form-group">
+															<label
+																class="form-control-label"
+																for="email"
+															>Email*:</label
+															>
+															<input
+																type="email"
+																class="form-control"
+																id="email"
+																name="email"
+																#email="ngModel"
+																[(ngModel)]="applicant.email"
+																minlength="5"
+																maxlength="100"
+																email
+																required
+															/>
+														</div>
+													</div>
+
+													<div class="col-12 col-lg-4">
+														<div class="form-group">
+															<label
+																class="form-control-label"
+																for="field_phoneNumber"
+															>Broj telefona:*</label
+															>
+															<input
+																type="number"
+																class="form-control"
+																name="phoneNumber"
+																id="field_phoneNumber"
+																required
+																[(ngModel)]="applicant.phoneNumber"
+															/>
+														</div>
+													</div>
+
+													<div class="col-12 col-lg-4">
+														<div class="form-group">
+															<app-region-select
+																[lowestLevelId]="applicant.idCity"
+																(citySelected)="onCitySelected($event)"
+																[showOnlyCities]="true"
+															></app-region-select>
+														</div>
+													</div>
+													<div class="col-12 col-lg-8">
+														<div class="form-group">
+															<label
+																class="form-control-label"
+																for="field_address"
+															>Adresa:</label
+															>
+															<input
+																type="text"
+																class="form-control"
+																name="address"
+																id="field_address"
+																[(ngModel)]="applicant.address"
+															/>
+														</div>
+													</div>
+
+													<div class="col-12 col-lg-4 text-center">
+														<div class="form-group">
+															<label form-control-label for="dalje"
+															>&nbsp;</label
+															><br />
+															<button
+																type="button"
+																(click)="goToKvalifikacije()"
+																class="btn btn-outline-primary btn-block"
+															>
+																Dalje
+																<span
+																	class="ml-1 fa fa-fw fa-arrow-right"
+																></span>
+															</button>
+														</div>
+													</div>
+												</div>
+												<!-- Kraj ossnovni podaci -->
+
+												<div class="form-group">
+													<label class="form-control-label"
+														   for="field_idQualifcation">Stručna sprema:*</label>
+													<select class="form-control" name="idQualifcation" id="field_idQualifcation"
+															[(ngModel)]="applicant.idQualifcation" required>
+														<option [ngValue]="qualification.id"
+																*ngFor="let qualification of qualifications$ | async">
+															{{qualification.name}}
+														</option>
+													</select>
+												</div>
+												<div class="form-group">
+													<label class="form-control-label" for="selectDriversLicence">Vozačka dozvola:</label>
+													<select class="form-control" [(ngModel)]="applicant.driverLicence" id="selectDriversLicence"
+															name="driverLicence">
+														<option [ngValue]="null">
+															<div>Nema</div>
+														</option>
+														<option [ngValue]="'A'">
+															<div>A</div>
+														</option>
+														<option [ngValue]="'B'">
+															<div>B</div>
+														</option>
+														<option [ngValue]="'C'">
+															<div>C</div>
+														</option>
+														<option [ngValue]="'D'">
+															<div>D</div>
+														</option>
+														<option [ngValue]="'E'">
+															<div>E</div>
+														</option>
+													</select>
+												</div>
+												<hr>
+
+												<div class="form-group col-md-6">
+													<label class="form-control-label" for="field_idschool">Škola:*</label>
+													<select name="idschools" id="field_idschool" class="form-control"
+															[(ngModel)]="school.idSchool" required>
+														<option [ngValue]="item.id" *ngFor="let item of schools$ | async">{{item.name}}</option>
+													</select>
+												</div>
+												<div class="form-group col-md-6">
+													<label class="form-control-label" for="field_qualification">Postignuta stručna
+														sprema:*</label>
+													<select name="idqualification" required id="field_qualification" class="form-control"
+															[(ngModel)]="school.idQualifcation">
+														<option [ngValue]="item.id"
+																*ngFor="let item of qualifications$ | async">{{item.name}}</option>
+													</select>
+												</div>
+												<h3>Radno iskustvo 1</h3>
+												<div class="form-group col-md-6">
+													<label class="form-control-label" for="field_company">Kompanija:*</label>
+													<input type="text" class="form-control" name="company" id="field_company"
+														   [(ngModel)]="experience.company" required/>
+												</div>
+												<div class="form-group col-md-6">
+													<label class="form-control-label" for="field_position">Pozicija:*</label>
+													<input type="text" class="form-control" name="position" id="field_position"
+														   [(ngModel)]="experience.position" required/>
+												</div>
+												<div class="form-group col-md-6">
+													<label class="form-control-label" for="field_dateFrom">Od:*</label>
+													<div class="input-group">
+														<input id="field_dateFrom" type="date" class="form-control" name="dateFrom"
+															   [(ngModel)]="experience.dateFrom"
+															   required/>
+													</div>
+												</div>
+												<div class="form-group col-md-6">
+													<label class="form-control-label" for="field_dateTo">Do:</label>
+													<div class="input-group">
+														<input id="field_dateTo" type="date" class="form-control" name="dateTo"
+															   [(ngModel)]="experience.dateTo"/>
+													</div>
+												</div>
+												<h3>Radno iskustvo 2</h3>
+												<div class="form-group col-md-6">
+													<label class="form-control-label" for="field_company2">Kompanija:</label>
+													<input type="text" class="form-control" name="company" id="field_company2"
+														   [(ngModel)]="experience2.company"/>
+												</div>
+												<div class="form-group col-md-6">
+													<label class="form-control-label" for="field_position2">Pozicija:</label>
+													<input type="text" class="form-control" name="position" id="field_position2"
+														   [(ngModel)]="experience2.position"/>
+												</div>
+												<div class="form-group col-md-6">
+													<label class="form-control-label" for="field_dateFrom2">Od:</label>
+													<div class="input-group">
+														<input id="field_dateFrom2" type="date" class="form-control" name="dateFrom"
+															   [(ngModel)]="experience2.dateFrom"
+														/>
+													</div>
+												</div>
+												<div class="form-group col-md-6">
+													<label class="form-control-label" for="field_dateTo2">Do:</label>
+													<div class="input-group">
+														<input id="field_dateTo2" type="date" class="form-control" name="dateTo"
+															   [(ngModel)]="experience2.dateTo"/>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="form-control-label" for="field_description">Napomena:</label>
+													<input type="text" class="form-control" name="address" id="field_description"
+														   [(ngModel)]="applicant.description"/>
+												</div>
+
+
+
+												<button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light m-b-10 m-t-10"
+														[disabled]="registerForm.form.invalid"
+														type="submit">Prijavi se
+												</button>
+
+											</form>
+										</div>
 									</div>
 								</div>
 							</div>
-							<div class="col-12 col-lg-4">
-								<div class="form-group">
-									<label
-										class="form-control-label"
-										for="email"
-										>Email*:</label
-									>
-									<input
-										type="email"
-										class="form-control"
-										id="email"
-										name="email"
-										#email="ngModel"
-										[(ngModel)]="applicant.email"
-										minlength="5"
-										maxlength="100"
-										email
-										required
-									/>
+							<!-- Kvalifikacije korak -->
+							<div class="row" *ngIf="kvalifikacijeKorak">
+								<div class="col-12 pl-0">
+									<div class="form-group">
+										<h2>Kvalifikacije</h2>
+									</div>
 								</div>
-							</div>
-
-							<div class="col-12 col-lg-4">
-								<div class="form-group">
-									<label
-										class="form-control-label"
-										for="field_phoneNumber"
-										>Broj telefona:*</label
-									>
-									<input
-										type="number"
-										class="form-control"
-										name="phoneNumber"
-										id="field_phoneNumber"
-										required
-										[(ngModel)]="applicant.phoneNumber"
-									/>
-								</div>
-							</div>
-
-							<div class="col-12 col-lg-4">
-								<div class="form-group">
-									<app-region-select
-										[lowestLevelId]="applicant.idCity"
-										(citySelected)="onCitySelected($event)"
-										[showOnlyCities]="true"
-									></app-region-select>
-								</div>
-							</div>
-							<div class="col-12 col-lg-8">
-								<div class="form-group">
-									<label
-										class="form-control-label"
-										for="field_address"
-										>Adresa:</label
-									>
-									<input
-										type="text"
-										class="form-control"
-										name="address"
-										id="field_address"
-										[(ngModel)]="applicant.address"
-									/>
-								</div>
-							</div>
-
-							<div class="col-12 col-lg-4 text-center">
-								<div class="form-group">
-									<label form-control-label for="dalje"
-										>&nbsp;</label
-									><br />
-									<button
-										type="button"
-										(click)="goToKvalifikacije()"
-										class="btn btn-outline-primary btn-block"
-									>
-										Dalje
-										<span
-											class="ml-1 fa fa-fw fa-arrow-right"
-										></span>
-									</button>
-								</div>
-							</div>
-						</div>
-						<!-- Kraj ossnovni podaci -->
-
-						<!-- Kvalifikacije korak -->
-						<div class="row" *ngIf="kvalifikacijeKorak">
-							<div class="col-12 pl-0">
-								<div class="form-group">
-									<h2>Kvalifikacije</h2>
-								</div>
-							</div>
-							<div class="col-12 col-lg-4">
-								<div class="form-group">
-									<label
-										class="form-control-label"
-										for="field_idQualifcation"
+								<div class="col-12 col-lg-4">
+									<div class="form-group">
+										<label
+											class="form-control-label"
+											for="field_idQualifcation"
 										>Stručna sprema:*</label
-									>
-									<select
-										class="form-control"
-										name="idQualifcation"
-										id="field_idQualifcation"
-										[(ngModel)]="applicant.idQualifcation"
-										required
-									>
-										<option
-											[ngValue]="qualification.id"
-											*ngFor="
+										>
+										<select
+											class="form-control"
+											name="idQualifcation"
+											id="field_idQualifcation"
+											[(ngModel)]="applicant.idQualifcation"
+											required
+										>
+											<option
+												[ngValue]="qualification.id"
+												*ngFor="
 												let qualification of qualifications$
 													| async
 											"
-										>
-											{{ qualification.name }}
-										</option>
-									</select>
+											>
+												{{ qualification.name }}
+											</option>
+										</select>
+									</div>
 								</div>
-							</div>
-							<div class="form-group col-md-4">
-								<label
-									class="form-control-label"
-									for="field_qualification"
-									>Postignuta stručna sprema:*</label
-								>
-								<select
-									name="idqualification"
-									required
-									id="field_qualification"
-									class="form-control"
-									[(ngModel)]="school.idQualifcation"
-								>
-									<option
-										[ngValue]="item.id"
-										*ngFor="
-											let item of qualifications$ | async
-										"
-									>
-										{{ item.name }}
-									</option>
-								</select>
-							</div>
-							<div class="col-12 col-lg-4">
-								<div class="form-group">
+								<div class="form-group col-md-4">
 									<label
 										class="form-control-label"
-										for="selectDriversLicence"
-										>Vozačka dozvola*:</label
+										for="field_qualification"
+									>Postignuta stručna sprema:*</label
 									>
 									<select
-										class="form-control"
-										[(ngModel)]="applicant.driverLicence"
-										id="selectDriversLicence"
+										name="idqualification"
 										required
-										name="driverLicence"
+										id="field_qualification"
+										class="form-control"
+										[(ngModel)]="school.idQualifcation"
 									>
-										<option value="Nema">
-											Nemam položeno
-										</option>
-										<option [ngValue]="'A'">
-											<div>A</div>
-										</option>
-										<option [ngValue]="'B'">
-											<div>B</div>
-										</option>
-										<option [ngValue]="'C'">
-											<div>C</div>
-										</option>
-										<option [ngValue]="'D'">
-											<div>D</div>
-										</option>
-										<option [ngValue]="'E'">
-											<div>E</div>
+										<option
+											[ngValue]="item.id"
+											*ngFor="
+											let item of qualifications$ | async
+										"
+										>
+											{{ item.name }}
 										</option>
 									</select>
 								</div>
-							</div>
-							<div class="form-group col-md-6">
-								<label
-									class="form-control-label"
-									for="field_idschool"
+								<div class="col-12 col-lg-4">
+									<div class="form-group">
+										<label
+											class="form-control-label"
+											for="selectDriversLicence"
+										>Vozačka dozvola*:</label
+										>
+										<select
+											class="form-control"
+											[(ngModel)]="applicant.driverLicence"
+											id="selectDriversLicence"
+											required
+											name="driverLicence"
+										>
+											<option value="Nema">
+												Nemam položeno
+											</option>
+											<option [ngValue]="'A'">
+												<div>A</div>
+											</option>
+											<option [ngValue]="'B'">
+												<div>B</div>
+											</option>
+											<option [ngValue]="'C'">
+												<div>C</div>
+											</option>
+											<option [ngValue]="'D'">
+												<div>D</div>
+											</option>
+											<option [ngValue]="'E'">
+												<div>E</div>
+											</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group col-md-6">
+									<label
+										class="form-control-label"
+										for="field_idschool"
 									>Škola:*</label
-								>
-								<select
-									name="idschools"
-									id="field_idschool"
-									class="form-control"
-									(change)="schoolChanged($event)"
-									required
-								>
-									<option disabled selected value="-2">
-										-- Odaberite školu --
-									</option>
-									<option
-										[value]="item.id"
-										*ngFor="let item of schools$ | async"
 									>
-										{{ item.name }}
-									</option>
-									<option id="novaSkola" value="-1">
-										+ Dodaj novu
-									</option>
-								</select>
-							</div>
-							<div class="col-12 col-lg-3">
-								<div class="form-group">
-									<label form-control-label for="dalje"
+									<select
+										name="idschools"
+										id="field_idschool"
+										class="form-control"
+										(change)="schoolChanged($event)"
+										required
+									>
+										<option disabled selected value="-2">
+											-- Odaberite školu --
+										</option>
+										<option
+											[value]="item.id"
+											*ngFor="let item of schools$ | async"
+										>
+											{{ item.name }}
+										</option>
+										<option id="novaSkola" value="-1">
+											+ Dodaj novu
+										</option>
+									</select>
+								</div>
+								<div class="col-12 col-lg-3">
+									<div class="form-group">
+										<label form-control-label for="dalje"
 										>&nbsp;</label
-									><br />
-									<button
-										type="button"
-										(click)="goToOsnovniPodaci()"
-										class="btn btn-outline-secondary btn-block"
-									>
+										><br />
+										<button
+											type="button"
+											(click)="goToOsnovniPodaci()"
+											class="btn btn-outline-secondary btn-block"
+										>
 										<span
 											class="ml-1 fa fa-fw fa-arrow-left"
 										></span>
-										Nazad
-									</button>
+											Nazad
+										</button>
+									</div>
 								</div>
-							</div>
-							<div class="col-12 col-lg-3 text-center">
-								<div class="form-group">
-									<label form-control-label for="dalje"
+								<div class="col-12 col-lg-3 text-center">
+									<div class="form-group">
+										<label form-control-label for="dalje"
 										>&nbsp;</label
-									><br />
-									<button
-										type="button"
-										(click)="goToRadnoIskustvo()"
-										class="btn btn-outline-primary btn-block"
-									>
-										Dalje
-										<span
-											class="ml-1 fa fa-fw fa-arrow-right"
-										></span>
-									</button>
+										><br />
+										<button
+											type="button"
+											(click)="goToRadnoIskustvo()"
+											class="btn btn-outline-primary btn-block"
+										>
+											Dalje
+											<span
+												class="ml-1 fa fa-fw fa-arrow-right"
+											></span>
+										</button>
+									</div>
 								</div>
 							</div>
-						</div>
-						<!-- Kraj kvalifikacije korak -->
+							<!-- Kraj kvalifikacije korak -->
 
-						<!-- Radno iskutvo korak -->
-						<div class="row" *ngIf="radnoIskustvoKorak">
-							<div class="col-12 pl-0">
-								<div class="form-group">
-									<h2>Radno iskustvo</h2>
+							<!-- Radno iskutvo korak -->
+							<div class="row" *ngIf="radnoIskustvoKorak">
+								<div class="col-12 pl-0">
+									<div class="form-group">
+										<h2>Radno iskustvo</h2>
+									</div>
 								</div>
-							</div>
-							<div class="col-12 pl-0">
-								<div class="form-group">
-									<input
-										id="iskustvo"
-										type="checkbox"
-										[checked]="hasWorkExperience"
-										(change)="
+								<div class="col-12 pl-0">
+									<div class="form-group">
+										<input
+											id="iskustvo"
+											type="checkbox"
+											[checked]="hasWorkExperience"
+											(change)="
 											hasWorkExperience = !hasWorkExperience;
 											hasWorkExperience
 												? resetWorkExperiences()
 												: return
 										"
-									/>
-									<label for="iskustvo"
+										/>
+										<label for="iskustvo"
 										>Imam radno iskustvo</label
-									>
+										>
+									</div>
 								</div>
-							</div>
-							<ng-container *ngIf="hasWorkExperience">
-								<ng-container
-									*ngFor="
+								<ng-container *ngIf="hasWorkExperience">
+									<ng-container
+										*ngFor="
 										let experience of workExperiences;
 										let i = index;
 										trackBy: trackByIndex
 									"
-								>
-									<div
-										class="form-group col-12 col-lg-2 pl-0"
 									>
-										<label
-											class="form-control-label"
-											[for]="'company_' + i"
-											>Kompanija:</label
+										<div
+											class="form-group col-12 col-lg-2 pl-0"
 										>
-										<input
-											type="text"
-											class="form-control"
-											[name]="'company_' + i"
-											[id]="'company_' + i"
-											[(ngModel)]="
+											<label
+												class="form-control-label"
+												[for]="'company_' + i"
+											>Kompanija:</label
+											>
+											<input
+												type="text"
+												class="form-control"
+												[name]="'company_' + i"
+												[id]="'company_' + i"
+												[(ngModel)]="
 												workExperiences[i].company
 											"
-										/>
-									</div>
-									<div class="form-group col-12 col-lg-3">
-										<label
-											class="form-control-label"
-											[for]="'position_' + i"
-											>Pozicija*:</label
-										>
-										<input
-											type="text"
-											class="form-control"
-											required
-											[name]="'position_' + i"
-											[id]="'position_' + i"
-											[(ngModel)]="
-												workExperiences[i].position
-											"
-										/>
-									</div>
-									<div class="form-group col-12 col-lg-3">
-										<label
-											class="form-control-label"
-											[for]="'dateFrom_' + i"
-											>Od*:</label
-										>
-										<div class="input-group">
-											<input
-												[id]="'dateFrom_' + i"
-												type="date"
-												class="form-control"
-												required
-												[name]="'dateFrom_' + i"
-												[(ngModel)]="
-													workExperiences[i].dateFrom
-												"
 											/>
 										</div>
-									</div>
-									<div class="form-group col-10 col-lg-3">
-										<label
-											class="form-control-label"
-											[for]="
+										<div class="form-group col-12 col-lg-3">
+											<label
+												class="form-control-label"
+												[for]="'position_' + i"
+											>Pozicija*:</label
+											>
+											<input
+												type="text"
+												class="form-control"
+												required
+												[name]="'position_' + i"
+												[id]="'position_' + i"
+												[(ngModel)]="
+												workExperiences[i].position
+											"
+											/>
+										</div>
+										<div class="form-group col-12 col-lg-3">
+											<label
+												class="form-control-label"
+												[for]="'dateFrom_' + i"
+											>Od*:</label
+											>
+											<div class="input-group">
+												<input
+													[id]="'dateFrom_' + i"
+													type="date"
+													class="form-control"
+													required
+													[name]="'dateFrom_' + i"
+													[(ngModel)]="
+													workExperiences[i].dateFrom
+												"
+												/>
+											</div>
+										</div>
+										<div class="form-group col-10 col-lg-3">
+											<label
+												class="form-control-label"
+												[for]="
 												workExperiences[i].dateTo +
 												'_' +
 												i
 											"
 											>Do:</label
-										>
-										<div class="input-group">
-											<input
-												[id]="'dateTo_' + i"
-												type="date"
-												class="form-control"
-												[name]="'dateTo_' + i"
-												[(ngModel)]="
+											>
+											<div class="input-group">
+												<input
+													[id]="'dateTo_' + i"
+													type="date"
+													class="form-control"
+													[name]="'dateTo_' + i"
+													[(ngModel)]="
 													workExperiences[i].dateTo
 												"
-											/>
+												/>
+											</div>
 										</div>
-									</div>
-									<div class="col-2 col-lg-1">
-										<label class="form-control-label"
+										<div class="col-2 col-lg-1">
+											<label class="form-control-label"
 											>&nbsp;</label
-										>
+											>
+											<button
+												type="button"
+												(click)="deleteWorkExperience(i)"
+												class="btn btn-outline-danger btn-block"
+											>
+												x
+											</button>
+										</div>
+									</ng-container>
+								</ng-container>
+								<div
+									class="col-12 col-lg-4"
+									*ngIf="hasWorkExperience"
+								>
+									<div class="form-group">
+										<label form-control-label for="dalje"
+										>&nbsp;</label
+										><br />
 										<button
 											type="button"
-											(click)="deleteWorkExperience(i)"
-											class="btn btn-outline-danger btn-block"
+											(click)="addNewWorkExperience()"
+											class="btn btn-success btn-block"
 										>
-											x
-										</button>
-									</div>
-								</ng-container>
-							</ng-container>
-							<div
-								class="col-12 col-lg-4"
-								*ngIf="hasWorkExperience"
-							>
-								<div class="form-group">
-									<label form-control-label for="dalje"
-										>&nbsp;</label
-									><br />
-									<button
-										type="button"
-										(click)="addNewWorkExperience()"
-										class="btn btn-success btn-block"
-									>
 										<span
 											class="ml-1 fa fa-fw fa-plus"
 										></span>
-										Imam još radnog iskustva
-									</button>
+											Imam još radnog iskustva
+										</button>
+									</div>
 								</div>
-							</div>
-							<div class="col-12 col-lg-4">
-								<div class="form-group">
-									<label form-control-label for="dalje"
+								<div class="col-12 col-lg-4">
+									<div class="form-group">
+										<label form-control-label for="dalje"
 										>&nbsp;</label
-									><br />
-									<button
-										type="button"
-										(click)="goToKvalifikacije()"
-										class="btn btn-outline-secondary btn-block"
-									>
+										><br />
+										<button
+											type="button"
+											(click)="goToKvalifikacije()"
+											class="btn btn-outline-secondary btn-block"
+										>
 										<span
 											class="ml-1 fa fa-fw fa-arrow-left"
 										></span>
+											Nazad
+										</button>
+									</div>
+								</div>
+								<div class="col-12 col-lg-4 text-center">
+									<div class="form-group">
+										<label form-control-label for="dalje"
+										>&nbsp;</label
+										><br />
+										<button
+											type="button"
+											(click)="goToNapomena()"
+											class="btn btn-outline-primary btn-block"
+										>
+											Dalje
+											<span
+												class="ml-1 fa fa-fw fa-arrow-right"
+											></span>
+										</button>
+									</div>
+								</div>
+							</div>
+							<div class="row" *ngIf="napomenaKorak">
+								<div class="col-12 pl-0">
+									<div class="form-group">
+										<h2>Imate li vi nešto reći?</h2>
+									</div>
+								</div>
+								<div class="col-12 px-0">
+									<div class="form-group">
+										<label
+											class="form-control-label"
+											for="field_description"
+										>Napomena:</label
+										>
+										<input
+											type="text"
+											class="form-control"
+											name="address"
+											id="field_description"
+											[(ngModel)]="applicant.description"
+										/>
+									</div>
+								</div>
+								<hr>
+								<div class="col-3 pl-0">
+									<button
+										type="button"
+										(click)="goToRadnoIskustvo()"
+										class="btn btn-outline-secondary btn-block"
+									>
+									<span
+										class="ml-1 fa fa-fw fa-arrow-left"
+									></span>
 										Nazad
 									</button>
 								</div>
-							</div>
-							<div class="col-12 col-lg-4 text-center">
-								<div class="form-group">
-									<label form-control-label for="dalje"
-										>&nbsp;</label
-									><br />
+								<div class="col-9 pr-0">
 									<button
-										type="button"
-										(click)="goToNapomena()"
-										class="btn btn-outline-primary btn-block"
-									>
-										Dalje
+										type="submit"
+										class="btn btn-primary text-uppercase btn-block waves-effect waves-light"								>
+										PRIJAVI SE
 										<span
-											class="ml-1 fa fa-fw fa-arrow-right"
+											class="ml-1 fa fa-fw fa-check"
 										></span>
 									</button>
 								</div>
 							</div>
-						</div>
-						<div class="row" *ngIf="napomenaKorak">
-							<div class="col-12 pl-0">
-								<div class="form-group">
-									<h2>Imate li vi nešto reći?</h2>
-								</div>
-							</div>
-							<div class="col-12 px-0">
-								<div class="form-group">
-									<label
-										class="form-control-label"
-										for="field_description"
-										>Napomena:</label
-									>
-									<input
-										type="text"
-										class="form-control"
-										name="address"
-										id="field_description"
-										[(ngModel)]="applicant.description"
-									/>
-								</div>
-							</div>
-							<hr>
-							<div class="col-3 pl-0">
-								<button
-									type="button"
-									(click)="goToRadnoIskustvo()"
-									class="btn btn-outline-secondary btn-block"
-								>
-									<span
-										class="ml-1 fa fa-fw fa-arrow-left"
-									></span>
-									Nazad
-								</button>
-							</div>
-							<div class="col-9 pr-0">
-								<button
-									type="submit"
-									class="btn btn-primary text-uppercase btn-block waves-effect waves-light"								>
-									PRIJAVI SE
-									<span
-										class="ml-1 fa fa-fw fa-check"
-									></span>
-								</button>
-							</div>
-						</div>
 					</form>
 					<hr />
 					<small class="pull-left"
-						>(*) Polja označena sa * su obavezna</small
+					>(*) Polja označena sa * su obavezna</small
 					>
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
+
