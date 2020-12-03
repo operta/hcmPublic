@@ -99,7 +99,9 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
 					}
 					return of(null);
 				}),
-				switchMap(() => this.schoolsService.create(this.school))
+				switchMap(() => {
+					return this.schoolsService.create(this.school);
+				})
 			)
 			.subscribe(() => {
 				this.showSwalert(
@@ -145,15 +147,7 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
 				confirmButtonText: "Dodaj",
 				showLoaderOnConfirm: true,
 				preConfirm: (name) => {
-					return this.schoolsService.createNewSchool(name).subscribe(
-						(response) => {
-							this.schoolCreated(response);
-							return response;
-						},
-						(error) => {
-							Swal.showValidationMessage(`Greška: ${error}`);
-						}
-					);
+					return this.schoolCreated({name: name})
 				},
 				allowOutsideClick: () => !Swal.isLoading(),
 			}).then((result) => {
@@ -169,14 +163,16 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	private schoolCreated(school: { id: number; name: string }) {
-		this.school.idSchool = school.id;
-		this.school.idSchoolName = school.name;
+	private schoolCreated(school: { name: string }) {
+		this.school.school = school.name;
 		const skolaSelectElement = <HTMLSelectElement>(
 			document.getElementById("field_idschool")
 		);
 		const novaSkolaOption = document.createElement("option");
-		novaSkolaOption.value = school.id.toString();
+
+		// Stvori random id
+		const c = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+		novaSkolaOption.value = [...Array(5)].map(_ => c[~~(Math.random()*c.length)]).join('');
 		novaSkolaOption.text = school.name;
 		skolaSelectElement.appendChild(novaSkolaOption);
 		skolaSelectElement.value = novaSkolaOption.value;
@@ -276,7 +272,7 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
 			this.showSwalert("Vozačka dozvola je obavezna", "error");
 			return false;
 		}
-		if (!this.school.idSchool) {
+		if (!this.school.idSchool && !this.school.school) {
 			this.showSwalert("Škola je obavezna", "error");
 			return false;
 		}

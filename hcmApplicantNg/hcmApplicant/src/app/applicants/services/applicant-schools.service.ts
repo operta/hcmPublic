@@ -17,10 +17,6 @@ export class AtApplicantsSchoolsService {
         return this.http.post<AtApplicantsSchools>(this.resourceUrl, copy);
     }
 
-    createNewSchool(name: string): Observable<any> {
-        return this.http.post(SERVER_API_URL + 'api/rg-schools', {name: name});
-    }
-
     findByApplicantId(id: number): Observable<AtApplicantsSchools[]> {
         return this.http.get<AtApplicantsSchools[]>(`${this.resourceUrl}/applicant/${id}`);
     }
