@@ -8,8 +8,6 @@ import {Router} from '@angular/router';
 export class DashboardComponent  {
 
   constructor(router: Router) {
-    router.navigate(['/dashboard/vacancies']);
   }
-
 
 }

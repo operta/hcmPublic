@@ -27,13 +27,15 @@
 			klijentima je naše opredjeljenje i svaki naš korak vodi u tom
 			pravcu.
 		</div>
-		<div class="mt-5">Lokacija</div>
 		<div class="mt-5">
 			{{ vacancy.workPlaceName | uppercase }}
 		</div>
+		<div class="col-12" style="padding-left: 16px; margin-top: 10px" [innerHTML]="vacancy.description"></div>
+		<!--
 		<div class="mt-5">
 			{{ vacancy.description }}
 		</div>
+		-->
 		<div class="mt-5">
 			<b>Lokacija</b>&nbsp;:&nbsp;<span>{{vacancy.idLocationName ? vacancy.idLocationName : vacancy.idOrganizationName}}</span>
 		</div>

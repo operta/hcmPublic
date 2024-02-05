@@ -1,17 +1,17 @@
-import {Component, Input, OnInit} from "@angular/core";
-import {AtVacancies} from "../../../models/vacancy.model";
-import {AtJobApplicationsService} from "../../../services/job-application.service";
-import {LoggerService} from "../../../../services/logger.service";
-import {ToastrService} from "ngx-toastr";
-import {ApplicantConstantsService} from "../../../services/applicant-constants.service";
-import {takeUntil} from "rxjs/operators";
-import {Subject} from "rxjs";
-import {Router} from "@angular/router";
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {AtVacancies} from '../../../models/vacancy.model';
+import {AtJobApplicationsService} from '../../../services/job-application.service';
+import {LoggerService} from '../../../../services/logger.service';
+import {ToastrService} from 'ngx-toastr';
+import {ApplicantConstantsService} from '../../../services/applicant-constants.service';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {NavigationEnd, NavigationStart, Router} from '@angular/router';
 import {VacancyService} from 'src/app/applicants/services/vacancy.service';
 
 @Component({
-    selector: "app-vacancy-detail",
-    templateUrl: "./vacancy-detail.component.html"
+    selector: 'app-vacancy-detail',
+    templateUrl: './vacancy-detail.component.html'
 })
 export class VacancyDetailComponent implements OnInit {
     @Input() vacancy: AtVacancies;
@@ -39,9 +39,9 @@ export class VacancyDetailComponent implements OnInit {
     }
 
     loadParagraphs() {
-        this.loadParagraphF("oglasParagraf1");
-        this.loadParagraphF("oglasParagraf2");
-        this.loadParagraphF("oglasParagraf3");
+        this.loadParagraphF('oglasParagraf1');
+        this.loadParagraphF('oglasParagraf2');
+        this.loadParagraphF('oglasParagraf3');
     }
 
     loadParagraphF(paragraphKey: string) {
@@ -50,11 +50,11 @@ export class VacancyDetailComponent implements OnInit {
             .pipe(takeUntil(this.unsubscribe))
             .subscribe(
                 (res) => {
-                    if (paragraphKey === "oglasParagraf1") {
+                    if (paragraphKey === 'oglasParagraf1') {
                         this.oglasParagraf1 = res.value;
-                    } else if (paragraphKey === "oglasParagraf2") {
+                    } else if (paragraphKey === 'oglasParagraf2') {
                         this.oglasParagraf2 = res.value;
-                    } else if (paragraphKey === "oglasParagraf3") {
+                    } else if (paragraphKey === 'oglasParagraf3') {
                         this.oglasParagraf3 = res.value;
                     }
                 },
@@ -78,6 +78,6 @@ export class VacancyDetailComponent implements OnInit {
 
     applyNoAuth() {
         this.vacancyService.vacancyOnWhichUserIsApplying = this.vacancy.name;
-        this.router.navigate(["/no-auth-apply/" + this.vacancy.id]);
+        this.router.navigate(['/no-auth-apply/' + this.vacancy.id]);
     }
 }

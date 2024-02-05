@@ -129,7 +129,7 @@
 										>Broj telefona:*</label
 									>
 									<input
-										type="number"
+										type="text"
 										class="form-control"
 										name="phoneNumber"
 										id="field_phoneNumber"
@@ -217,29 +217,6 @@
 										</option>
 									</select>
 								</div>
-							</div>
-							<div class="form-group col-md-4">
-								<label
-									class="form-control-label"
-									for="field_qualification"
-									>Postignuta stručna sprema:*</label
-								>
-								<select
-									name="idqualification"
-									required
-									id="field_qualification"
-									class="form-control"
-									[(ngModel)]="school.idQualifcation"
-								>
-									<option
-										[ngValue]="item.id"
-										*ngFor="
-											let item of qualifications$ | async
-										"
-									>
-										{{ item.name }}
-									</option>
-								</select>
 							</div>
 							<div class="col-12 col-lg-4">
 								<div class="form-group">

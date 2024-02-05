@@ -104,7 +104,7 @@ import {ApplicantConstantsService} from './services/applicant-constants.service'
         EditApplicantPopupComponent,
         DocumentBlobInputComponent,
         SettingsComponent,
-        PasswordComponent
+        PasswordComponent,
     ],
     entryComponents: [
         GenericModalComponent,

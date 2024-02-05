@@ -1,1 +1,4 @@
-<app-vacancy-detail [vacancy]="vacancy" [canApply]="canApply" [noAuth]="noAuth"></app-vacancy-detail>
+<div *ngIf="!isSaving">
+    <app-vacancy-detail [vacancy]="vacancy" [canApply]="canApply" [noAuth]="noAuth"></app-vacancy-detail>
+</div>
+

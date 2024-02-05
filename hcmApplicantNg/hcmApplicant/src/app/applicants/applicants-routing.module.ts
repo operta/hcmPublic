@@ -116,6 +116,28 @@ export class VacancyResolver implements Resolve<AtVacancies> {
 
 }
 
+@Injectable()
+export class VacancyNoAuthResolver implements Resolve<AtVacancies | null> {
+    constructor(private vacancyService: VacancyService, private router: Router) {}
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<AtVacancies | null> {
+        return this.vacancyService.getVacanciesVisibleToApplicant().pipe(
+            catchError((error) => {
+                // Handle the error, e.g., navigate to a 404 page
+                // this.router.navigate(['/404']);
+                return of(null);
+            }),
+            map((res: AtVacancies[]) => {
+                if (res && res.length > 0) {
+                    const foundVacancy = res.find(item => item.id === +route.params.id);
+                    return foundVacancy || null;
+                } else {
+                    return null;
+                }
+            })
+        );
+    }
+}
 
 @Injectable()
 export class CanApplicantApplyResolver implements Resolve<boolean> {
@@ -181,6 +203,15 @@ const applicantRoutes: Routes = [{
             ],
             canActivate: [UserRouteAccessService]
         }, {
+            path: 'vacancy-detail-no-auth/:id',
+            component: VacancyDetailPageComponent,
+            data: {
+                noAuth: true
+            },
+            resolve: {
+                vacancy: VacancyNoAuthResolver
+            }
+        }, {
             path: 'vacancies',
             component: VacanciesPageComponent,
             resolve: {
@@ -192,16 +223,6 @@ const applicantRoutes: Routes = [{
             resolve: {
                 vacancy: VacancyResolver,
                 canApply: CanApplicantApplyResolver
-            }
-        },
-        {
-            path: 'vacancy-detail-no-auth/:id',
-            component: VacancyDetailPageComponent,
-            data: {
-                noAuth: true
-            },
-            resolve: {
-                vacancy: VacancyResolver
             }
         },
         {
@@ -242,7 +263,8 @@ const applicantRoutes: Routes = [{
         VacanciesResolver,
         VacancyResolver,
         CanApplicantApplyResolver,
-        AppliedVacanciesResolver
+        AppliedVacanciesResolver,
+        VacancyNoAuthResolver
     ]
 })
 export class ApplicantsRoutingModule {
