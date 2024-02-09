@@ -116,7 +116,10 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
             .subscribe(
                 () => {
                     this.showSwalert(
-                        'Email za aktivaciju profila je poslan na Vašu email adresu.',
+                        'Uspješno ste se prijavili na oglas.' +
+                        'U koliko želite da dodate CV, ili neke druge informacije,' +
+                        'aktivirajte profil aktivacijskim kodom, koji smo poslali' +
+                        'na vašu mail adresu.',
                         'success',
                         'Prijava uspjela'
                     );
@@ -124,8 +127,13 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
                     this.router.navigate(['/']);
                 },
                 (error) => {
-                    console.log(error);
+                    this.showSwalert(
+                        error.json,
+                        'error',
+                        'Došlo je do greške, kontaktirajte podršku'
+                    );
                     this.isLoading = false;
+                    this.router.navigate(['/']);
                 }
             );
     }

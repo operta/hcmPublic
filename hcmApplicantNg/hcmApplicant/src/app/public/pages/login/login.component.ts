@@ -5,59 +5,59 @@ import {Principal} from '../../../services/principal.service';
 
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  authenticationError: boolean;
-  password: string;
-  rememberMe: boolean;
-  username: string;
-  credentials: any;
-  whiteBoxSwingOut = 'slide-in-right';
+    authenticationError: boolean;
+    password: string;
+    rememberMe: boolean;
+    username: string;
+    credentials: any;
+    whiteBoxSwingOut = 'slide-in-right';
 
 
-  constructor(
-    private loginService: LoginService,
-    private router: Router,
-    private principal: Principal,
-  ) {
+    constructor(
+        private loginService: LoginService,
+        private router: Router,
+        private principal: Principal,
+    ) {
 
-    this.credentials = {};
-    this.loginService.logout();
-  }
+        this.credentials = {};
+        this.loginService.logout();
+    }
 
-  login() {
-    this.loginService.login({
-      username: this.username,
-      password: this.password,
-      rememberMe: this.rememberMe
-    }).then(() => {
-      this.authenticationError = false;
-      this.principal.identity().then((account) => {
-        if (account) {
-          this.router.navigate(['/dashboard']);
-        } else {
-          this.authenticationError = true;
-        }
-      });
-    }).catch(() => {
-      this.authenticationError = true;
-    });
-  }
+    login() {
+        this.loginService.login({
+            username: this.username,
+            password: this.password,
+            rememberMe: this.rememberMe
+        }).then(() => {
+            this.authenticationError = false;
+            this.principal.identity().then((account) => {
+                if (account) {
+                    this.router.navigate(['/dashboard/applicant-profile']);
+                } else {
+                    this.authenticationError = true;
+                }
+            });
+        }).catch(() => {
+            this.authenticationError = true;
+        });
+    }
 
-  onCloseError() {
-    this.authenticationError = !this.authenticationError;
-  }
+    onCloseError() {
+        this.authenticationError = !this.authenticationError;
+    }
 
-  register() {
-    this.router.navigate(['/register']);
-  }
+    register() {
+        this.router.navigate(['/register']);
+    }
 
-  requestResetPassword() {
-    this.router.navigate(['/reset', 'request']);
-  }
+    requestResetPassword() {
+        this.router.navigate(['/reset', 'request']);
+    }
 
 
 }

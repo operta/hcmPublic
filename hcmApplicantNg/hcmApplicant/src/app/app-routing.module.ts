@@ -11,7 +11,7 @@ import {NoAuthApplyPageComponent} from './public/pages/no-auth-apply-page/no-aut
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/dashboard/vacancies',
+    redirectTo: '/dashboard',
     pathMatch: 'full'
   },
   {
