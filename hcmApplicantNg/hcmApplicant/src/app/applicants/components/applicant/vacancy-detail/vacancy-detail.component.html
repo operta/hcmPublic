@@ -3,7 +3,10 @@
 		class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mail_listing"
 		style="border-left: none !important"
 	>
+		<!--
 		<h2>{{ vacancy.idOrganizationName }}</h2>
+		-->
+
 		<div class="mt-5">
 			<h2>{{ vacancy.name }}</h2>
 		</div>
@@ -14,9 +17,11 @@
 			{{ vacancy.description }}
 		</div>
 		-->
+		<!--
 		<div class="mt-5">
 			<b>Lokacija</b>&nbsp;:&nbsp;<span>{{vacancy.idLocationName ? vacancy.idLocationName : vacancy.idOrganizationName}}</span>
 		</div>
+		-->
 		<div class="mt-3">
 			<b>Datum objave</b>&nbsp;:&nbsp;<span>{{
 				vacancy.dateFrom | date: "dd.MM.yyyy"

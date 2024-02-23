@@ -9,63 +9,63 @@ import {PasswordResetInitComponent} from './public/pages/password-reset-init/pas
 import {NoAuthApplyPageComponent} from './public/pages/no-auth-apply-page/no-auth-apply-page.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: '/dashboard',
-    pathMatch: 'full'
-  },
-  {
-    path: 'login',
-    component: LoginComponent
-  },
-  {
-    path: 'register',
-    component: RegisterComponent,
-    data: {
-      email: false
-    }
-  },
-  {
-    path: 'register-with-email',
-    component: RegisterComponent,
-    data: {
-      email: true
-    }
-  },
-  {
-    path: 'activate',
-    component: ActivateComponent,
-  },
-  {
-    path: 'reset/finish',
-    component: PasswordResetFinishComponent,
-  },
-  {
-    path: 'reset/request',
-    component: PasswordResetInitComponent
-  },
-  {
-    path: 'dashboard',
-    loadChildren: './applicants/applicants.module#ApplicantsModule',
-  },
-  {
-    path: 'no-auth-apply/:vacancyId',
-    component: NoAuthApplyPageComponent,
-  },
-  {
-    path: '404',
-    component: NotFoundComponent
-  },
-  {
-    path: '**',
-    redirectTo: '404'
-  },
+    {
+        path: '',
+        redirectTo: '/dashboard',
+        pathMatch: 'full'
+    },
+    {
+        path: 'login',
+        component: LoginComponent
+    },
+    {
+        path: 'register',
+        component: RegisterComponent,
+        data: {
+            email: false
+        }
+    },
+    {
+        path: 'register-with-email',
+        component: RegisterComponent,
+        data: {
+            email: true
+        }
+    },
+    {
+        path: 'activate',
+        component: ActivateComponent,
+    },
+    {
+        path: 'reset/finish',
+        component: PasswordResetFinishComponent,
+    },
+    {
+        path: 'reset/request',
+        component: PasswordResetInitComponent
+    },
+    {
+        path: 'dashboard',
+        loadChildren: './applicants/applicants.module#ApplicantsModule',
+    },
+    {
+        path: 'no-auth-apply/:vacancyId',
+        component: NoAuthApplyPageComponent,
+    },
+    {
+        path: '404',
+        component: NotFoundComponent
+    },
+    {
+        path: '**',
+        redirectTo: '404'
+    },
 
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
 })
 export class AppRoutingModule {
 }
