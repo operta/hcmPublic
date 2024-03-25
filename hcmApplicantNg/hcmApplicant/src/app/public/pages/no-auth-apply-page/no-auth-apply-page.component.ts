@@ -25,6 +25,12 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
     qualifications$: Observable<any>;
     schools$: Observable<any>;
     isLoading = false;
+    daniArray: number[] = [];
+    mjeseciArray: number[] = [];
+    godineArray: number[] = [];
+    selectedBirthdayDay: number;
+    selectedBirthdayMonth: number;
+    selectedBirthdayYear: number;
 
     // Atributi za korake
     osnovniPodaciKorak = true;
@@ -36,6 +42,12 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
     // Radno iskustvo
     hasWorkExperience = false;
     workExperiences: AtApplicantsExperience[] = [];
+    workExpTempDay: number[] = [];
+    workExpTempMonth: number[] = [];
+    workExpTempYear: number[] = [];
+    dateToworkExpTempDay: number[] = [];
+    dateToworkExpTempMonth: number[] = [];
+    dateToworkExpTempYear: number[] = [];
 
     constructor(
         private route: ActivatedRoute,
@@ -46,6 +58,15 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
         private schoolsService: AtApplicantsSchoolsService,
         private vacancyService: VacancyService
     ) {
+        for (let i = 1; i < 32; i++) {
+            this.daniArray.push(i);
+        }
+        for (let i = 1; i < 13; i++) {
+            this.mjeseciArray.push(i);
+        }
+        for (let i = new Date().getFullYear() + 1; i > 1900; i--) {
+            this.godineArray.push(i);
+        }
         this.workExperiences.push(new AtApplicantsExperience());
         this.loadVacancyData();
     }
@@ -69,6 +90,39 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
             return false;
         }
         return true;
+    }
+
+    dateChange() {
+        if (this.selectedBirthdayDay && this.selectedBirthdayMonth && this.selectedBirthdayYear) {
+            // Constructing Date object in UTC timezone
+            const newDate = new Date(Date.UTC(this.selectedBirthdayYear, this.selectedBirthdayMonth - 1, this.selectedBirthdayDay));
+            const dateString = newDate.toISOString().split('T')[0];
+            this.applicant.birthdate = dateString;
+        } else {
+            this.applicant.birthdate = null;
+        }
+    }
+
+    dateFromChangeOfI(i: number) {
+        if (this.workExpTempDay[i] && this.workExpTempMonth[i] && this.workExpTempYear[i]) {
+            // Constructing Date object in UTC timezone
+            const newDate = new Date(Date.UTC(this.workExpTempYear[i], this.workExpTempMonth[i] - 1, this.workExpTempDay[i]));
+            const dateString = newDate.toISOString().split('T')[0];
+            this.workExperiences[i].dateFrom = dateString;
+        } else {
+            this.workExperiences[i].dateFrom = null;
+        }
+    }
+
+    dateToChangeOfI(i: number) {
+        if (this.dateToworkExpTempDay[i] && this.dateToworkExpTempMonth[i] && this.dateToworkExpTempYear[i]) {
+            // Constructing Date object in UTC timezone
+            const newDate = new Date(Date.UTC(this.dateToworkExpTempYear[i], this.dateToworkExpTempMonth[i] - 1, this.dateToworkExpTempDay[i]));
+            const dateString = newDate.toISOString().split('T')[0];
+            this.workExperiences[i].dateTo = dateString;
+        } else {
+            this.workExperiences[i].dateTo = null;
+        }
     }
 
     resetWorkExperiences() {
