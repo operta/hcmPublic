@@ -374,152 +374,159 @@
 										trackBy: trackByIndex
 									"
                                 >
-                                    <div class="col-md-12" *ngIf="i == workExperiences.length - 1">
-                                        <div
-                                                class="form-group col-md-5 col-12 col-lg-6 pl-0"
-                                        >
-                                            <label
-                                                    class="form-control-label"
-                                                    [for]="'company_' + i"
-                                            >Kompanija:</label
+                                    <div *ngIf="i == workExperiences.length - 1">
+                                        <div class="col-md-12">
+                                            <div
+                                                    class="form-group col-md-5 col-12 col-lg-6 pl-0"
                                             >
-                                            <input
-                                                    type="text"
-                                                    class="form-control"
-                                                    [name]="'company_' + i"
-                                                    [id]="'company_' + i"
-                                                    [(ngModel)]="
+                                                <label
+                                                        class="form-control-label"
+                                                        [for]="'company_' + i"
+                                                >Kompanija:</label
+                                                >
+                                                <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        [name]="'company_' + i"
+                                                        [id]="'company_' + i"
+                                                        [(ngModel)]="
 												workExperiences[i].company
 											"
-                                            />
+                                                />
+                                            </div>
+                                            <div class="form-group col-md-5 col-12 col-lg-5">
+                                                <label
+                                                        class="form-control-label"
+                                                        [for]="'dateFrom_' + i"
+                                                >Početak radnog iskustva Dan/Mjesec/Godina*:</label
+                                                >
+                                                <div class="input-group">
+                                                    <div class="col-md-4">
+                                                        <ng-select name="birthdate" [(ngModel)]="workExpTempDay[i]"
+                                                                   (change)="dateFromChangeOfI(i)">
+                                                            <ng-option *ngFor="let day of daniArray" [value]="day">
+                                                                {{day}}
+                                                            </ng-option>
+                                                        </ng-select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <ng-select name="birthdate" [(ngModel)]="workExpTempMonth[i]"
+                                                                   (change)="dateFromChangeOfI(i)">
+                                                            <ng-option *ngFor="let month of mjeseciArray"
+                                                                       [value]="month">
+                                                                {{month}}
+                                                            </ng-option>
+                                                        </ng-select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <ng-select name="birthdate" [(ngModel)]="workExpTempYear[i]"
+                                                                   (change)="dateFromChangeOfI(i)">
+                                                            <ng-option *ngFor="let year of godineArray" [value]="year">
+                                                                {{year}}
+                                                            </ng-option>
+                                                        </ng-select>
+                                                    </div>
+                                                    <!--
+                                                    <input
+                                                            [id]="'dateFrom_' + i"
+                                                            type="date"
+                                                            class="form-control"
+                                                            required
+                                                            [name]="'dateFrom_' + i"
+                                                            [(ngModel)]="
+                                                            workExperiences[i].dateFrom
+                                                        "
+                                                    />
+                                                    -->
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2"></div>
                                         </div>
-                                        <div class="form-group col-md-5 col-12 col-lg-5">
-                                            <label
-                                                    class="form-control-label"
-                                                    [for]="'dateFrom_' + i"
-                                            >Početak radnog iskustva Dan/Mjesec/Godina*:</label
-                                            >
-                                            <div class="input-group">
-                                                <div class="col-md-4">
-                                                    <ng-select name="birthdate" [(ngModel)]="workExpTempDay[i]"
-                                                               (change)="dateFromChangeOfI(i)">
-                                                        <ng-option *ngFor="let day of daniArray" [value]="day">
-                                                            {{day}}
-                                                        </ng-option>
-                                                    </ng-select>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <ng-select name="birthdate" [(ngModel)]="workExpTempMonth[i]"
-                                                               (change)="dateFromChangeOfI(i)">
-                                                        <ng-option *ngFor="let month of mjeseciArray" [value]="month">
-                                                            {{month}}
-                                                        </ng-option>
-                                                    </ng-select>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <ng-select name="birthdate" [(ngModel)]="workExpTempYear[i]"
-                                                               (change)="dateFromChangeOfI(i)">
-                                                        <ng-option *ngFor="let year of godineArray" [value]="year">
-                                                            {{year}}
-                                                        </ng-option>
-                                                    </ng-select>
-                                                </div>
-                                                <!--
+                                        <div class="col-md-12">
+                                            <div class="form-group col-md-5 col-12 col-lg-6">
+                                                <label
+                                                        class="form-control-label"
+                                                        [for]="'position_' + i"
+                                                >Pozicija*:</label
+                                                >
                                                 <input
-                                                        [id]="'dateFrom_' + i"
-                                                        type="date"
+                                                        type="text"
                                                         class="form-control"
                                                         required
-                                                        [name]="'dateFrom_' + i"
+                                                        [name]="'position_' + i"
+                                                        [id]="'position_' + i"
                                                         [(ngModel)]="
-                                                        workExperiences[i].dateFrom
-                                                    "
-                                                />
-                                                -->
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2"></div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group col-md-5 col-12 col-lg-6">
-                                            <label
-                                                    class="form-control-label"
-                                                    [for]="'position_' + i"
-                                            >Pozicija*:</label
-                                            >
-                                            <input
-                                                    type="text"
-                                                    class="form-control"
-                                                    required
-                                                    [name]="'position_' + i"
-                                                    [id]="'position_' + i"
-                                                    [(ngModel)]="
 												workExperiences[i].position
 											"
-                                            />
-                                        </div>
-                                        <div class="form-group col-md-5 col-12 col-lg-5">
-                                            <label
-                                                    class="form-control-label"
-                                                    [for]="
+                                                />
+                                            </div>
+                                            <div class="form-group col-md-5 col-12 col-lg-5">
+                                                <label
+                                                        class="form-control-label"
+                                                        [for]="
 												workExperiences[i].dateTo +
 												'_' +
 												i
 											"
-                                            >Kraj radnog iskustva Dan/Mjesec/Godina</label>
-                                            <div class="input-group">
-                                                <div class="col-md-4">
-                                                    <ng-select name="birthdate" [(ngModel)]="dateToworkExpTempDay[i]"
-                                                               (change)="dateToChangeOfI(i)">
-                                                        <ng-option *ngFor="let day of daniArray" [value]="day">
-                                                            {{day}}
-                                                        </ng-option>
-                                                    </ng-select>
+                                                >Kraj radnog iskustva Dan/Mjesec/Godina</label>
+                                                <div class="input-group">
+                                                    <div class="col-md-4">
+                                                        <ng-select name="birthdate"
+                                                                   [(ngModel)]="dateToworkExpTempDay[i]"
+                                                                   (change)="dateToChangeOfI(i)">
+                                                            <ng-option *ngFor="let day of daniArray" [value]="day">
+                                                                {{day}}
+                                                            </ng-option>
+                                                        </ng-select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <ng-select name="birthdate"
+                                                                   [(ngModel)]="dateToworkExpTempMonth[i]"
+                                                                   (change)="dateToChangeOfI(i)">
+                                                            <ng-option *ngFor="let month of mjeseciArray"
+                                                                       [value]="month">
+                                                                {{month}}
+                                                            </ng-option>
+                                                        </ng-select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <ng-select name="birthdate"
+                                                                   [(ngModel)]="dateToworkExpTempYear[i]"
+                                                                   (change)="dateToChangeOfI(i)">
+                                                            <ng-option *ngFor="let year of godineArray" [value]="year">
+                                                                {{year}}
+                                                            </ng-option>
+                                                        </ng-select>
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <ng-select name="birthdate" [(ngModel)]="dateToworkExpTempMonth[i]"
-                                                               (change)="dateToChangeOfI(i)">
-                                                        <ng-option *ngFor="let month of mjeseciArray" [value]="month">
-                                                            {{month}}
-                                                        </ng-option>
-                                                    </ng-select>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <ng-select name="birthdate" [(ngModel)]="dateToworkExpTempYear[i]"
-                                                               (change)="dateToChangeOfI(i)">
-                                                        <ng-option *ngFor="let year of godineArray" [value]="year">
-                                                            {{year}}
-                                                        </ng-option>
-                                                    </ng-select>
-                                                </div>
-                                            </div>
 
-                                            <!--
-                                            <div class="input-group">
-                                                <input
-                                                        [id]="'dateTo_' + i"
-                                                        type="date"
-                                                        class="form-control"
-                                                        [name]="'dateTo_' + i"
-                                                        [(ngModel)]="
-                                                        workExperiences[i].dateTo
-                                                    "
-                                                />
-                                                -->
+                                                <!--
+                                                <div class="input-group">
+                                                    <input
+                                                            [id]="'dateTo_' + i"
+                                                            type="date"
+                                                            class="form-control"
+                                                            [name]="'dateTo_' + i"
+                                                            [(ngModel)]="
+                                                            workExperiences[i].dateTo
+                                                        "
+                                                    />
+                                                    -->
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="float-right col-2 col-md-2 col-lg-2">
-                                            <label class="form-control-label"
-                                            >&nbsp;</label
-                                            >
-                                            <button
-                                                    type="button"
-                                                    (click)="deleteWorkExperience(i)"
-                                                    class="btn btn-outline-danger btn-block"
-                                            >
-                                                x
-                                            </button>
+                                        <div class="col-md-12">
+                                            <div class="float-right col-2 col-md-2 col-lg-2">
+                                                <label class="form-control-label"
+                                                >&nbsp;</label
+                                                >
+                                                <button
+                                                        type="button"
+                                                        (click)="deleteWorkExperience(i)"
+                                                        class="btn btn-outline-danger btn-block"
+                                                >
+                                                    x
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </ng-container>
