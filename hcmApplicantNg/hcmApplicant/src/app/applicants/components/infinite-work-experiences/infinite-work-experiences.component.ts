@@ -19,13 +19,13 @@ export class InfiniteWorkExperiencesComponent implements OnInit {
     mjeseciArray: number[] = [];
     godineArray: number[] = [];
 
-    dateFromTempYear: [] = [];
-    dateFromTempMonth: [] = [];
-    dateFromTempDay: [] = [];
+    dateFromTempYear: number[] = [];
+    dateFromTempMonth: number[] = [];
+    dateFromTempDay: number[] = [];
 
-    dateToTempYear: [] = [];
-    dateToTempMonth: [] = [];
-    dateToTempDay: [] = [];
+    dateToTempYear: number[] = [];
+    dateToTempMonth: number[] = [];
+    dateToTempDay: number[] = [];
 
     constructor() {
         for (let i = 1; i < 32; i++) {
