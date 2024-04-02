@@ -53,6 +53,7 @@ import {SettingsComponent} from './components/account/settings/settings.componen
 import {PasswordComponent} from './components/account/password/password.component';
 import {PasswordService} from './services/password.service';
 import {ApplicantConstantsService} from './services/applicant-constants.service';
+import { InfiniteWorkExperiencesComponent } from './components/infinite-work-experiences/infinite-work-experiences.component';
 
 @NgModule({
     imports: [
@@ -105,6 +106,7 @@ import {ApplicantConstantsService} from './services/applicant-constants.service'
         DocumentBlobInputComponent,
         SettingsComponent,
         PasswordComponent,
+        InfiniteWorkExperiencesComponent,
     ],
     entryComponents: [
         GenericModalComponent,
@@ -131,6 +133,9 @@ import {ApplicantConstantsService} from './services/applicant-constants.service'
         ApplicantConstantsService
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    exports: [
+        InfiniteWorkExperiencesComponent
+    ]
 })
 export class ApplicantsModule {
 }

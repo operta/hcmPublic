@@ -1,0 +1,137 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-12 pl-0">
+                <div class="form-group">
+                    <h2>Radno iskustvo</h2>
+                </div>
+            </div>
+            <div class="col-12 pl-0">
+                <div class="form-group">
+                    <input id="iskustvo"
+                           type="checkbox"
+                           [checked]="hasWorkExperience"
+                           (change)="toggleWorkExperience()"/>
+                    <label for="iskustvo">&nbsp;Imam radno iskustvo</label>
+                </div>
+            </div>
+        </div>
+        <ng-container *ngIf="hasWorkExperience">
+            <ng-container *ngFor="let experience of workExperiences;
+					let i = index;
+					trackBy: trackByIndex">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <label
+                                    class="form-control-label"
+                                    [for]="'company_' + i">Kompanija:</label>
+                            <input type="text"
+                                   class="form-control"
+                                   [name]="'company_' + i"
+                                   [id]="'company_' + i"
+                                   [(ngModel)]="workExperiences[i].company"/>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-control-label"
+                                   [for]="'position_' + i">Pozicija*: </label>
+                            <input
+                                    type="text"
+                                    class="form-control"
+                                    required
+                                    [name]="'position_' + i"
+                                    [id]="'position_' + i"
+                                    [(ngModel)]="workExperiences[i].position"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <div class="col-md-5">
+                            <label class="form-control-label"
+                                   [for]="'dateFrom_' + i">Početak radnog iskustva Dan/Mjesec/Godina*:</label>
+                            <div class="col-md-4">
+                                <ng-select name="birthdate" [(ngModel)]="dateFromTempDay[i]"
+                                           (change)="onDayChange(i)">
+                                    <ng-option *ngFor="let day of daniArray" [value]="day">
+                                        {{day}}
+                                    </ng-option>
+                                </ng-select>
+                            </div>
+                            <div class="col-md-4">
+                                <ng-select name="birthdate" [(ngModel)]="dateFromTempMonth[i]"
+                                           (change)="onMonthChange(i)">
+                                    <ng-option *ngFor="let month of mjeseciArray"
+                                               [value]="month">
+                                        {{month}}
+                                    </ng-option>
+                                </ng-select>
+                            </div>
+                            <div class="col-md-4">
+                                <ng-select name="birthdate" [(ngModel)]="dateFromTempYear[i]"
+                                           (change)="onYearChange(i)">
+                                    <ng-option *ngFor="let year of godineArray" [value]="year">
+                                        {{year}}
+                                    </ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <label class="form-control-label"
+                                   [for]="'dateFrom_' + i">Kraj radnog iskustva Dan/Mjesec/Godina*:</label>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <ng-select name="birthdate" [(ngModel)]="dateToTempDay[i]"
+                                               (change)="onDayChange(i)">
+                                        <ng-option *ngFor="let day of daniArray" [value]="day">
+                                            {{day}}
+                                        </ng-option>
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-4">
+                                    <ng-select name="birthdate" [(ngModel)]="dateToTempMonth[i]"
+                                               (change)="onMonthChange(i)">
+                                        <ng-option *ngFor="let month of mjeseciArray"
+                                                   [value]="month">
+                                            {{month}}
+                                        </ng-option>
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-4">
+                                    <ng-select name="birthdate" [(ngModel)]="dateToTempYear[i]"
+                                               (change)="onYearChange(i)">
+                                        <ng-option *ngFor="let year of godineArray" [value]="year">
+                                            {{year}}
+                                        </ng-option>
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="float-right col-md-12">
+                                <label class="form-control-label">&nbsp;</label>
+                                <button
+                                        type="button"
+                                        (click)="deleteWorkExperience(i)"
+                                        class="btn btn-outline-danger btn-block">
+                                    x
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+        <div class="col-md-6 float-left mt-3" *ngIf="hasWorkExperience">
+            <div class="form-group">
+                <button type="button"
+                        (click)="addNewWorkExperience()"
+                        class="btn btn-success btn-block">
+                    <span class="ml-1 fa fa-fw fa-plus"></span>
+                    Imam još radnog iskustva
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -28,6 +28,7 @@ import {AtApplicantsExperienceService} from './applicants/services/applicant-exp
 import {AtApplicantsSchoolsService} from './applicants/services/applicant-schools.service';
 import { VacancyService } from './applicants/services/vacancy.service';
 import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
+import {ApplicantsModule} from './applicants/applicants.module';
 
 @NgModule({
     declarations: [
@@ -56,7 +57,8 @@ import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
         LoadingBarHttpClientModule,
         LoadingBarRouterModule,
         NgSelectModule,
-        NgbProgressbarModule
+        NgbProgressbarModule,
+        ApplicantsModule
     ],
     providers: [
         ApplicantsService,

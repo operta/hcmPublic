@@ -32,6 +32,8 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
     selectedBirthdayMonth: number;
     selectedBirthdayYear: number;
 
+    characterCount = 0;
+
     // Atributi za korake
     osnovniPodaciKorak = true;
     kvalifikacijeKorak = false;
@@ -76,20 +78,33 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
         this.vacancyName = this.vacancyService.vacancyOnWhichUserIsApplying;
     }
 
+    /*
     addNewWorkExperience() {
         // Provjeri da li je zadnje dodano ispravno
         if (this.isLastAddedWorkExperienceValid()) {
             this.workExperiences.push(new AtApplicantsExperience());
         }
     }
+     */
 
     private isLastAddedWorkExperienceValid(): boolean {
+        if (this.hasWorkExperience && this.workExperiences.length === 1) {
+            if (!this.workExperiences[0].company || !this.workExperiences[0].position || !this.workExperiences[0].dateFrom) {
+                this.resetWorkExperiences();
+                this.hasWorkExperience = false;
+                return true;
+            }
+        }
         const we = this.workExperiences[this.workExperiences.length - 1];
         if (!we.dateFrom || !we.position) {
             this.showSwalert('Pozicija i datum od su obavezni.', 'error');
             return false;
         }
         return true;
+    }
+
+    updateCharacterCount(value: string): void {
+        this.characterCount = value.length;
     }
 
     dateChange() {
@@ -103,6 +118,7 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
         }
     }
 
+    /*
     dateFromChangeOfI(i: number) {
         if (this.workExpTempDay[i] && this.workExpTempMonth[i] && this.workExpTempYear[i]) {
             // Constructing Date object in UTC timezone
@@ -113,7 +129,13 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
             this.workExperiences[i].dateFrom = null;
         }
     }
+     */
 
+    onEvent(event: AtApplicantsExperience[]) {
+        this.workExperiences = event;
+    }
+
+    /*
     dateToChangeOfI(i: number) {
         if (this.dateToworkExpTempDay[i] && this.dateToworkExpTempMonth[i] && this.dateToworkExpTempYear[i]) {
             // Constructing Date object in UTC timezone
@@ -124,6 +146,7 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
             this.workExperiences[i].dateTo = null;
         }
     }
+     */
 
     resetWorkExperiences() {
         this.workExperiences = [];
@@ -135,12 +158,14 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
         this.qualifications$ = this.registersService.getQualifications();
     }
 
+    /*
     toggleWorkExperience() {
         this.hasWorkExperience = !this.hasWorkExperience;
         if (this.hasWorkExperience) {
             this.resetWorkExperiences();
         }
     }
+     */
 
     apply() {
         this.isLoading = true;
@@ -263,7 +288,7 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
         skolaSelectElement.removeChild(document.getElementById('novaSkola'));
     }
 
-    // Funkcije za korake
+// Funkcije za korake
     goToOsnovniPodaci() {
         this.osnovniPodaciKorak = true;
         this.kvalifikacijeKorak = false;
@@ -300,15 +325,14 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
         this.workExperiences = this.workExperiences.filter((we) => we.dateFrom);
 
         // Uklini sva iskustva ako je na kraju odabrao da nema iskustva
-        this.workExperiences = this.hasWorkExperience
-            ? this.workExperiences
-            : [];
+        this.workExperiences = this.hasWorkExperience ? this.workExperiences : [];
 
         this.radnoIskustvoKorak = false;
         this.napomenaKorak = true;
         this.value = 100;
     }
 
+    /*
     deleteWorkExperience(index: number) {
         if (this.workExperiences.length === 1) {
             this.workExperiences = [];
@@ -317,6 +341,7 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
             this.workExperiences.splice(index, 1);
         }
     }
+     */
 
     private osnovniPodaciIspravni(): boolean {
         if (!this.applicant.name || !this.applicant.surname) {
@@ -361,7 +386,7 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
         return true;
     }
 
-    // Radna iskustva niz
+// Radna iskustva niz
     trackByIndex(index: number, obj: any): any {
         return index;
     }
