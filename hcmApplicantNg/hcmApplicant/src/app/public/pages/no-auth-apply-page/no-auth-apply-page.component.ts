@@ -171,50 +171,40 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
         this.isLoading = true;
         this.school.idQualifcation = this.applicant.idQualifcation;
         this.applicant.phoneNumber = this.applicant.phoneNumber.toString();
-        this.applicantsService
-            .createNoAuth(this.applicant, this.vacancyId)
-            .pipe(
-                switchMap((createdApplicant: AtApplicants) => {
-                    this.school.idApplicantId = createdApplicant.id;
-                    if (this.hasWorkExperience) {
-                        const observableBatch = [];
-                        this.workExperiences.forEach((we) => {
-                            we.idApplicantId = createdApplicant.id;
-                            observableBatch.push(
-                                this.experienceService.create(we)
-                            );
-                        });
-                        return forkJoin(observableBatch);
-                    }
-                    return of(null);
-                }),
-                switchMap(() => {
-                    return this.schoolsService.create(this.school);
-                })
-            )
-            .subscribe(
-                () => {
-                    this.showSwalert(
-                        'Uspješno ste se prijavili na oglas.' +
-                        'U koliko želite da dodate CV, ili neke druge informacije,' +
-                        'aktivirajte profil aktivacijskim kodom, koji smo poslali' +
-                        'na vašu mail adresu.',
-                        'success',
-                        'Prijava uspjela'
-                    );
-                    this.isLoading = false;
-                    this.router.navigate(['/']);
-                },
-                (error) => {
-                    this.showSwalert(
-                        error.json,
-                        'error',
-                        'Došlo je do greške, kontaktirajte podršku'
-                    );
-                    this.isLoading = false;
-                    this.router.navigate(['/']);
+        this.applicantsService.createNoAuth(this.applicant, this.vacancyId)
+            .subscribe((createdApplicant: AtApplicants) => {
+                this.school.idApplicantId = createdApplicant.id;
+                if (this.hasWorkExperience) {
+                    const observableBatch = [];
+                    this.workExperiences.forEach((we) => {
+                        we.idApplicantId = createdApplicant.id;
+                        observableBatch.push(
+                            this.experienceService.create(we)
+                        );
+                    });
                 }
-            );
+                this.schoolsService.create(this.school)
+                    .subscribe((createdSchool) => {
+                        this.showSwalert(
+                            'Uspješno ste se prijavili na oglas.' +
+                            'U koliko želite da dodate CV, ili neke druge informacije,' +
+                            'aktivirajte profil aktivacijskim kodom, koji smo poslali' +
+                            'na vašu mail adresu.',
+                            'success',
+                            'Prijava uspjela'
+                        );
+                        this.isLoading = false;
+                        this.router.navigate(['/']);
+                    });
+            }, (error) => {
+                this.showSwalert(
+                    error.json,
+                    'error',
+                    'Došlo je do greške, kontaktirajte podršku'
+                );
+                this.isLoading = false;
+                this.router.navigate(['/']);
+            });
     }
 
     onCitySelected(regionId: number) {
