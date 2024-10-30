@@ -174,28 +174,67 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
         this.applicantsService.createNoAuth(this.applicant, this.vacancyId)
             .subscribe((createdApplicant: AtApplicants) => {
                 this.school.idApplicantId = createdApplicant.id;
+
+                // Check if the applicant has work experience
                 if (this.hasWorkExperience) {
                     const observableBatch = [];
                     this.workExperiences.forEach((we) => {
                         we.idApplicantId = createdApplicant.id;
-                        observableBatch.push(
-                            this.experienceService.create(we)
-                        );
+                        observableBatch.push(this.experienceService.create(we));
                     });
+
+                    // Use forkJoin to wait for all experience creation observables to complete
+                    forkJoin(observableBatch).subscribe({
+                        next: () => {
+                            // After all work experiences are created, create the school
+                            this.schoolsService.create(this.school)
+                                .subscribe((createdSchool) => {
+                                    this.showSwalert(
+                                        'Uspješno ste se prijavili na oglas.' +
+                                        'U koliko želite da dodate CV, ili neke druge informacije,' +
+                                        'aktivirajte profil aktivacijskim kodom, koji smo poslali' +
+                                        'na vašu mail adresu.',
+                                        'success',
+                                        'Prijava uspjela'
+                                    );
+                                    this.isLoading = false;
+                                    this.router.navigate(['/']);
+                                });
+                        },
+                        error: (error) => {
+                            this.showSwalert(
+                                'Greška prilikom kreiranja radnog iskustva: ' + error,
+                                'error',
+                                'Došlo je do greške'
+                            );
+                            this.isLoading = false;
+                            this.router.navigate(['/']);
+                        }
+                    });
+                } else {
+                    // If there are no work experiences, create the school directly
+                    this.schoolsService.create(this.school)
+                        .subscribe((createdSchool) => {
+                            this.showSwalert(
+                                'Uspješno ste se prijavili na oglas.' +
+                                'U koliko želite da dodate CV, ili neke druge informacije,' +
+                                'aktivirajte profil aktivacijskim kodom, koji smo poslali' +
+                                'na vašu mail adresu.',
+                                'success',
+                                'Prijava uspjela'
+                            );
+                            this.isLoading = false;
+                            this.router.navigate(['/']);
+                        }, (error) => {
+                            this.showSwalert(
+                                'Greška prilikom kreiranja škole: ' + error,
+                                'error',
+                                'Došlo je do greške'
+                            );
+                            this.isLoading = false;
+                            this.router.navigate(['/']);
+                        });
                 }
-                this.schoolsService.create(this.school)
-                    .subscribe((createdSchool) => {
-                        this.showSwalert(
-                            'Uspješno ste se prijavili na oglas.' +
-                            'U koliko želite da dodate CV, ili neke druge informacije,' +
-                            'aktivirajte profil aktivacijskim kodom, koji smo poslali' +
-                            'na vašu mail adresu.',
-                            'success',
-                            'Prijava uspjela'
-                        );
-                        this.isLoading = false;
-                        this.router.navigate(['/']);
-                    });
             }, (error) => {
                 this.showSwalert(
                     error.json,
