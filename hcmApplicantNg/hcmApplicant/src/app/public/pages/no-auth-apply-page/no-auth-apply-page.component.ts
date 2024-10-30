@@ -175,82 +175,69 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
         this.isLoading = true;
         this.school.idQualifcation = this.applicant.idQualifcation;
         this.applicant.phoneNumber = this.applicant.phoneNumber.toString();
+
         this.applicantsService.createNoAuth(this.applicant, this.vacancyId)
-            .subscribe((createdApplicant: AtApplicants) => {
-                this.school.idApplicantId = createdApplicant.id;
+            .pipe(
+                // After creating the applicant
+                switchMap((createdApplicant: AtApplicants) => {
+                    this.school.idApplicantId = createdApplicant.id;
 
-                // Check if the applicant has work experience
-                if (this.hasWorkExperience) {
-                    const observableBatch = [];
-                    this.workExperiences.forEach((we) => {
-                        we.idApplicantId = createdApplicant.id;
-                        observableBatch.push(this.experienceService.create(we));
-                    });
+                    // Check if the applicant has work experience
+                    if (this.hasWorkExperience) {
+                        const observableBatch = [];
+                        this.workExperiences.forEach((we) => {
+                            we.idApplicantId = createdApplicant.id;
+                            observableBatch.push(this.experienceService.create(we));
+                        });
 
-                    // Use forkJoin to wait for all experience creation observables to complete
-                    forkJoin(observableBatch).subscribe({
-                        next: () => {
+                        // Use forkJoin to wait for all experience creation observables to complete
+                        return forkJoin(observableBatch).pipe(
                             // After all work experiences are created, create the school
-                            let schoolToCreate: RgSchools = {};
-                            schoolToCreate.name = this.school.school;
-                            this.rgSchoolsService.create(schoolToCreate)
-                                .subscribe((createdRgSchool: RgSchools) => {
-                                    this.school.idSchool = createdRgSchool.id;
-                                    this.schoolsService.create(this.school)
-                                        .subscribe((createdSchool) => {
-                                            this.showSwalert(
-                                                'Uspješno ste se prijavili na oglas.' +
-                                                'U koliko želite da dodate CV, ili neke druge informacije,' +
-                                                'aktivirajte profil aktivacijskim kodom, koji smo poslali' +
-                                                'na vašu mail adresu.',
-                                                'success',
-                                                'Prijava uspjela'
-                                            );
-                                            this.isLoading = false;
-                                            this.router.navigate(['/']);
-                                        });
-                                }, err => logger.error(err));
-                        },
-                        error: (error) => {
-                            this.showSwalert(
-                                'Greška prilikom kreiranja radnog iskustva: ' + error,
-                                'error',
-                                'Došlo je do greške'
-                            );
-                            this.isLoading = false;
-                            this.router.navigate(['/']);
-                        }
-                    });
-                } else {
-                    // If there are no work experiences, create the school directly
-                    let schoolToCreate: RgSchools = {};
-                    schoolToCreate.name = this.school.school;
-                    this.rgSchoolsService.create(schoolToCreate)
-                        .subscribe((createdRgSchool: RgSchools) => {
-                            this.school.idSchool = createdRgSchool.id;
-                            this.schoolsService.create(this.school)
-                                .subscribe((createdSchool) => {
-                                    this.showSwalert(
-                                        'Uspješno ste se prijavili na oglas.' +
-                                        'U koliko želite da dodate CV, ili neke druge informacije,' +
-                                        'aktivirajte profil aktivacijskim kodom, koji smo poslali' +
-                                        'na vašu mail adresu.',
-                                        'success',
-                                        'Prijava uspjela'
-                                    );
-                                    this.isLoading = false;
-                                    this.router.navigate(['/']);
-                                });
-                        }, err => logger.error(err));
+                            switchMap(() => {
+                                const schoolToCreate: RgSchools = { name: this.school.school };
+                                return this.rgSchoolsService.create(schoolToCreate).pipe(
+                                    switchMap((createdRgSchool: RgSchools) => {
+                                        this.school.idSchool = createdRgSchool.id;
+                                        return this.schoolsService.create(this.school);
+                                    })
+                                );
+                            })
+                        );
+                    } else {
+                        // If there are no work experiences, create the school directly
+                        const schoolToCreate: RgSchools = { name: this.school.school };
+                        return this.rgSchoolsService.create(schoolToCreate).pipe(
+                            switchMap((createdRgSchool: RgSchools) => {
+                                this.school.idSchool = createdRgSchool.id;
+                                return this.schoolsService.create(this.school);
+                            })
+                        );
+                    }
+                })
+            )
+            .subscribe({
+                next: (createdSchool) => {
+                    this.showSwalert(
+                        'Uspješno ste se prijavili na oglas.' +
+                        'U koliko želite da dodate CV, ili neke druge informacije,' +
+                        'aktivirajte profil aktivacijskim kodom, koji smo poslali' +
+                        'na vašu mail adresu.',
+                        'success',
+                        'Prijava uspjela'
+                    );
+                    this.isLoading = false;
+                    this.router.navigate(['/']);
+                },
+                error: (error) => {
+                    console.error('Error occurred:', error);
+                    this.showSwalert(
+                        'Greška prilikom kreiranja radnog iskustva: ' + error,
+                        'error',
+                        'Došlo je do greške'
+                    );
+                    this.isLoading = false;
+                    this.router.navigate(['/']);
                 }
-            }, (error) => {
-                this.showSwalert(
-                    error.json,
-                    'error',
-                    'Došlo je do greške, kontaktirajte podršku'
-                );
-                this.isLoading = false;
-                this.router.navigate(['/']);
             });
     }
 
