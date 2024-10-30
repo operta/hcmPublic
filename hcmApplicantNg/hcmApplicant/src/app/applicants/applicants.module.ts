@@ -54,6 +54,7 @@ import {PasswordComponent} from './components/account/password/password.componen
 import {PasswordService} from './services/password.service';
 import {ApplicantConstantsService} from './services/applicant-constants.service';
 import { InfiniteWorkExperiencesComponent } from './components/infinite-work-experiences/infinite-work-experiences.component';
+import {RgSchoolsService} from './services/rg-schools.service';
 
 @NgModule({
     imports: [
@@ -130,7 +131,8 @@ import { InfiniteWorkExperiencesComponent } from './components/infinite-work-exp
         DmDocumentLinksService,
         RegistersService,
         PasswordService,
-        ApplicantConstantsService
+        ApplicantConstantsService,
+        RgSchoolsService
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     exports: [

@@ -11,6 +11,9 @@ import Swal from 'sweetalert2';
 import {AtApplicantsExperienceService} from '../../../applicants/services/applicant-experience.service';
 import {AtApplicantsSchoolsService} from '../../../applicants/services/applicant-schools.service';
 import {VacancyService} from 'src/app/applicants/services/vacancy.service';
+import {RgSchoolsService} from '../../../applicants/services/rg-schools.service';
+import {RgSchools} from '../../../applicants/models/rg-schools.model';
+import {logger} from 'codelyzer/util/logger';
 
 @Component({
     selector: 'app-no-auth-apply',
@@ -58,7 +61,8 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
         private registersService: RegistersService,
         private experienceService: AtApplicantsExperienceService,
         private schoolsService: AtApplicantsSchoolsService,
-        private vacancyService: VacancyService
+        private vacancyService: VacancyService,
+        private rgSchoolsService: RgSchoolsService
     ) {
         for (let i = 1; i < 32; i++) {
             this.daniArray.push(i);
@@ -187,19 +191,25 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
                     forkJoin(observableBatch).subscribe({
                         next: () => {
                             // After all work experiences are created, create the school
-                            this.schoolsService.create(this.school)
-                                .subscribe((createdSchool) => {
-                                    this.showSwalert(
-                                        'Uspješno ste se prijavili na oglas.' +
-                                        'U koliko želite da dodate CV, ili neke druge informacije,' +
-                                        'aktivirajte profil aktivacijskim kodom, koji smo poslali' +
-                                        'na vašu mail adresu.',
-                                        'success',
-                                        'Prijava uspjela'
-                                    );
-                                    this.isLoading = false;
-                                    this.router.navigate(['/']);
-                                });
+                            let schoolToCreate: RgSchools = {};
+                            schoolToCreate.name = this.school.school;
+                            this.rgSchoolsService.create(schoolToCreate)
+                                .subscribe((createdRgSchool: RgSchools) => {
+                                    this.school.idSchool = createdRgSchool.id;
+                                    this.schoolsService.create(this.school)
+                                        .subscribe((createdSchool) => {
+                                            this.showSwalert(
+                                                'Uspješno ste se prijavili na oglas.' +
+                                                'U koliko želite da dodate CV, ili neke druge informacije,' +
+                                                'aktivirajte profil aktivacijskim kodom, koji smo poslali' +
+                                                'na vašu mail adresu.',
+                                                'success',
+                                                'Prijava uspjela'
+                                            );
+                                            this.isLoading = false;
+                                            this.router.navigate(['/']);
+                                        });
+                                }, err => logger.error(err));
                         },
                         error: (error) => {
                             this.showSwalert(
@@ -213,27 +223,25 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
                     });
                 } else {
                     // If there are no work experiences, create the school directly
-                    this.schoolsService.create(this.school)
-                        .subscribe((createdSchool) => {
-                            this.showSwalert(
-                                'Uspješno ste se prijavili na oglas.' +
-                                'U koliko želite da dodate CV, ili neke druge informacije,' +
-                                'aktivirajte profil aktivacijskim kodom, koji smo poslali' +
-                                'na vašu mail adresu.',
-                                'success',
-                                'Prijava uspjela'
-                            );
-                            this.isLoading = false;
-                            this.router.navigate(['/']);
-                        }, (error) => {
-                            this.showSwalert(
-                                'Greška prilikom kreiranja škole: ' + error,
-                                'error',
-                                'Došlo je do greške'
-                            );
-                            this.isLoading = false;
-                            this.router.navigate(['/']);
-                        });
+                    let schoolToCreate: RgSchools = {};
+                    schoolToCreate.name = this.school.school;
+                    this.rgSchoolsService.create(schoolToCreate)
+                        .subscribe((createdRgSchool: RgSchools) => {
+                            this.school.idSchool = createdRgSchool.id;
+                            this.schoolsService.create(this.school)
+                                .subscribe((createdSchool) => {
+                                    this.showSwalert(
+                                        'Uspješno ste se prijavili na oglas.' +
+                                        'U koliko želite da dodate CV, ili neke druge informacije,' +
+                                        'aktivirajte profil aktivacijskim kodom, koji smo poslali' +
+                                        'na vašu mail adresu.',
+                                        'success',
+                                        'Prijava uspjela'
+                                    );
+                                    this.isLoading = false;
+                                    this.router.navigate(['/']);
+                                });
+                        }, err => logger.error(err));
                 }
             }, (error) => {
                 this.showSwalert(

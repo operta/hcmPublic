@@ -29,6 +29,7 @@ import {AtApplicantsSchoolsService} from './applicants/services/applicant-school
 import { VacancyService } from './applicants/services/vacancy.service';
 import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import {ApplicantsModule} from './applicants/applicants.module';
+import {RgSchools} from './applicants/models/rg-schools.model';
 
 @NgModule({
     declarations: [
@@ -66,7 +67,7 @@ import {ApplicantsModule} from './applicants/applicants.module';
         ApplicantConstantsService,
         AtApplicantsExperienceService,
         AtApplicantsSchoolsService,
-        VacancyService
+        VacancyService,
     ],
     bootstrap: [AppComponent]
 })
