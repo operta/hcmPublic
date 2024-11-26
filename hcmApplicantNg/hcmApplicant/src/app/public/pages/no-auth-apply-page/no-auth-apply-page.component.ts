@@ -178,33 +178,33 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
 
         this.applicantsService.createNoAuth(this.applicant, this.vacancyId)
             .pipe(
-                // After creating the applicant
                 switchMap((createdApplicant: AtApplicants) => {
                     this.school.idApplicantId = createdApplicant.id;
 
-                    // Check if the applicant has work experience
                     if (this.hasWorkExperience) {
-                        const observableBatch = [];
-                        this.workExperiences.forEach((we) => {
-                            we.idApplicantId = createdApplicant.id;
-                            observableBatch.push(this.experienceService.create(we));
-                        });
+                        // Process each experience sequentially
+                        return this.workExperiences.reduce((prevObservable, currentExperience) => {
+                            currentExperience.idApplicantId = createdApplicant.id;
 
-                        // Use forkJoin to wait for all experience creation observables to complete
-                        return forkJoin(observableBatch).pipe(
-                            // After all work experiences are created, create the school
-                            switchMap(() => {
-                                const schoolToCreate: RgSchools = { name: this.school.school };
-                                return this.rgSchoolsService.create(schoolToCreate).pipe(
-                                    switchMap((createdRgSchool: RgSchools) => {
-                                        this.school.idSchool = createdRgSchool.id;
-                                        return this.schoolsService.create(this.school);
-                                    })
-                                );
-                            })
-                        );
+                            // Chain each creation observable
+                            return prevObservable.pipe(
+                                switchMap(() => this.experienceService.create(currentExperience))
+                            );
+                        }, of(null)) // Start with an empty observable
+                            .pipe(
+                                // Once all experiences are created, create the school
+                                switchMap(() => {
+                                    const schoolToCreate: RgSchools = { name: this.school.school };
+                                    return this.rgSchoolsService.create(schoolToCreate).pipe(
+                                        switchMap((createdRgSchool: RgSchools) => {
+                                            this.school.idSchool = createdRgSchool.id;
+                                            return this.schoolsService.create(this.school);
+                                        })
+                                    );
+                                })
+                            );
                     } else {
-                        // If there are no work experiences, create the school directly
+                        // If no work experiences, directly create the school
                         const schoolToCreate: RgSchools = { name: this.school.school };
                         return this.rgSchoolsService.create(schoolToCreate).pipe(
                             switchMap((createdRgSchool: RgSchools) => {
@@ -240,6 +240,7 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
                 }
             });
     }
+
 
     onCitySelected(regionId: number) {
         this.applicant.idCity = regionId;
