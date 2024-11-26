@@ -13,6 +13,8 @@ export class AtApplicantsExperienceService {
 
    create(atApplicantsExperience: AtApplicantsExperience): Observable<AtApplicantsExperience> {
     const copy = Object.assign({}, atApplicantsExperience);
+    console.log('EXP: ');
+    console.log(copy);
     return this.http.post<AtApplicantsExperience>(this.resourceUrl, copy);
   }
 
