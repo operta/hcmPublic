@@ -195,23 +195,31 @@ export class NoAuthApplyPageComponent implements OnInit, OnDestroy {
                             // After all work experiences are created, create the school
                             switchMap(() => {
                                 const schoolToCreate: RgSchools = { name: this.school.school };
-                                return this.rgSchoolsService.create(schoolToCreate).pipe(
-                                    switchMap((createdRgSchool: RgSchools) => {
-                                        this.school.idSchool = createdRgSchool.id;
-                                        return this.schoolsService.create(this.school);
-                                    })
-                                );
+                                if (this.school.idSchool > 0) {
+                                    return this.schoolsService.create(this.school);
+                                } else {
+                                    return this.rgSchoolsService.create(schoolToCreate).pipe(
+                                        switchMap((createdRgSchool: RgSchools) => {
+                                            this.school.idSchool = createdRgSchool.id;
+                                            return this.schoolsService.create(this.school);
+                                        })
+                                    );
+                                }
                             })
                         );
                     } else {
                         // If there are no work experiences, create the school directly
                         const schoolToCreate: RgSchools = { name: this.school.school };
-                        return this.rgSchoolsService.create(schoolToCreate).pipe(
-                            switchMap((createdRgSchool: RgSchools) => {
-                                this.school.idSchool = createdRgSchool.id;
-                                return this.schoolsService.create(this.school);
-                            })
-                        );
+                        if (this.school.idSchool > 0) {
+                            return this.schoolsService.create(this.school);
+                        } else {
+                            return this.rgSchoolsService.create(schoolToCreate).pipe(
+                                switchMap((createdRgSchool: RgSchools) => {
+                                    this.school.idSchool = createdRgSchool.id;
+                                    return this.schoolsService.create(this.school);
+                                })
+                            );
+                        }
                     }
                 })
             )
